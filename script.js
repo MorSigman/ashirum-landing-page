@@ -38,13 +38,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Contact form
+  // Contact form — sends leads via Formspree (https://formspree.io).
+  // After signing up and creating a form there, replace the ID below with your real form ID.
+  const FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
   const form = document.getElementById('contact-form');
   const note = document.getElementById('form-note');
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    note.textContent = 'תודה! קיבלנו את הפרטים ונחזור אליכם בהקדם.';
-    form.reset();
+    note.textContent = 'שולח...';
+    try {
+      const response = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' }
+      });
+      if (response.ok) {
+        note.textContent = 'תודה! קיבלנו את הפרטים ונחזור אליכם בהקדם.';
+        form.reset();
+      } else {
+        note.textContent = 'אירעה שגיאה בשליחה. אפשר לנסות שוב או ליצור קשר בטלפון/וואטסאפ.';
+      }
+    } catch (err) {
+      note.textContent = 'אירעה שגיאה בשליחה. אפשר לנסות שוב או ליצור קשר בטלפון/וואטסאפ.';
+    }
   });
 
   // Footer year
@@ -84,36 +100,48 @@ document.addEventListener('DOMContentLoaded', () => {
   // Accessibility widget
   const a11yToggle = document.getElementById('a11y-toggle');
   const a11yPanel = document.getElementById('a11y-panel');
-  const a11yInc = document.getElementById('a11y-inc');
-  const a11yDec = document.getElementById('a11y-dec');
-  const a11yResetSize = document.getElementById('a11y-reset-size');
-  const a11yContrast = document.getElementById('a11y-contrast');
+  const a11yClose = document.getElementById('a11y-close');
   const a11yReset = document.getElementById('a11y-reset');
-  let fontStep = parseInt(localStorage.getItem('a11yFontStep') || '0', 10);
-  let contrastOn = localStorage.getItem('a11yContrast') === '1';
+  const a11yTiles = document.querySelectorAll('.a11y-tile');
 
-  const applyFontStep = () => {
-    document.documentElement.style.fontSize = (100 + fontStep * 10) + '%';
-    localStorage.setItem('a11yFontStep', fontStep);
+  const a11yClassMap = {
+    contrast: 'a11y-contrast',
+    bigtext: 'a11y-bigtext',
+    links: 'a11y-links',
+    spacing: 'a11y-spacing',
+    images: 'a11y-hide-images',
+    motion: 'a11y-no-motion',
+    readable: 'a11y-readable',
+    lineheight: 'a11y-lineheight',
+    cursor: 'a11y-big-cursor',
+    align: 'a11y-align'
   };
-  const applyContrast = () => {
-    document.documentElement.classList.toggle('a11y-contrast', contrastOn);
-    a11yContrast.textContent = contrastOn ? 'כיבוי' : 'הפעלה';
-    localStorage.setItem('a11yContrast', contrastOn ? '1' : '0');
+
+  const applyState = (key, on) => {
+    document.documentElement.classList.toggle(a11yClassMap[key], on);
+    localStorage.setItem('a11y-' + key, on ? '1' : '0');
+    const tile = document.querySelector(`.a11y-tile[data-a11y="${key}"]`);
+    if (tile) {
+      tile.classList.toggle('active', on);
+      tile.setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
   };
-  applyFontStep();
-  applyContrast();
+
+  Object.keys(a11yClassMap).forEach((key) => {
+    applyState(key, localStorage.getItem('a11y-' + key) === '1');
+  });
 
   a11yToggle.addEventListener('click', () => a11yPanel.classList.toggle('open'));
-  a11yInc.addEventListener('click', () => { fontStep = Math.min(fontStep + 1, 4); applyFontStep(); });
-  a11yDec.addEventListener('click', () => { fontStep = Math.max(fontStep - 1, -2); applyFontStep(); });
-  a11yResetSize.addEventListener('click', () => { fontStep = 0; applyFontStep(); });
-  a11yContrast.addEventListener('click', () => { contrastOn = !contrastOn; applyContrast(); });
+  a11yClose.addEventListener('click', () => a11yPanel.classList.remove('open'));
+  a11yTiles.forEach((tile) => {
+    tile.addEventListener('click', () => {
+      const key = tile.dataset.a11y;
+      const isOn = document.documentElement.classList.contains(a11yClassMap[key]);
+      applyState(key, !isOn);
+    });
+  });
   a11yReset.addEventListener('click', () => {
-    fontStep = 0;
-    contrastOn = false;
-    applyFontStep();
-    applyContrast();
+    Object.keys(a11yClassMap).forEach((key) => applyState(key, false));
   });
   document.addEventListener('click', (e) => {
     if (!a11yPanel.contains(e.target) && !a11yToggle.contains(e.target)) {
@@ -121,80 +149,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Interactive apartment locations map
-  // Edit this array to update the pins shown on the map.
-  // x / y are percentages (0-100) positioned over the map area.
-  const mapLocations = [
-    { name: 'חיפה', x: 16, y: 30 },
-    { name: 'חדרה', x: 24, y: 34 },
-    { name: 'נתניה', x: 30, y: 35 },
-    { name: 'פתח תקווה', x: 33, y: 38 },
-    { name: 'תל אביב', x: 35, y: 41 },
-    { name: 'חולון', x: 36, y: 43 },
-    { name: 'בת ים', x: 37, y: 44 },
-    { name: 'ראשון לציון', x: 38, y: 45 },
-    { name: 'לוד', x: 39, y: 40 },
-    { name: 'רמלה', x: 40, y: 42 },
-    { name: 'רחובות', x: 40, y: 46 },
-    { name: 'יבנה', x: 42, y: 47 },
-    { name: 'אשדוד', x: 41, y: 49 },
-    { name: 'אשקלון', x: 43, y: 52 },
-    { name: 'ירושלים', x: 47, y: 44 },
-    { name: 'קריית גת', x: 48, y: 51 },
-    { name: 'נתיבות', x: 52, y: 53 },
-    { name: 'באר שבע', x: 60, y: 50 }
+  // Isometric coverage map — edit this array to update the pins.
+  // x / y are percentages (0-100) positioned over the tilted map plane.
+  const geoLocations = [
+    { name: 'נהריה', x: 12, y: 46 },
+    { name: 'חיפה', x: 18, y: 42 },
+    { name: 'תל אביב', x: 45, y: 34 },
+    { name: 'חולון', x: 48, y: 36 },
+    { name: 'גן יבנה', x: 53, y: 36 },
+    { name: 'ירושלים', x: 52, y: 54 },
+    { name: 'באר שבע', x: 78, y: 45 }
   ];
 
-  const mapWrap = document.getElementById('map-wrap');
   const pinsLayer = document.getElementById('map-pins-layer');
-  const tooltip = document.getElementById('map-tooltip');
-
-  if (mapWrap && pinsLayer && tooltip) {
-    let activePin = null;
-
-    const hideTooltip = () => {
-      tooltip.classList.remove('visible');
-      if (activePin) activePin.classList.remove('active');
-      activePin = null;
-    };
-
-    const showTooltip = (pinEl, name) => {
-      activePin = pinEl;
-      pinEl.classList.add('active');
-      tooltip.textContent = name;
-      const pinBox = pinEl.getBoundingClientRect();
-      const wrapBox = mapWrap.getBoundingClientRect();
-      const left = pinBox.left - wrapBox.left + pinBox.width / 2;
-      const top = pinBox.top - wrapBox.top;
-      tooltip.style.left = left + 'px';
-      tooltip.style.top = top + 'px';
-      tooltip.classList.add('visible');
-    };
-
-    mapLocations.forEach((loc) => {
+  if (pinsLayer) {
+    geoLocations.forEach((loc) => {
       const pin = document.createElement('button');
       pin.type = 'button';
-      pin.className = 'map-pin-v2';
+      pin.className = 'geo-pin';
       pin.style.left = loc.x + '%';
       pin.style.top = loc.y + '%';
       pin.setAttribute('aria-label', loc.name);
-      pin.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6.2 7-11.5A7 7 0 105 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3" fill="currentColor" stroke="none"/></svg>';
-
-      pin.addEventListener('mouseenter', () => showTooltip(pin, loc.name));
-      pin.addEventListener('mouseleave', hideTooltip);
-      pin.addEventListener('focus', () => showTooltip(pin, loc.name));
-      pin.addEventListener('blur', hideTooltip);
-      pin.addEventListener('click', (e) => {
-        e.stopPropagation();
-        showTooltip(pin, loc.name);
-      });
-
+      pin.innerHTML =
+        '<span class="pin-shadow"></span>' +
+        '<span class="pin-body"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">' +
+        '<path d="M12 21s7-6.2 7-11.5A7 7 0 105 9.5C5 14.8 12 21 12 21z"/>' +
+        '<circle cx="12" cy="9.5" r="2.3" fill="#fff" stroke="none"/></svg></span>' +
+        '<span class="pin-tooltip">' + loc.name + '</span>';
       pinsLayer.appendChild(pin);
     });
-
-    document.addEventListener('click', (e) => {
-      if (activePin && !pinsLayer.contains(e.target)) hideTooltip();
-    });
-    window.addEventListener('scroll', hideTooltip, { passive: true });
   }
 });
