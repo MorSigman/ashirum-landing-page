@@ -123,18 +123,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Interactive apartment locations map
   // Edit this array to update the pins shown on the map.
-  // x / y use the same coordinate space as the SVG viewBox (0 0 500 200).
-  const apartmentLocations = [
-    { name: 'חיפה', x: 80, y: 60 },
-    { name: 'חדרה', x: 130, y: 68 },
-    { name: 'נתניה', x: 165, y: 78 },
-    { name: 'תל אביב', x: 192, y: 82 },
-    { name: 'ראשון לציון', x: 210, y: 76 },
-    { name: 'רחובות', x: 240, y: 74 },
-    { name: 'אשדוד', x: 228, y: 70 },
-    { name: 'אשקלון', x: 265, y: 62 },
-    { name: 'ירושלים', x: 205, y: 108 },
-    { name: 'באר שבע', x: 330, y: 88 }
+  // x / y are percentages (0-100) positioned over the map area.
+  const mapLocations = [
+    { name: 'חיפה', x: 16, y: 30 },
+    { name: 'חדרה', x: 24, y: 34 },
+    { name: 'נתניה', x: 30, y: 35 },
+    { name: 'פתח תקווה', x: 33, y: 38 },
+    { name: 'תל אביב', x: 35, y: 41 },
+    { name: 'חולון', x: 36, y: 43 },
+    { name: 'בת ים', x: 37, y: 44 },
+    { name: 'ראשון לציון', x: 38, y: 45 },
+    { name: 'לוד', x: 39, y: 40 },
+    { name: 'רמלה', x: 40, y: 42 },
+    { name: 'רחובות', x: 40, y: 46 },
+    { name: 'יבנה', x: 42, y: 47 },
+    { name: 'אשדוד', x: 41, y: 49 },
+    { name: 'אשקלון', x: 43, y: 52 },
+    { name: 'ירושלים', x: 47, y: 44 },
+    { name: 'קריית גת', x: 48, y: 51 },
+    { name: 'נתיבות', x: 52, y: 53 },
+    { name: 'באר שבע', x: 60, y: 50 }
   ];
 
   const mapWrap = document.getElementById('map-wrap');
@@ -142,7 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const tooltip = document.getElementById('map-tooltip');
 
   if (mapWrap && pinsLayer && tooltip) {
-    const svgNS = 'http://www.w3.org/2000/svg';
     let activePin = null;
 
     const hideTooltip = () => {
@@ -164,30 +171,14 @@ document.addEventListener('DOMContentLoaded', () => {
       tooltip.classList.add('visible');
     };
 
-    apartmentLocations.forEach((loc) => {
-      const pin = document.createElementNS(svgNS, 'g');
-      pin.setAttribute('class', 'map-pin');
-      pin.setAttribute('tabindex', '0');
-      pin.setAttribute('role', 'button');
+    mapLocations.forEach((loc) => {
+      const pin = document.createElement('button');
+      pin.type = 'button';
+      pin.className = 'map-pin-v2';
+      pin.style.left = loc.x + '%';
+      pin.style.top = loc.y + '%';
       pin.setAttribute('aria-label', loc.name);
-
-      const halo = document.createElementNS(svgNS, 'circle');
-      halo.setAttribute('class', 'pin-halo');
-      halo.setAttribute('cx', loc.x);
-      halo.setAttribute('cy', loc.y);
-      halo.setAttribute('r', '12');
-      pin.appendChild(halo);
-
-      const dot = document.createElementNS(svgNS, 'circle');
-      dot.setAttribute('class', 'pin-dot');
-      dot.setAttribute('cx', loc.x);
-      dot.setAttribute('cy', loc.y);
-      dot.setAttribute('r', '4');
-      pin.appendChild(dot);
-
-      const title = document.createElementNS(svgNS, 'title');
-      title.textContent = loc.name;
-      pin.appendChild(title);
+      pin.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6.2 7-11.5A7 7 0 105 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3" fill="currentColor" stroke="none"/></svg>';
 
       pin.addEventListener('mouseenter', () => showTooltip(pin, loc.name));
       pin.addEventListener('mouseleave', hideTooltip);
