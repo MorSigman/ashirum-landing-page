@@ -379,120 +379,6 @@ body.nav-locked { overflow: hidden; }
 .apartment-tile-3 { background: linear-gradient(135deg, #8a6642, #4a3520); }
 .apartment-tile-4 { background: linear-gradient(135deg, #c79a63, #ad7a4a); }
 
-/* Coverage map */
-.coverage { background: #fff; }
-.coverage-title {
-  font-family: 'Heebo', 'Segoe UI', Arial, sans-serif;
-  font-size: clamp(34px, 5vw, 52px);
-  font-weight: 800;
-  text-align: center;
-  color: var(--color-primary-dark);
-  margin: 0 0 18px;
-}
-.coverage-text { max-width: 620px; margin: 0 auto 40px; text-align: center; color: var(--color-muted); font-size: 17px; line-height: 1.8; }
-.map-stage {
-  --map-tilt: 50deg;
-  --map-tilt-neg: -50deg;
-  perspective: 1600px;
-  display: flex;
-  justify-content: center;
-  padding: 20px 0 70px;
-}
-.map-plane {
-  position: relative;
-  width: min(760px, 92vw);
-  aspect-ratio: 600 / 280;
-  transform-style: preserve-3d;
-  transform: rotateX(var(--map-tilt));
-  transform-origin: center center;
-  filter: drop-shadow(0 30px 36px rgba(58, 42, 28, 0.32));
-}
-.map-illustration { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
-.map-region-1 { fill: var(--color-primary-light); }
-.map-region-2 { fill: #e9d7bf; }
-.map-region-3 { fill: var(--color-accent); }
-.map-outline { fill: none; stroke: var(--color-primary-dark); stroke-width: 2; stroke-linejoin: round; }
-
-/* Pins — the button itself stays a plain flat hit target (reliable hover/click);
-   its visual children carry the 3D counter-rotated "floating above the tilted
-   surface" look and are pointer-events: none so they never interfere with hit-testing. */
-.map-pins-layer { position: absolute; inset: 0; pointer-events: none; }
-.geo-pin {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  padding: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
-  transform: translate(-50%, -100%);
-  pointer-events: auto;
-}
-.pin-shadow {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translate(-50%, 0);
-  width: 20px;
-  height: 9px;
-  border-radius: 50%;
-  background: rgba(58, 42, 28, 0.35);
-  filter: blur(1.5px);
-  pointer-events: none;
-}
-.pin-body {
-  position: absolute;
-  left: 50%;
-  bottom: 6px;
-  width: 22px;
-  height: 22px;
-  margin-left: -11px;
-  color: var(--color-primary-dark);
-  transform: rotateX(var(--map-tilt-neg)) translateZ(24px);
-  transform-origin: center bottom;
-  transition: transform 0.2s ease, color 0.2s ease;
-  pointer-events: none;
-}
-.pin-body svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25)); }
-.geo-pin:hover .pin-body, .geo-pin:focus-visible .pin-body {
-  transform: rotateX(var(--map-tilt-neg)) translateZ(24px) scale(1.22);
-  color: var(--color-primary);
-}
-
-/* Tooltip */
-.pin-tooltip {
-  position: absolute;
-  left: 50%;
-  bottom: 36px;
-  transform: translate(-50%, 0) rotateX(var(--map-tilt-neg)) translateZ(40px) scale(0.85);
-  transform-origin: center bottom;
-  background: var(--color-primary-dark);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 5px 12px;
-  border-radius: 8px;
-  white-space: nowrap;
-  box-shadow: 0 8px 18px rgba(10, 13, 34, 0.3);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.18s ease, transform 0.18s ease;
-  z-index: 5;
-}
-.pin-tooltip::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 5px solid transparent;
-  border-top-color: var(--color-primary-dark);
-}
-.geo-pin:hover .pin-tooltip, .geo-pin:focus-visible .pin-tooltip {
-  opacity: 1;
-  transform: translate(-50%, 0) rotateX(var(--map-tilt-neg)) translateZ(40px) scale(1);
-}
-
 /* Pain points */
 .pain { background: var(--color-bg-alt); }
 .pain-grid {
@@ -1031,8 +917,6 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
   .header-contact-icons a { width: 34px; height: 34px; }
   .header-contact-icons a.icon-optional { display: none; }
   .nav-links a { font-size: 18px; }
-  .map-plane { width: min(420px, 88vw); }
-  .pin-body { width: 19px; height: 19px; margin-left: -9.5px; }
 }
 
 @media (max-width: 600px) {

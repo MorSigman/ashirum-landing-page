@@ -148,35 +148,4 @@ document.addEventListener('DOMContentLoaded', () => {
       a11yPanel.classList.remove('open');
     }
   });
-
-  // Isometric coverage map — edit this array to update the pins.
-  // x / y are percentages (0-100) positioned over the tilted map plane.
-  const geoLocations = [
-    { name: 'נהריה', x: 12, y: 46 },
-    { name: 'חיפה', x: 18, y: 42 },
-    { name: 'תל אביב', x: 45, y: 34 },
-    { name: 'חולון', x: 48, y: 36 },
-    { name: 'גן יבנה', x: 53, y: 36 },
-    { name: 'ירושלים', x: 52, y: 54 },
-    { name: 'באר שבע', x: 78, y: 45 }
-  ];
-
-  const pinsLayer = document.getElementById('map-pins-layer');
-  if (pinsLayer) {
-    geoLocations.forEach((loc) => {
-      const pin = document.createElement('button');
-      pin.type = 'button';
-      pin.className = 'geo-pin';
-      pin.style.left = loc.x + '%';
-      pin.style.top = loc.y + '%';
-      pin.setAttribute('aria-label', loc.name);
-      pin.innerHTML =
-        '<span class="pin-shadow"></span>' +
-        '<span class="pin-body"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">' +
-        '<path d="M12 21s7-6.2 7-11.5A7 7 0 105 9.5C5 14.8 12 21 12 21z"/>' +
-        '<circle cx="12" cy="9.5" r="2.3" fill="#fff" stroke="none"/></svg></span>' +
-        '<span class="pin-tooltip">' + loc.name + '</span>';
-      pinsLayer.appendChild(pin);
-    });
-  }
 });
