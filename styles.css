@@ -373,31 +373,6 @@ body.nav-locked { overflow: hidden; }
 
 /* Apartments */
 .apartments-text { max-width: 720px; margin: -16px auto 40px; text-align: center; color: var(--color-muted); font-size: 17px; line-height: 1.8; }
-.apartments-gallery {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-.apartment-tile {
-  aspect-ratio: 1;
-  border-radius: var(--radius);
-  display: flex;
-  align-items: flex-end;
-  padding: 14px;
-  color: #fff;
-  font-weight: 600;
-  font-size: 13px;
-  box-shadow: var(--shadow);
-}
-.apartment-tile span {
-  background: rgba(0, 0, 0, 0.35);
-  padding: 4px 10px;
-  border-radius: 6px;
-}
-.apartment-tile-1 { background: linear-gradient(135deg, #ad7a4a, #6f4e2c); }
-.apartment-tile-2 { background: linear-gradient(135deg, #3a2a1c, #1c140c); }
-.apartment-tile-3 { background: linear-gradient(135deg, #8a6642, #4a3520); }
-.apartment-tile-4 { background: linear-gradient(135deg, #c79a63, #ad7a4a); }
 
 /* Pain points */
 .pain { background: var(--color-bg-alt); }
@@ -598,7 +573,7 @@ body.nav-locked { overflow: hidden; }
 }
 @keyframes marquee-scroll {
   from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  to { transform: translateX(50%); }
 }
 
 /* Project gallery */
@@ -758,7 +733,7 @@ body.nav-locked { overflow: hidden; }
 /* Keeps a dash glued to its neighbouring words so it never lands at a line edge */
 .nowrap { white-space: nowrap; }
 
-.why-intro { padding-bottom: 8px; }
+.why-intro { padding: 28px 0 0; }
 .why-cta { text-align: center; margin-top: 32px; }
 
 /* Footer */
@@ -938,7 +913,6 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 
 @media (max-width: 700px) {
   .team-grid { grid-template-columns: repeat(2, 1fr); }
-  .apartments-gallery { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 640px) {
