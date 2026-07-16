@@ -28,19 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
     link.addEventListener('click', closeNav);
   });
 
-  // Header phone icon — clicking reveals the number to dial
-  const phoneReveal = document.getElementById('phone-reveal');
-  const phoneToggle = document.getElementById('phone-toggle');
-  if (phoneReveal && phoneToggle) {
-    phoneToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      phoneReveal.classList.toggle('open');
-    });
-    document.addEventListener('click', (e) => {
-      if (!phoneReveal.contains(e.target)) phoneReveal.classList.remove('open');
-    });
-  }
-
   // FAQ accordion
   document.querySelectorAll('.faq-item').forEach(item => {
     const question = item.querySelector('.faq-question');
