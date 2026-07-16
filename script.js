@@ -28,6 +28,19 @@ document.addEventListener('DOMContentLoaded', () => {
     link.addEventListener('click', closeNav);
   });
 
+  // Header phone icon — clicking reveals the number to dial
+  const phoneReveal = document.getElementById('phone-reveal');
+  const phoneToggle = document.getElementById('phone-toggle');
+  if (phoneReveal && phoneToggle) {
+    phoneToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      phoneReveal.classList.toggle('open');
+    });
+    document.addEventListener('click', (e) => {
+      if (!phoneReveal.contains(e.target)) phoneReveal.classList.remove('open');
+    });
+  }
+
   // FAQ accordion
   document.querySelectorAll('.faq-item').forEach(item => {
     const question = item.querySelector('.faq-question');
@@ -38,29 +51,65 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Contact form — sends leads via Formspree (https://formspree.io).
-  // After signing up and creating a form there, replace the ID below with your real form ID.
-  const FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+  // Contact form — the visitor only fills the fields and clicks submit; the inquiry
+  // is then delivered automatically to the business email via Web3Forms (free, no
+  // server). Running inquiry number starts at 000001.
+  //
+  // SETUP (one time): go to https://web3forms.com, enter the destination email,
+  // and paste the access key you receive below (replace YOUR_ACCESS_KEY).
+  const WEB3FORMS_ACCESS_KEY = '1bd41c03-b870-4120-b567-7b2fb0a587ee';
+  const sectorLabels = { hr: 'חברת כוח אדם', construction: 'חברת בנייה', other: 'אחר' };
   const form = document.getElementById('contact-form');
   const note = document.getElementById('form-note');
+
+  // Running inquiry number, formatted 000001, 000002, ... (committed only on success)
+  const peekNextRef = () => (parseInt(localStorage.getItem('asiron-ref-counter') || '0', 10) || 0) + 1;
+  const commitRef = (n) => localStorage.setItem('asiron-ref-counter', String(n));
+
   if (form) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      note.className = 'form-note';
       note.textContent = 'שולח...';
+
+      const n = peekNextRef();
+      const ref = String(n).padStart(6, '0');
+      const data = new FormData(form);
+      const get = (k) => (data.get(k) || '').toString().trim();
+      const sector = get('sector');
+
+      // JSON body keeps Hebrew field labels correctly encoded (UTF-8).
+      const payload = {
+        access_key: WEB3FORMS_ACCESS_KEY,
+        from_name: 'טופס אתר אסירון',
+        subject: 'פנייה חדשה מהאתר — מספר פנייה ' + ref,
+        'מספר פנייה': ref,
+        'שם': get('name'),
+        'טלפון': get('phone'),
+        'שם החברה': get('company') || '—',
+        'תחום פעילות': sector ? (sectorLabels[sector] || sector) : '—',
+        'מספר עובדים משוער': get('employees') || '—',
+        'אזור בארץ': get('location') || '—',
+        'פרטים נוספים': get('message') || '—'
+      };
+
       try {
-        const response = await fetch(FORM_ENDPOINT, {
+        const res = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
-          body: new FormData(form),
-          headers: { Accept: 'application/json' }
+          body: JSON.stringify(payload),
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' }
         });
-        if (response.ok) {
-          note.textContent = 'תודה! קיבלנו את הפרטים ונחזור אליכם בהקדם.';
+        const json = await res.json().catch(() => ({}));
+        if (res.ok && json.success) {
+          commitRef(n);
+          note.className = 'form-note form-note-success';
+          note.textContent = 'הפנייה נשלחה בהצלחה!';
           form.reset();
         } else {
-          note.textContent = 'אירעה שגיאה בשליחה. אפשר לנסות שוב או ליצור קשר בטלפון/וואטסאפ.';
+          note.textContent = 'אירעה שגיאה בשליחה. נסו שוב או צרו קשר בטלפון.';
         }
       } catch (err) {
-        note.textContent = 'אירעה שגיאה בשליחה. אפשר לנסות שוב או ליצור קשר בטלפון/וואטסאפ.';
+        note.textContent = 'אירעה שגיאה בשליחה. נסו שוב או צרו קשר בטלפון.';
       }
     });
   }
