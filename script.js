@@ -43,25 +43,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
   const form = document.getElementById('contact-form');
   const note = document.getElementById('form-note');
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    note.textContent = 'שולח...';
-    try {
-      const response = await fetch(FORM_ENDPOINT, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { Accept: 'application/json' }
-      });
-      if (response.ok) {
-        note.textContent = 'תודה! קיבלנו את הפרטים ונחזור אליכם בהקדם.';
-        form.reset();
-      } else {
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      note.textContent = 'שולח...';
+      try {
+        const response = await fetch(FORM_ENDPOINT, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' }
+        });
+        if (response.ok) {
+          note.textContent = 'תודה! קיבלנו את הפרטים ונחזור אליכם בהקדם.';
+          form.reset();
+        } else {
+          note.textContent = 'אירעה שגיאה בשליחה. אפשר לנסות שוב או ליצור קשר בטלפון/וואטסאפ.';
+        }
+      } catch (err) {
         note.textContent = 'אירעה שגיאה בשליחה. אפשר לנסות שוב או ליצור קשר בטלפון/וואטסאפ.';
       }
-    } catch (err) {
-      note.textContent = 'אירעה שגיאה בשליחה. אפשר לנסות שוב או ליצור קשר בטלפון/וואטסאפ.';
-    }
-  });
+    });
+  }
 
   // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
