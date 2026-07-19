@@ -418,7 +418,14 @@ body.nav-locked { overflow: hidden; }
   gap: 48px;
   align-items: center;
 }
-.solution-image img { border-radius: var(--radius); box-shadow: var(--shadow); }
+/* The frame takes the photo's own proportions: nothing cropped, no empty mat. */
+.solution-image img {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: 100%;
+  height: auto;
+  display: block;
+}
 .solution-content .section-title,
 .solution-content .section-eyebrow,
 .contact-info .section-title,
