@@ -287,12 +287,21 @@ body.nav-locked { overflow: hidden; }
   border-radius: 50%;
   z-index: -1;
 }
-.hero-media img {
+.hero-media img,
+.hero-media video {
   border-radius: 20px;
   box-shadow: 0 30px 60px -20px rgba(10, 13, 34, 0.3);
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+}
+/* The hero video is portrait; force a landscape frame (a touch taller than the
+   old image) and cap it to the viewport so it never pushes the hero off-screen. */
+.hero-media video {
+  height: auto;
+  aspect-ratio: 4 / 3;
+  max-height: 60vh;
 }
 .hero-badge {
   position: absolute;
