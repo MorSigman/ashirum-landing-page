@@ -463,6 +463,14 @@ body.nav-locked { overflow: hidden; }
   color: var(--color-primary);
   line-height: 1;
 }
+.stat-prefix {
+  display: block;
+  font-size: clamp(15px, 1.5vw, 19px);
+  font-weight: 700;
+  color: var(--color-accent);
+  line-height: 1;
+  margin-bottom: 6px;
+}
 .stat-label { display: block; margin-top: 8px; color: #cbd5e1; font-size: 15px; }
 
 /* Features */

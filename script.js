@@ -106,18 +106,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Stats count-up animation
   const statNumbers = document.querySelectorAll('.stat-number');
+
+  // For a stat marked data-weekly="min-max", pick a number in that range that
+  // changes automatically once a week. It is derived from the current week index,
+  // so it stays the same all week for every visitor and swaps to a new value each
+  // week — no server needed.
+  const weeklyValue = (min, max) => {
+    const week = Math.floor(Date.now() / (7 * 24 * 60 * 60 * 1000));
+    const noise = Math.sin(week * 12.9898) * 43758.5453;
+    const frac = noise - Math.floor(noise); // 0..1, deterministic per week
+    return min + Math.floor(frac * (max - min + 1));
+  };
+
+  const statTarget = (el) => {
+    if (el.dataset.weekly) {
+      const [min, max] = el.dataset.weekly.split('-').map((n) => parseInt(n, 10));
+      return weeklyValue(min, max);
+    }
+    return parseInt(el.dataset.target, 10);
+  };
+
+  const formatStat = (el, value) => {
+    const num = value.toLocaleString('he-IL');
+    if (el.dataset.prefix) {
+      return '<span class="stat-prefix">' + el.dataset.prefix + '</span>' + num;
+    }
+    return num;
+  };
+
   const animateCount = (el) => {
-    const target = parseInt(el.dataset.target, 10);
-    const duration = 1200;
+    const target = statTarget(el);
+    const duration = 1200; // fixed duration → every counter finishes together
     const start = performance.now();
     const step = (now) => {
       const progress = Math.min((now - start) / duration, 1);
       const value = Math.floor(progress * target);
-      el.textContent = value.toLocaleString('he-IL');
+      el.innerHTML = formatStat(el, value);
       if (progress < 1) {
         requestAnimationFrame(step);
       } else {
-        el.textContent = target.toLocaleString('he-IL');
+        el.innerHTML = formatStat(el, target);
       }
     };
     requestAnimationFrame(step);
