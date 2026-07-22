@@ -1065,8 +1065,7 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 .coverage-img {
   width: 100%;
   height: auto;
-  display: block;
-  border-radius: var(--radius);
+  display: block; /* transparent-background cutout — floats naturally on the page */
 }
 .map-land {
   fill: #e7e3db;
