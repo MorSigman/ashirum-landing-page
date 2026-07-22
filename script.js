@@ -183,6 +183,14 @@ document.addEventListener('DOMContentLoaded', () => {
     align: 'a11y-align'
   };
 
+  // Pause/resume the auto-playing hero video so the "reduce motion" control acts
+  // as the WCAG 2.2.2 pause mechanism for it too (the class only stops CSS motion).
+  const heroVideo = document.querySelector('.hero-media video');
+  const syncHeroVideo = (noMotion) => {
+    if (!heroVideo) return;
+    if (noMotion) { heroVideo.pause(); } else { heroVideo.play().catch(() => {}); }
+  };
+
   const applyState = (key, on) => {
     document.documentElement.classList.toggle(a11yClassMap[key], on);
     localStorage.setItem('a11y-' + key, on ? '1' : '0');
@@ -191,10 +199,15 @@ document.addEventListener('DOMContentLoaded', () => {
       tile.classList.toggle('active', on);
       tile.setAttribute('aria-pressed', on ? 'true' : 'false');
     }
+    if (key === 'motion') syncHeroVideo(on);
   };
 
+  // Honour the OS "reduce motion" preference on load, even before any toggle.
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   Object.keys(a11yClassMap).forEach((key) => {
-    applyState(key, localStorage.getItem('a11y-' + key) === '1');
+    const saved = localStorage.getItem('a11y-' + key) === '1';
+    applyState(key, key === 'motion' ? (saved || prefersReduced) : saved);
   });
 
   a11yToggle.addEventListener('click', () => a11yPanel.classList.toggle('open'));

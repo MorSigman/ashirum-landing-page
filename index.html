@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
 <div id="top"></div>
 
 <!-- Header -->
@@ -59,6 +60,7 @@
 <div class="nav-overlay" id="nav-overlay"></div>
 
 <!-- Hero -->
+<main id="main-content">
 <section class="hero">
   <div class="container hero-inner">
     <div class="hero-content">
@@ -86,7 +88,7 @@
       </div>
     </div>
     <div class="hero-media">
-      <video src="assets/hero-video.mp4" autoplay muted loop playsinline poster="assets/construction-world.webp" aria-label="דיור מנוהל לעובדים זרים"></video>
+      <video src="assets/hero-video.mp4" autoplay muted loop playsinline poster="assets/construction-world.webp" aria-hidden="true" tabindex="-1"></video>
     </div>
   </div>
 </section>
@@ -388,12 +390,12 @@
     </div>
     <form class="contact-form" id="contact-form">
       <div class="form-row">
-        <input type="text" name="name" placeholder="שם מלא" required>
-        <input type="tel" name="phone" placeholder="טלפון" required>
+        <input type="text" name="name" placeholder="שם מלא" aria-label="שם מלא" autocomplete="name" required>
+        <input type="tel" name="phone" placeholder="טלפון" aria-label="טלפון" autocomplete="tel" inputmode="tel" required>
       </div>
       <div class="form-row">
-        <input type="text" name="company" placeholder="שם החברה">
-        <select name="sector">
+        <input type="text" name="company" placeholder="שם החברה" aria-label="שם החברה" autocomplete="organization">
+        <select name="sector" aria-label="תחום פעילות">
           <option value="">תחום פעילות</option>
           <option value="hr">חברת כוח אדם</option>
           <option value="construction">חברת בנייה</option>
@@ -401,15 +403,16 @@
         </select>
       </div>
       <div class="form-row">
-        <input type="number" name="employees" placeholder="מספר עובדים משוער">
-        <input type="text" name="location" placeholder="אזור בארץ">
+        <input type="number" name="employees" placeholder="מספר עובדים משוער" aria-label="מספר עובדים משוער" inputmode="numeric" min="0">
+        <input type="text" name="location" placeholder="אזור בארץ" aria-label="אזור בארץ" autocomplete="address-level2">
       </div>
-      <textarea name="message" placeholder="פרטים נוספים (אופציונלי)" rows="3"></textarea>
+      <textarea name="message" placeholder="פרטים נוספים (אופציונלי)" aria-label="פרטים נוספים" rows="3"></textarea>
       <button type="submit" class="btn btn-primary btn-lg">שליחה וקבלת הצעה</button>
-      <div class="form-note" id="form-note"></div>
+      <div class="form-note" id="form-note" role="status" aria-live="polite"></div>
     </form>
   </div>
 </section>
+</main>
 
 <!-- Footer -->
 <footer class="site-footer">
