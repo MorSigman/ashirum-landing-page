@@ -1007,3 +1007,71 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
   .form-row { grid-template-columns: 1fr; }
   .section { padding: 56px 0; }
 }
+
+/* ===== Apartments coverage map ===== */
+.apartments-map-note {
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 14px;
+  margin: 22px 0 4px;
+}
+.coverage-wrap {
+  position: relative;
+  max-width: 780px;
+  margin: 4px auto 0;
+}
+.coverage-map {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+.map-land {
+  fill: #e7e3db;
+  stroke: #d6cfc2;
+  stroke-width: 1;
+  stroke-linejoin: round;
+  filter: drop-shadow(7px 11px 9px rgba(44, 32, 21, 0.16));
+}
+.map-region { fill: none; stroke: #ffffff; stroke-width: 1; opacity: 0.5; }
+.map-pin { color: var(--color-primary-dark); cursor: pointer; outline: none; }
+.map-pin:hover, .map-pin:focus-visible { color: var(--color-primary); }
+.pin-inner {
+  transition: transform 0.16s ease;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+.map-pin:hover .pin-inner, .map-pin:focus-visible .pin-inner { transform: scale(1.28); }
+.map-pin:focus-visible .pin-hit { stroke: var(--color-primary); stroke-width: 1.5; }
+.map-tooltip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, calc(-100% - 10px));
+  background: var(--color-primary-dark);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 5;
+  box-shadow: 0 6px 16px rgba(44, 32, 21, 0.25);
+}
+.map-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--color-primary-dark);
+}
+.map-tooltip.show { opacity: 1; }
+
+@media (max-width: 600px) {
+  .coverage-map { max-width: 460px; margin: 0 auto; }
+}

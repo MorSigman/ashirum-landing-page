@@ -31,10 +31,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // FAQ accordion
   document.querySelectorAll('.faq-item').forEach(item => {
     const question = item.querySelector('.faq-question');
+    question.setAttribute('aria-expanded', 'false'); // screen-reader open/closed state
     question.addEventListener('click', () => {
       const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(open => open.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
+      document.querySelectorAll('.faq-item.open').forEach(open => {
+        open.classList.remove('open');
+        open.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        question.setAttribute('aria-expanded', 'true');
+      }
     });
   });
 
@@ -103,6 +110,136 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ===== Apartments coverage map =====
+  // Draws a tilted map of Israel with one pin per managed apartment. Geography is
+  // stored as a simple lat/long-style grid, then rotated + foreshortened so the
+  // long country lies diagonally (north/centre in the upper-left, empty Negev to
+  // the lower-right). Icons stay upright; hovering/focusing a pin shows its city.
+  (function buildCoverageMap() {
+    const svg = document.getElementById('coverage-map');
+    if (!svg) return;
+    const NS = 'http://www.w3.org/2000/svg';
+
+    // Country outline (base grid: x≈east, y≈south), clockwise from the north tip.
+    const border = [
+      [117.7, 2], [77.6, 21], [75.9, 29], [64, 47], [58.9, 86], [55.4, 97],
+      [46.9, 122], [37.5, 150], [31.6, 164], [8.5, 195], [18.8, 242],
+      [64, 375], [76.8, 280], [99, 230], [108.3, 180], [110.9, 143],
+      [110.9, 80], [122, 45], [132.2, 20]
+    ];
+    // Two faint interior lines for a "map" feel (west-coast → Jordan valley).
+    const regionLines = [
+      [[55.4, 97], [110.9, 143]],
+      [[46.9, 122], [108.3, 180]]
+    ];
+
+    // [city, x, y, howManyApartments]. Sum of counts = 42.
+    const cities = [
+      ['תל אביב', 46.9, 122, 4], ['רמת גן', 52, 122, 4], ['בת ים', 46.9, 128, 3],
+      ['הרצליה', 54.6, 114, 3], ['פתח תקווה', 58.9, 121, 4], ['גבעתיים', 52, 123, 1],
+      ['בני ברק', 53.7, 122, 1], ['חולון', 49.5, 129, 2], ['ראשון לציון', 50.3, 134, 2],
+      ['רעננה', 57.2, 112, 2], ['כפר סבא', 60.6, 112, 1], ['רחובות', 52, 141, 1],
+      ['קרית אונו', 56.3, 124, 1], ['אור יהודה', 55.4, 127, 1], ['רמלה', 57.2, 135, 1],
+      ['נתניה', 55.4, 97, 2], ['חדרה', 61.4, 86, 1], ['חיפה', 64, 47, 2],
+      ['קריות', 75.1, 47, 2], ['אשדוד', 38.4, 150, 2], ['אשקלון', 31.6, 164, 2]
+    ];
+
+    // rotate (−50°) around a centre, then squash vertically for a 3D-ish tilt.
+    const A = -50 * Math.PI / 180, cosA = Math.cos(A), sinA = Math.sin(A);
+    const cx = 70, cy = 160, sy = 0.72;
+    const tf = (x, y) => {
+      const rx = cx + (x - cx) * cosA - (y - cy) * sinA;
+      let ry = cy + (x - cx) * sinA + (y - cy) * cosA;
+      ry = cy + (ry - cy) * sy;
+      return [rx, ry];
+    };
+
+    // deterministic jitter so multiple apartments in one city fan out a little
+    const rnd = (s) => { const v = Math.sin(s * 127.1) * 43758.5; return v - Math.floor(v); };
+    const pins = []; let seed = 1;
+    cities.forEach(([name, bx, by, n]) => {
+      for (let i = 0; i < n; i++) {
+        let ox = 0, oy = 0;
+        if (n > 1) {
+          const ang = rnd(seed++) * 6.283, r = 5 + rnd(seed++) * 9;
+          ox = Math.cos(ang) * r; oy = Math.sin(ang) * r;
+        }
+        const [px, py] = tf(bx + ox, by + oy);
+        pins.push({ name, px, py, building: rnd(seed++) > 0.5 });
+      }
+    });
+
+    // viewBox from the transformed extent (+ padding for icon size & shadow)
+    const pts = border.map(([x, y]) => tf(x, y)).concat(pins.map((p) => [p.px, p.py]));
+    let minX = 1e9, minY = 1e9, maxX = -1e9, maxY = -1e9;
+    pts.forEach(([x, y]) => {
+      minX = Math.min(minX, x); minY = Math.min(minY, y);
+      maxX = Math.max(maxX, x); maxY = Math.max(maxY, y);
+    });
+    const pad = 20;
+    svg.setAttribute('viewBox',
+      `${(minX - pad).toFixed(1)} ${(minY - pad).toFixed(1)} ${(maxX - minX + 2 * pad).toFixed(1)} ${(maxY - minY + 2 * pad).toFixed(1)}`);
+
+    const el = (name, attrs, html) => {
+      const n = document.createElementNS(NS, name);
+      for (const k in attrs) n.setAttribute(k, attrs[k]);
+      if (html != null) n.innerHTML = html;
+      return n;
+    };
+
+    // landmass
+    const dLand = border.map((p, i) => {
+      const [x, y] = tf(p[0], p[1]);
+      return (i ? 'L' : 'M') + x.toFixed(1) + ',' + y.toFixed(1);
+    }).join(' ') + ' Z';
+    svg.appendChild(el('path', { d: dLand, class: 'map-land' }));
+
+    regionLines.forEach(([a, b]) => {
+      const [ax, ay] = tf(a[0], a[1]), [bx, by] = tf(b[0], b[1]);
+      svg.appendChild(el('line', { x1: ax.toFixed(1), y1: ay.toFixed(1), x2: bx.toFixed(1), y2: by.toFixed(1), class: 'map-region' }));
+    });
+
+    const houseSVG =
+      '<path class="pin-hit" d="M-8,-1 L0,-8 L8,-1 Z" fill="#f4f1ec" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>' +
+      '<path d="M-6,-1 L-6,8 L6,8 L6,-1 Z" fill="#f4f1ec" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>' +
+      '<path d="M-2,8 L-2,2 L2,2 L2,8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>';
+    const buildingSVG = (() => {
+      let s = '<path class="pin-hit" d="M-6,-9 L6,-9 L6,8 L-6,8 Z" fill="#f4f1ec" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>';
+      [-6.5, -2.5, 1.5].forEach((wy) => {
+        [-3.8, 1.2].forEach((wx) => {
+          s += `<rect x="${wx}" y="${wy}" width="2.6" height="2.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/>`;
+        });
+      });
+      s += '<rect x="-1.4" y="4.5" width="2.8" height="3.5" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/>';
+      return s;
+    })();
+
+    const wrap = svg.closest('.coverage-wrap');
+    const tip = document.getElementById('map-tooltip');
+    const showTip = (name, node) => {
+      tip.textContent = name;
+      const wr = wrap.getBoundingClientRect(), r = node.getBoundingClientRect();
+      tip.style.left = (r.left - wr.left + r.width / 2) + 'px';
+      tip.style.top = (r.top - wr.top) + 'px';
+      tip.classList.add('show');
+    };
+    const hideTip = () => tip.classList.remove('show');
+
+    const k = 0.58; // icon scale
+    pins.forEach((p) => {
+      const g = el('g', {
+        class: 'map-pin',
+        transform: `translate(${p.px.toFixed(1)} ${p.py.toFixed(1)}) scale(${k})`,
+        tabindex: '0', role: 'img', 'aria-label': 'דירה ב' + p.name
+      }, `<title>${p.name}</title><g class="pin-inner">${p.building ? buildingSVG : houseSVG}</g>`);
+      g.addEventListener('mouseenter', () => showTip(p.name, g));
+      g.addEventListener('mouseleave', hideTip);
+      g.addEventListener('focus', () => showTip(p.name, g));
+      g.addEventListener('blur', hideTip);
+      svg.appendChild(g);
+    });
+  })();
 
   // Stats count-up animation
   const statNumbers = document.querySelectorAll('.stat-number');
