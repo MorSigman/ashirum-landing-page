@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //
   // SETUP (one time): go to https://web3forms.com, enter the destination email,
   // and paste the access key you receive below (replace YOUR_ACCESS_KEY).
-  const WEB3FORMS_ACCESS_KEY = '1bd41c03-b870-4120-b567-7b2fb0a587ee';
+  const WEB3FORMS_ACCESS_KEY = '814331f3-0808-4d4f-8a5f-e7d37b854b98';
   const sectorLabels = { hr: 'חברת כוח אדם', construction: 'חברת בנייה', other: 'אחר' };
   const form = document.getElementById('contact-form');
   const note = document.getElementById('form-note');
