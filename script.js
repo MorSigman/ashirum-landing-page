@@ -245,14 +245,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const statNumbers = document.querySelectorAll('.stat-number');
 
   // For a stat marked data-weekly="min-max", pick a number in that range that
-  // changes automatically once a week. It is derived from the current week index,
-  // so it stays the same all week for every visitor and swaps to a new value each
-  // week — no server needed.
+  // reshuffles every Sunday at 12:00 (local time) and stays fixed the rest of the
+  // week. The value drifts in small steps week-to-week (not wild jumps) and always
+  // stays inside the range. Deterministic from the calendar, so every visitor sees
+  // the same number that week — no server needed.
   const weeklyValue = (min, max) => {
-    const week = Math.floor(Date.now() / (7 * 24 * 60 * 60 * 1000));
-    const noise = Math.sin(week * 12.9898) * 43758.5453;
-    const frac = noise - Math.floor(noise); // 0..1, deterministic per week
-    return min + Math.floor(frac * (max - min + 1));
+    const WEEK = 7 * 24 * 60 * 60 * 1000;
+    // Find the Sunday-12:00 (local time) that opened the current week's period.
+    const sundayNoon = new Date();
+    sundayNoon.setHours(12, 0, 0, 0);
+    sundayNoon.setDate(sundayNoon.getDate() - sundayNoon.getDay()); // back to Sunday
+    if (Date.now() < sundayNoon.getTime()) sundayNoon.setDate(sundayNoon.getDate() - 7);
+    // Period index vs a fixed Sunday-noon anchor. Math.round keeps it a whole number
+    // even across daylight-saving shifts, so the change always lands on Sunday 12:00.
+    const anchor = new Date(2024, 0, 7, 12, 0, 0).getTime();
+    const period = Math.round((sundayNoon.getTime() - anchor) / WEEK);
+    const half = (max - min) / 2;
+    const mid = min + half;
+    // two low-frequency waves → smooth, small weekly changes within [-1, 1]
+    const wave = 0.7 * Math.sin(period * 0.6) + 0.3 * Math.sin(period * 1.3 + 1);
+    const v = Math.round(mid + half * wave);
+    return Math.max(min, Math.min(max, v));
   };
 
   const statTarget = (el) => {
@@ -265,6 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const formatStat = (el, value) => {
     const num = value.toLocaleString('he-IL');
+    if (el.dataset.inlinePrefix) return el.dataset.inlinePrefix + num; // e.g. כ־17
     if (el.dataset.prefix) {
       return '<span class="stat-prefix">' + el.dataset.prefix + '</span>' + num;
     }
