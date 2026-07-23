@@ -1132,6 +1132,64 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 }
 .vid-fs:hover { background: rgba(44, 32, 21, 0.88); }
 .vid-fs svg { width: 17px; height: 17px; fill: #fff; }
+
+/* Enlarge modal — a bigger, proportional view of the clip (not full-screen). */
+.vid-modal[hidden] { display: none; }
+.vid-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.vid-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 14, 8, 0.74);
+  cursor: pointer;
+}
+.vid-modal__box {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: min(88vw, 540px);
+}
+.vid-modal__video {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 86vh;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background: #000;
+  border-radius: 16px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+}
+.vid-modal__close {
+  position: absolute;
+  top: -14px;
+  inset-inline-end: -14px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--color-text, #2c2015);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+.vid-modal__close:hover { background: #f0e9e1; }
+.vid-modal__close svg { width: 20px; height: 20px; }
+@media (max-width: 560px) {
+  .vid-modal__close { top: -12px; inset-inline-end: -6px; }
+}
 .apartments-cta { text-align: center; margin-top: 32px; }
 @media (max-width: 900px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px) { .video-grid { grid-template-columns: 1fr; } }

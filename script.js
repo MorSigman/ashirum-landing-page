@@ -108,9 +108,54 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Small visible play/pause control on each apartment video tile (keyboard-
-  // operable, labelled) so anyone can stop the motion, not only via the a11y widget.
-  document.querySelectorAll('.video-slot video').forEach((v) => {
+  // ---- Apartment video tiles: play/pause, one-at-a-time playback, and an
+  //      "enlarge" modal that opens the clip bigger (not full-screen), keeping
+  //      its proportions, with a close button to shrink back. ----
+  const tileVideos = Array.from(document.querySelectorAll('.video-slot video'));
+
+  // Shared enlarge modal (built lazily on first use).
+  let modal = null;
+  let modalVideo = null;
+  let modalReturnFocus = null;
+  const closeModal = () => {
+    if (!modal || modal.hidden) return;
+    modalVideo.pause();
+    modalVideo.removeAttribute('src');
+    modalVideo.load();
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    if (modalReturnFocus) { modalReturnFocus.focus(); }
+  };
+  const buildModal = () => {
+    modal = document.createElement('div');
+    modal.className = 'vid-modal';
+    modal.hidden = true;
+    modal.innerHTML =
+      '<div class="vid-modal__backdrop" data-close="1"></div>' +
+      '<div class="vid-modal__box" role="dialog" aria-modal="true" aria-label="תצוגה מוגדלת של סרטון הדירה">' +
+      '<button type="button" class="vid-modal__close" aria-label="סגירת התצוגה המוגדלת">' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>' +
+      '</button>' +
+      '<video class="vid-modal__video" playsinline muted loop controls></video>' +
+      '</div>';
+    document.body.appendChild(modal);
+    modalVideo = modal.querySelector('.vid-modal__video');
+    modal.querySelector('.vid-modal__close').addEventListener('click', closeModal);
+    modal.querySelector('[data-close]').addEventListener('click', closeModal);
+    // Simple focus trap between the close button and the video controls.
+    modal.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const focusables = [modal.querySelector('.vid-modal__close'), modalVideo];
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  };
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+  tileVideos.forEach((v) => {
+    // Play / pause toggle button (keyboard-operable, labelled).
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'vid-toggle';
@@ -123,34 +168,35 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const toggle = () => { if (v.paused) { v.play().catch(() => {}); } else { v.pause(); } };
     btn.addEventListener('click', toggle);
-    v.addEventListener('click', toggle); // clicking the video toggles too
-    v.addEventListener('play', sync);
+    v.addEventListener('click', toggle);
+    v.addEventListener('play', () => {
+      // Only one tile plays at a time — pause every other tile.
+      tileVideos.forEach((o) => { if (o !== v && !o.paused) { o.pause(); } });
+      sync();
+    });
     v.addEventListener('pause', sync);
     v.parentElement.appendChild(btn);
     sync();
 
-    // Enlarge button: opens the clip full-screen with the browser's native
-    // (accessible, keyboard-operable) video controls.
+    // Enlarge button — opens a bigger, proportional modal (not full-screen).
     const fs = document.createElement('button');
     fs.type = 'button';
     fs.className = 'vid-fs';
-    fs.setAttribute('aria-label', 'הצגת הסרטון במסך מלא');
+    fs.setAttribute('aria-label', 'הגדלת הסרטון');
     fs.innerHTML =
       '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5v2H6v3H4zm11-5h5v5h-2V6h-3V4zM4 15h2v3h3v2H4v-5zm14 3v-3h2v5h-5v-2h3z"/></svg>';
-    const openFs = () => {
-      const req = v.requestFullscreen || v.webkitRequestFullscreen || v.webkitEnterFullscreen;
-      v.controls = true;
-      if (v.paused) { v.play().catch(() => {}); }
-      if (req) { req.call(v).catch(() => {}); }
-    };
-    fs.addEventListener('click', openFs);
-    // Drop the native controls again once the user leaves full-screen.
-    const onFsChange = () => {
-      const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
-      if (fsEl !== v) { v.controls = false; }
-    };
-    document.addEventListener('fullscreenchange', onFsChange);
-    document.addEventListener('webkitfullscreenchange', onFsChange);
+    fs.addEventListener('click', () => {
+      if (!modal) { buildModal(); }
+      v.pause(); // stop the small tile so only the enlarged copy plays
+      modalReturnFocus = fs;
+      modalVideo.poster = v.getAttribute('poster') || '';
+      modalVideo.src = v.currentSrc || v.src;
+      modalVideo.setAttribute('aria-label', v.getAttribute('aria-label') || 'סרטון דירה');
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      modalVideo.play().catch(() => {});
+      modal.querySelector('.vid-modal__close').focus();
+    });
     v.parentElement.appendChild(fs);
   });
 
