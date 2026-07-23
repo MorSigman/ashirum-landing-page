@@ -1037,7 +1037,8 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* show the whole portrait frame, no crop/zoom, no blur */
+  background: var(--color-bg-alt);
   border-radius: var(--radius);
 }
 /* Play/pause control. Paused = large centred play button (video starts only on
@@ -1153,15 +1154,16 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 .vid-modal__box {
   position: relative;
   z-index: 1;
-  width: 100%;
-  max-width: min(88vw, 540px);
+  width: auto;
+  max-width: 88vw;
 }
 .vid-modal__video {
   display: block;
-  width: 100%;
+  width: auto;
   height: auto;
   max-height: 86vh;
-  aspect-ratio: 1 / 1;
+  max-width: 88vw;
+  aspect-ratio: 9 / 16;
   object-fit: contain;
   background: #000;
   border-radius: 16px;

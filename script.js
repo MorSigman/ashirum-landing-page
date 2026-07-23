@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
       '<button type="button" class="vid-modal__close" aria-label="סגירת התצוגה המוגדלת">' +
       '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>' +
       '</button>' +
-      '<video class="vid-modal__video" playsinline muted loop controls></video>' +
+      '<video class="vid-modal__video" playsinline muted controls></video>' +
       '</div>';
     document.body.appendChild(modal);
     modalVideo = modal.querySelector('.vid-modal__video');
@@ -175,6 +175,13 @@ document.addEventListener('DOMContentLoaded', () => {
       sync();
     });
     v.addEventListener('pause', sync);
+    // Play once (no loop): when the clip finishes, rewind to the start and show the
+    // big play button again so it can be replayed on demand.
+    v.addEventListener('ended', () => {
+      v.currentTime = 0;
+      btn.classList.add('is-paused');
+      btn.setAttribute('aria-label', 'הפעלת הסרטון');
+    });
     v.parentElement.appendChild(btn);
     sync();
 
