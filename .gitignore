@@ -1,0 +1,8 @@
+# Original / raw source videos — keep on disk, never commit to git.
+# Only the edited final videos in assets/videos/ belong in the repo.
+wetransfer_2026-07-22_0626/
+raw-videos/
+original-videos/
+
+# Local scratch
+$SP/

@@ -1017,7 +1017,7 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 }
 .video-slot {
   position: relative;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 9 / 16; /* portrait — matches the phone-shot apartment tours */
   border-radius: var(--radius);
   background: var(--color-bg-alt);
   box-shadow: var(--shadow);
@@ -1040,6 +1040,31 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
   object-fit: cover;
   border-radius: var(--radius);
 }
+/* Small visible play/pause control on each video tile. */
+.vid-toggle {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  z-index: 3;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(44, 32, 21, 0.6);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.vid-toggle:hover { background: rgba(44, 32, 21, 0.85); }
+.vid-toggle svg { width: 15px; height: 15px; fill: #fff; }
+.vid-toggle .ic-play { display: none; }
+.vid-toggle .ic-pause { display: block; }
+.vid-toggle.is-paused .ic-play { display: block; }
+.vid-toggle.is-paused .ic-pause { display: none; }
 .apartments-cta { text-align: center; margin-top: 32px; }
 @media (max-width: 900px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px) { .video-grid { grid-template-columns: 1fr; } }

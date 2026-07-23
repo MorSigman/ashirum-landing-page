@@ -108,6 +108,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Small visible play/pause control on each apartment video tile (keyboard-
+  // operable, labelled) so anyone can stop the motion, not only via the a11y widget.
+  document.querySelectorAll('.video-slot video').forEach((v) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'vid-toggle';
+    btn.innerHTML =
+      '<svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
+      '<svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>';
+    const sync = () => {
+      btn.classList.toggle('is-paused', v.paused);
+      btn.setAttribute('aria-label', v.paused ? 'הפעלת הסרטון' : 'עצירת הסרטון');
+    };
+    btn.addEventListener('click', () => { if (v.paused) { v.play().catch(() => {}); } else { v.pause(); } });
+    v.addEventListener('play', sync);
+    v.addEventListener('pause', sync);
+    v.parentElement.appendChild(btn);
+    sync();
+  });
+
   // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -334,12 +354,14 @@ document.addEventListener('DOMContentLoaded', () => {
     align: 'a11y-align'
   };
 
-  // Pause/resume the auto-playing hero video so the "reduce motion" control acts
-  // as the WCAG 2.2.2 pause mechanism for it too (the class only stops CSS motion).
-  const heroVideo = document.querySelector('.hero-media video');
+  // Pause/resume every auto-playing video (hero + apartment tiles) so the "reduce
+  // motion" control acts as the WCAG 2.2.2 pause mechanism for them too (the class
+  // only stops CSS motion).
+  const autoVideos = document.querySelectorAll('video[autoplay]');
   const syncHeroVideo = (noMotion) => {
-    if (!heroVideo) return;
-    if (noMotion) { heroVideo.pause(); } else { heroVideo.play().catch(() => {}); }
+    autoVideos.forEach((v) => {
+      if (noMotion) { v.pause(); } else { v.play().catch(() => {}); }
+    });
   };
 
   const applyState = (key, on) => {
