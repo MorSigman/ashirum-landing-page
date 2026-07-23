@@ -1083,18 +1083,55 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 /* Location caption, bottom-right of each video tile (site font). */
 .vid-location {
   position: absolute;
-  bottom: 8px;
-  right: 8px;
-  z-index: 3;
-  background: rgba(44, 32, 21, 0.62);
+  bottom: 10px;
+  right: 10px;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(44, 32, 21, 0.82);
   color: #fff;
-  font-size: 12px;
-  font-weight: 600;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
   letter-spacing: 0.2px;
-  padding: 3px 10px;
+  padding: 5px 12px;
   border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
   pointer-events: none;
 }
+.vid-location::before {
+  content: "";
+  width: 11px;
+  height: 11px;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z'/%3E%3C/svg%3E");
+  mask: no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z'/%3E%3C/svg%3E");
+  opacity: 0.9;
+}
+/* Enlarge / fullscreen button, top-right corner of each video tile. */
+.vid-fs {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 4;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: rgba(44, 32, 21, 0.62);
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.vid-fs:hover { background: rgba(44, 32, 21, 0.88); }
+.vid-fs svg { width: 17px; height: 17px; fill: #fff; }
 .apartments-cta { text-align: center; margin-top: 32px; }
 @media (max-width: 900px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px) { .video-grid { grid-template-columns: 1fr; } }

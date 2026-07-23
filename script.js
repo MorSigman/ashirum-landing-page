@@ -128,6 +128,30 @@ document.addEventListener('DOMContentLoaded', () => {
     v.addEventListener('pause', sync);
     v.parentElement.appendChild(btn);
     sync();
+
+    // Enlarge button: opens the clip full-screen with the browser's native
+    // (accessible, keyboard-operable) video controls.
+    const fs = document.createElement('button');
+    fs.type = 'button';
+    fs.className = 'vid-fs';
+    fs.setAttribute('aria-label', 'הצגת הסרטון במסך מלא');
+    fs.innerHTML =
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5v2H6v3H4zm11-5h5v5h-2V6h-3V4zM4 15h2v3h3v2H4v-5zm14 3v-3h2v5h-5v-2h3z"/></svg>';
+    const openFs = () => {
+      const req = v.requestFullscreen || v.webkitRequestFullscreen || v.webkitEnterFullscreen;
+      v.controls = true;
+      if (v.paused) { v.play().catch(() => {}); }
+      if (req) { req.call(v).catch(() => {}); }
+    };
+    fs.addEventListener('click', openFs);
+    // Drop the native controls again once the user leaves full-screen.
+    const onFsChange = () => {
+      const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+      if (fsEl !== v) { v.controls = false; }
+    };
+    document.addEventListener('fullscreenchange', onFsChange);
+    document.addEventListener('webkitfullscreenchange', onFsChange);
+    v.parentElement.appendChild(fs);
   });
 
   // Footer year
