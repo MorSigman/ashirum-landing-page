@@ -121,7 +121,9 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.classList.toggle('is-paused', v.paused);
       btn.setAttribute('aria-label', v.paused ? 'הפעלת הסרטון' : 'עצירת הסרטון');
     };
-    btn.addEventListener('click', () => { if (v.paused) { v.play().catch(() => {}); } else { v.pause(); } });
+    const toggle = () => { if (v.paused) { v.play().catch(() => {}); } else { v.pause(); } };
+    btn.addEventListener('click', toggle);
+    v.addEventListener('click', toggle); // clicking the video toggles too
     v.addEventListener('play', sync);
     v.addEventListener('pause', sync);
     v.parentElement.appendChild(btn);

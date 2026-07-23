@@ -1017,7 +1017,7 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 }
 .video-slot {
   position: relative;
-  aspect-ratio: 9 / 16; /* portrait — matches the phone-shot apartment tours */
+  aspect-ratio: 1 / 1; /* square video cards */
   border-radius: var(--radius);
   background: var(--color-bg-alt);
   box-shadow: var(--shadow);
@@ -1040,29 +1040,43 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
   object-fit: cover;
   border-radius: var(--radius);
 }
-/* Small visible play/pause control on each video tile. */
+/* Play/pause control. Paused = large centred play button (video starts only on
+   click); playing = small pause button in the corner. */
 .vid-toggle {
   position: absolute;
-  bottom: 8px;
-  left: 8px;
   z-index: 3;
-  width: 30px;
-  height: 30px;
   padding: 0;
   border: none;
   border-radius: 50%;
-  background: rgba(44, 32, 21, 0.6);
+  background: rgba(44, 32, 21, 0.62);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.15s ease;
+  transition: background 0.15s ease, width 0.2s ease, height 0.2s ease;
+  /* default = playing state: small, bottom-left corner */
+  bottom: 8px;
+  left: 8px;
+  width: 30px;
+  height: 30px;
 }
 .vid-toggle:hover { background: rgba(44, 32, 21, 0.85); }
 .vid-toggle svg { width: 15px; height: 15px; fill: #fff; }
 .vid-toggle .ic-play { display: none; }
 .vid-toggle .ic-pause { display: block; }
+/* paused = large centred play button */
+.vid-toggle.is-paused {
+  top: 50%;
+  left: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  width: 58px;
+  height: 58px;
+  background: rgba(44, 32, 21, 0.72);
+}
+.vid-toggle.is-paused:hover { background: rgba(44, 32, 21, 0.9); }
+.vid-toggle.is-paused svg { width: 26px; height: 26px; }
 .vid-toggle.is-paused .ic-play { display: block; }
 .vid-toggle.is-paused .ic-pause { display: none; }
 .apartments-cta { text-align: center; margin-top: 32px; }
