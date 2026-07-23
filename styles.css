@@ -1079,6 +1079,22 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 .vid-toggle.is-paused svg { width: 26px; height: 26px; }
 .vid-toggle.is-paused .ic-play { display: block; }
 .vid-toggle.is-paused .ic-pause { display: none; }
+
+/* Location caption, bottom-right of each video tile (site font). */
+.vid-location {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  z-index: 3;
+  background: rgba(44, 32, 21, 0.62);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  pointer-events: none;
+}
 .apartments-cta { text-align: center; margin-top: 32px; }
 @media (max-width: 900px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px) { .video-grid { grid-template-columns: 1fr; } }
