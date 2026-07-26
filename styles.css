@@ -1254,8 +1254,8 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 .apartments-intro-text .apartments-text:last-child { margin-bottom: 0; }
 .coverage-wrap {
   position: relative;
-  flex: 0 0 380px;
-  max-width: 380px;
+  flex: 0 0 500px;
+  max-width: 500px;
   margin: 0;
 }
 @media (max-width: 860px) {
@@ -1286,8 +1286,8 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
   left: var(--x);
   top: var(--y);
   transform: translate(-50%, -100%);
-  width: 36px;
-  height: 36px;
+  width: 24px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1313,7 +1313,7 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
   border-radius: 6px;
 }
 @media (max-width: 600px) {
-  .map-home-marker { width: 27px; height: 27px; }
+  .map-home-marker { width: 16px; height: 22px; }
 }
 
 .map-tooltip {
