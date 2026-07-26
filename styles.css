@@ -1241,7 +1241,7 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 /* ===== Apartments coverage map ===== */
 .apartments-intro {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 40px;
   margin: 8px 0 0;
 }
@@ -1254,19 +1254,25 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 .apartments-intro-text .apartments-text:last-child { margin-bottom: 0; }
 .coverage-wrap {
   position: relative;
-  flex: 0 0 600px;
-  max-width: 600px;
+  flex: 0 0 340px;
+  max-width: 340px;
   margin: 0;
 }
 @media (max-width: 860px) {
   .apartments-intro { flex-direction: column; gap: 28px; }
-  .coverage-wrap { flex: none; max-width: 460px; width: 100%; margin: 0 auto; }
+  .coverage-wrap { flex: none; max-width: 260px; width: 100%; margin: 0 auto; }
   .apartments-intro-text .apartments-text { text-align: center; }
 }
 .coverage-img {
   width: 100%;
   height: auto;
-  display: block; /* transparent-background cutout — floats naturally on the page */
+  display: block;
+}
+.il-outline {
+  fill: var(--color-primary-light);
+  stroke: var(--map-icon-main);
+  stroke-width: 2;
+  stroke-linejoin: round;
 }
 
 /* ===== Interactive coverage-map markers ===== */
@@ -1286,8 +1292,8 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
   left: var(--x);
   top: var(--y);
   transform: translate(-50%, -100%);
-  width: 21px;
-  height: 30px;
+  width: 15px;
+  height: 21px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1313,7 +1319,7 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
   border-radius: 6px;
 }
 @media (max-width: 600px) {
-  .map-home-marker { width: 14px; height: 20px; }
+  .map-home-marker { width: 11px; height: 16px; }
 }
 
 .map-tooltip {

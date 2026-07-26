@@ -256,50 +256,40 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('year').textContent = new Date().getFullYear();
 
   // ===== Nationwide coverage map: interactive home/building markers =====
-  // Positions are hand-placed percentages (--x/--y) tuned against the actual
-  // israel-map.png artwork (a tilted isometric illustration, not a flat geo
-  // projection), so they sit visually on the coastline/inland areas they name.
+  // The map itself is a flat SVG outline of Israel (not a photo), built from
+  // real longitude/latitude so every marker's position is geographically
+  // accurate — not eyeballed against an illustration.
   (function buildCoverageIcons() {
     const wrap = document.getElementById('coverage-wrap');
     const layer = document.getElementById('map-icons-layer');
     const tip = document.getElementById('map-tooltip');
     if (!wrap || !layer || !tip) return;
 
-    // [city, type, x%, y%] — 40 markers total.
+    // [city, type, x%, y%] — 24 markers, positions derived from real coordinates.
     const mapLocations = [
-      ['תל אביב', 'building', 31.7, 31.0], ['תל אביב', 'house', 35.9, 31.0],
-      ['תל אביב', 'building', 39.7, 31.0], ['תל אביב', 'house', 32.3, 35.0],
-      ['תל אביב', 'building', 36.5, 35.0], ['תל אביב', 'house', 40.7, 35.0],
-      ['תל אביב', 'building', 31.7, 39.0], ['תל אביב', 'house', 35.9, 39.0],
-      ['תל אביב', 'building', 39.7, 39.0],
+      ['תל אביב', 'building', 24.0, 31.1], ['תל אביב', 'house', 27.0, 31.4],
+      ['תל אביב', 'building', 23.7, 34.1], ['תל אביב', 'house', 27.3, 33.8],
+      ['תל אביב', 'building', 25.5, 35.1],
 
-      ['רמת גן', 'building', 39.8, 29.8], ['רמת גן', 'house', 44.0, 29.8],
-      ['רמת גן', 'building', 48.2, 29.8], ['רמת גן', 'house', 41.9, 34.2],
-      ['רמת גן', 'building', 46.1, 34.2], ['רמת גן', 'house', 50.3, 34.2],
+      ['רמת גן', 'building', 27.0, 31.9], ['רמת גן', 'house', 29.4, 31.9],
+      ['רמת גן', 'building', 28.2, 34.4],
 
-      ['הרצליה', 'building', 29.6, 28.7], ['הרצליה', 'house', 28.6, 26.0],
-      ['הרצליה', 'building', 33.6, 26.5], ['הרצליה', 'house', 28.9, 31.9],
-      ['הרצליה', 'building', 34.1, 32.0],
+      ['הרצליה', 'building', 28.3, 29.6], ['הרצליה', 'house', 30.7, 29.6],
+      ['הרצליה', 'building', 29.5, 32.1],
 
-      ['פתח תקווה', 'building', 50.6, 28.4], ['פתח תקווה', 'house', 48.1, 26.4],
-      ['פתח תקווה', 'building', 54.1, 26.9], ['פתח תקווה', 'house', 48.6, 31.4],
-      ['פתח תקווה', 'building', 53.6, 31.9],
+      ['פתח תקווה', 'building', 33.0, 30.0], ['פתח תקווה', 'house', 35.0, 32.2],
 
-      ['בת ים', 'building', 32.6, 42.1], ['בת ים', 'house', 38.1, 42.3],
-      ['בת ים', 'building', 32.8, 46.1], ['בת ים', 'house', 40.6, 45.6],
+      ['בת ים', 'building', 21.5, 33.3], ['בת ים', 'house', 23.0, 35.3],
 
-      ['בית שמש', 'building', 55.5, 47.7], ['בית שמש', 'house', 62.0, 48.0],
-      ['בית שמש', 'building', 56.0, 52.0], ['בית שמש', 'house', 62.5, 52.3],
+      ['חולון', 'house', 23.0, 36.5],
+      ['ראשון לציון', 'building', 26.0, 37.5],
+      ['רחובות', 'house', 27.3, 39.5],
 
-      ['אשקלון', 'building', 40.1, 61.7], ['אשקלון', 'house', 47.1, 59.9],
-      ['אשקלון', 'building', 41.1, 65.7], ['אשקלון', 'house', 47.6, 64.8],
+      ['אשדוד', 'building', 15.8, 38.9], ['אשדוד', 'house', 17.8, 40.5],
 
-      ['אשדוד', 'building', 37.5, 53.6], ['אשדוד', 'house', 44.5, 53.4],
-      ['אשדוד', 'building', 41.0, 58.1],
+      ['אשקלון', 'building', 10.4, 42.3], ['אשקלון', 'house', 12.4, 43.9],
 
-      ['חולון', 'house', 39.5, 41.0], ['חולון', 'building', 42.5, 43.0],
-      ['ראשון לציון', 'building', 36.5, 48.0], ['ראשון לציון', 'house', 39.5, 50.0],
-      ['רחובות', 'house', 49.3, 45.8], ['רחובות', 'building', 52.8, 48.3]
+      ['בית שמש', 'building', 38.5, 40.2], ['בית שמש', 'house', 40.5, 41.8]
     ];
 
     // Five hand-drawn variants (2 pitched-roof houses + 3 building heights),
