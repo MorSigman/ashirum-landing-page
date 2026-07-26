@@ -210,133 +210,98 @@ document.addEventListener('DOMContentLoaded', () => {
   // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // ===== Apartments coverage map =====
-  // Draws a tilted map of Israel with one pin per managed apartment. Geography is
-  // stored as a simple lat/long-style grid, then rotated + foreshortened so the
-  // long country lies diagonally (north/centre in the upper-left, empty Negev to
-  // the lower-right). Icons stay upright; hovering/focusing a pin shows its city.
-  (function buildCoverageMap() {
-    const svg = document.getElementById('coverage-map');
-    if (!svg) return;
-    const NS = 'http://www.w3.org/2000/svg';
-
-    // Country outline (base grid: x≈east, y≈south), clockwise from the north tip.
-    const border = [
-      [117.7, 2], [77.6, 21], [75.9, 29], [64, 47], [58.9, 86], [55.4, 97],
-      [46.9, 122], [37.5, 150], [31.6, 164], [8.5, 195], [18.8, 242],
-      [64, 375], [76.8, 280], [99, 230], [108.3, 180], [110.9, 143],
-      [110.9, 80], [122, 45], [132.2, 20]
-    ];
-    // Two faint interior lines for a "map" feel (west-coast → Jordan valley).
-    const regionLines = [
-      [[55.4, 97], [110.9, 143]],
-      [[46.9, 122], [108.3, 180]]
-    ];
-
-    // [city, x, y, howManyApartments]. Sum of counts = 42.
-    const cities = [
-      ['תל אביב', 46.9, 122, 4], ['רמת גן', 52, 122, 4], ['בת ים', 46.9, 128, 3],
-      ['הרצליה', 54.6, 114, 3], ['פתח תקווה', 58.9, 121, 4], ['גבעתיים', 52, 123, 1],
-      ['בני ברק', 53.7, 122, 1], ['חולון', 49.5, 129, 2], ['ראשון לציון', 50.3, 134, 2],
-      ['רעננה', 57.2, 112, 2], ['כפר סבא', 60.6, 112, 1], ['רחובות', 52, 141, 1],
-      ['קרית אונו', 56.3, 124, 1], ['אור יהודה', 55.4, 127, 1], ['רמלה', 57.2, 135, 1],
-      ['נתניה', 55.4, 97, 2], ['חדרה', 61.4, 86, 1], ['חיפה', 64, 47, 2],
-      ['קריות', 75.1, 47, 2], ['אשדוד', 38.4, 150, 2], ['אשקלון', 31.6, 164, 2]
-    ];
-
-    // rotate (−50°) around a centre, then squash vertically for a 3D-ish tilt.
-    const A = -50 * Math.PI / 180, cosA = Math.cos(A), sinA = Math.sin(A);
-    const cx = 70, cy = 160, sy = 0.72;
-    const tf = (x, y) => {
-      const rx = cx + (x - cx) * cosA - (y - cy) * sinA;
-      let ry = cy + (x - cx) * sinA + (y - cy) * cosA;
-      ry = cy + (ry - cy) * sy;
-      return [rx, ry];
-    };
-
-    // deterministic jitter so multiple apartments in one city fan out a little
-    const rnd = (s) => { const v = Math.sin(s * 127.1) * 43758.5; return v - Math.floor(v); };
-    const pins = []; let seed = 1;
-    cities.forEach(([name, bx, by, n]) => {
-      for (let i = 0; i < n; i++) {
-        let ox = 0, oy = 0;
-        if (n > 1) {
-          const ang = rnd(seed++) * 6.283, r = 5 + rnd(seed++) * 9;
-          ox = Math.cos(ang) * r; oy = Math.sin(ang) * r;
-        }
-        const [px, py] = tf(bx + ox, by + oy);
-        pins.push({ name, px, py, building: rnd(seed++) > 0.5 });
-      }
-    });
-
-    // viewBox from the transformed extent (+ padding for icon size & shadow)
-    const pts = border.map(([x, y]) => tf(x, y)).concat(pins.map((p) => [p.px, p.py]));
-    let minX = 1e9, minY = 1e9, maxX = -1e9, maxY = -1e9;
-    pts.forEach(([x, y]) => {
-      minX = Math.min(minX, x); minY = Math.min(minY, y);
-      maxX = Math.max(maxX, x); maxY = Math.max(maxY, y);
-    });
-    const pad = 20;
-    svg.setAttribute('viewBox',
-      `${(minX - pad).toFixed(1)} ${(minY - pad).toFixed(1)} ${(maxX - minX + 2 * pad).toFixed(1)} ${(maxY - minY + 2 * pad).toFixed(1)}`);
-
-    const el = (name, attrs, html) => {
-      const n = document.createElementNS(NS, name);
-      for (const k in attrs) n.setAttribute(k, attrs[k]);
-      if (html != null) n.innerHTML = html;
-      return n;
-    };
-
-    // landmass
-    const dLand = border.map((p, i) => {
-      const [x, y] = tf(p[0], p[1]);
-      return (i ? 'L' : 'M') + x.toFixed(1) + ',' + y.toFixed(1);
-    }).join(' ') + ' Z';
-    svg.appendChild(el('path', { d: dLand, class: 'map-land' }));
-
-    regionLines.forEach(([a, b]) => {
-      const [ax, ay] = tf(a[0], a[1]), [bx, by] = tf(b[0], b[1]);
-      svg.appendChild(el('line', { x1: ax.toFixed(1), y1: ay.toFixed(1), x2: bx.toFixed(1), y2: by.toFixed(1), class: 'map-region' }));
-    });
-
-    const houseSVG =
-      '<path class="pin-hit" d="M-8,-1 L0,-8 L8,-1 Z" fill="#f4f1ec" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>' +
-      '<path d="M-6,-1 L-6,8 L6,8 L6,-1 Z" fill="#f4f1ec" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>' +
-      '<path d="M-2,8 L-2,2 L2,2 L2,8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>';
-    const buildingSVG = (() => {
-      let s = '<path class="pin-hit" d="M-6,-9 L6,-9 L6,8 L-6,8 Z" fill="#f4f1ec" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>';
-      [-6.5, -2.5, 1.5].forEach((wy) => {
-        [-3.8, 1.2].forEach((wx) => {
-          s += `<rect x="${wx}" y="${wy}" width="2.6" height="2.6" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/>`;
-        });
-      });
-      s += '<rect x="-1.4" y="4.5" width="2.8" height="3.5" fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke"/>';
-      return s;
-    })();
-
-    const wrap = svg.closest('.coverage-wrap');
+  // ===== Nationwide coverage map: interactive home/building markers =====
+  // Positions are hand-placed percentages (--x/--y) tuned against the actual
+  // israel-map.png artwork (a tilted isometric illustration, not a flat geo
+  // projection), so they sit visually on the coastline/inland areas they name.
+  (function buildCoverageIcons() {
+    const wrap = document.getElementById('coverage-wrap');
+    const layer = document.getElementById('map-icons-layer');
     const tip = document.getElementById('map-tooltip');
-    const showTip = (name, node) => {
-      tip.textContent = name;
-      const wr = wrap.getBoundingClientRect(), r = node.getBoundingClientRect();
-      tip.style.left = (r.left - wr.left + r.width / 2) + 'px';
-      tip.style.top = (r.top - wr.top) + 'px';
-      tip.classList.add('show');
-    };
-    const hideTip = () => tip.classList.remove('show');
+    if (!wrap || !layer || !tip) return;
 
-    const k = 0.58; // icon scale
-    pins.forEach((p) => {
-      const g = el('g', {
-        class: 'map-pin',
-        transform: `translate(${p.px.toFixed(1)} ${p.py.toFixed(1)}) scale(${k})`,
-        tabindex: '0', role: 'img', 'aria-label': 'דירה ב' + p.name
-      }, `<title>${p.name}</title><g class="pin-inner">${p.building ? buildingSVG : houseSVG}</g>`);
-      g.addEventListener('mouseenter', () => showTip(p.name, g));
-      g.addEventListener('mouseleave', hideTip);
-      g.addEventListener('focus', () => showTip(p.name, g));
-      g.addEventListener('blur', hideTip);
-      svg.appendChild(g);
+    // [city, type, x%, y%] — 40 markers total.
+    const mapLocations = [
+      ['תל אביב', 'building', 28.2, 33.0], ['תל אביב', 'house', 32.4, 33.0],
+      ['תל אביב', 'building', 36.9, 33.0], ['תל אביב', 'house', 28.8, 37.0],
+      ['תל אביב', 'building', 33.0, 37.0], ['תל אביב', 'house', 37.2, 37.0],
+      ['תל אביב', 'building', 28.2, 41.0], ['תל אביב', 'house', 32.4, 41.0],
+      ['תל אביב', 'building', 36.9, 41.0],
+
+      ['רמת גן', 'building', 38.8, 28.8], ['רמת גן', 'house', 43.0, 28.8],
+      ['רמת גן', 'building', 47.2, 28.8], ['רמת גן', 'house', 40.9, 33.2],
+      ['רמת גן', 'building', 45.1, 33.2], ['רמת גן', 'house', 49.3, 33.2],
+
+      ['הרצליה', 'building', 24.0, 22.0], ['הרצליה', 'house', 20.0, 19.5],
+      ['הרצליה', 'building', 28.5, 19.8], ['הרצליה', 'house', 20.5, 25.5],
+      ['הרצליה', 'building', 28.8, 25.8],
+
+      ['פתח תקווה', 'building', 47.0, 29.0], ['פתח תקווה', 'house', 43.3, 26.8],
+      ['פתח תקווה', 'building', 50.7, 26.8], ['פתח תקווה', 'house', 43.8, 31.8],
+      ['פתח תקווה', 'building', 50.2, 31.8],
+
+      ['בת ים', 'building', 31.0, 45.5], ['בת ים', 'house', 36.0, 45.8],
+      ['בת ים', 'building', 31.3, 49.5], ['בת ים', 'house', 38.5, 49.0],
+
+      ['בית שמש', 'building', 50.5, 47.0], ['בית שמש', 'house', 57.0, 47.3],
+      ['בית שמש', 'building', 51.0, 51.3], ['בית שמש', 'house', 57.5, 51.6],
+
+      ['אשקלון', 'building', 39.0, 61.5], ['אשקלון', 'house', 46.0, 59.7],
+      ['אשקלון', 'building', 40.0, 65.5], ['אשקלון', 'house', 46.5, 64.6],
+
+      ['אשדוד', 'building', 35.5, 52.5], ['אשדוד', 'house', 42.5, 52.3],
+      ['אשדוד', 'building', 39.0, 57.0]
+    ];
+
+    const houseSVG = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+      '<path d="M3.5 11.5L12 4l8.5 7.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M6 10v9.3a1 1 0 001 1h10a1 1 0 001-1V10" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>' +
+      '<rect x="10.1" y="14.6" width="3.8" height="5.7" stroke="currentColor" stroke-width="1.4"/></svg>';
+    const buildingSVG = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect x="5" y="3" width="14" height="18" rx="1" stroke="currentColor" stroke-width="1.7"/>' +
+      '<rect x="7.8" y="6.2" width="2.4" height="2.4" stroke="currentColor" stroke-width="1.2"/>' +
+      '<rect x="13.8" y="6.2" width="2.4" height="2.4" stroke="currentColor" stroke-width="1.2"/>' +
+      '<rect x="7.8" y="10.8" width="2.4" height="2.4" stroke="currentColor" stroke-width="1.2"/>' +
+      '<rect x="13.8" y="10.8" width="2.4" height="2.4" stroke="currentColor" stroke-width="1.2"/>' +
+      '<rect x="10.2" y="15.4" width="3.6" height="5.6" stroke="currentColor" stroke-width="1.2"/></svg>';
+
+    let activeMarker = null;
+    const hideTip = () => {
+      tip.classList.remove('show');
+      if (activeMarker) activeMarker.classList.remove('is-active');
+      activeMarker = null;
+    };
+    const showTip = (city, marker) => {
+      const wrapRect = wrap.getBoundingClientRect();
+      const markerRect = marker.getBoundingClientRect();
+      tip.textContent = city;
+      tip.style.left = (markerRect.left - wrapRect.left + markerRect.width / 2) + 'px';
+      tip.style.top = (markerRect.top - wrapRect.top) + 'px';
+      tip.classList.add('show');
+      if (activeMarker && activeMarker !== marker) activeMarker.classList.remove('is-active');
+      marker.classList.add('is-active');
+      activeMarker = marker;
+    };
+
+    mapLocations.forEach(([city, type, x, y]) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'map-home-marker';
+      btn.dataset.city = city;
+      btn.setAttribute('aria-label', city);
+      btn.style.setProperty('--x', x + '%');
+      btn.style.setProperty('--y', y + '%');
+      btn.innerHTML = type === 'building' ? buildingSVG : houseSVG;
+      btn.addEventListener('mouseenter', () => showTip(city, btn));
+      btn.addEventListener('mouseleave', hideTip);
+      btn.addEventListener('focus', () => showTip(city, btn));
+      btn.addEventListener('blur', hideTip);
+      btn.addEventListener('click', () => showTip(city, btn));
+      layer.appendChild(btn);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!wrap.contains(e.target)) hideTip();
     });
   })();
 
