@@ -250,20 +250,53 @@ document.addEventListener('DOMContentLoaded', () => {
       ['אשקלון', 'building', 40.0, 65.5], ['אשקלון', 'house', 46.5, 64.6],
 
       ['אשדוד', 'building', 35.5, 52.5], ['אשדוד', 'house', 42.5, 52.3],
-      ['אשדוד', 'building', 39.0, 57.0]
+      ['אשדוד', 'building', 39.0, 57.0],
+
+      ['חולון', 'house', 40.0, 42.0], ['חולון', 'building', 43.0, 44.0],
+      ['ראשון לציון', 'building', 35.5, 49.5], ['ראשון לציון', 'house', 38.5, 51.5],
+      ['רחובות', 'house', 47.5, 53.0], ['רחובות', 'building', 51.0, 55.5]
     ];
 
-    const houseSVG = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-      '<path d="M3.5 11.5L12 4l8.5 7.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>' +
-      '<path d="M6 10v9.3a1 1 0 001 1h10a1 1 0 001-1V10" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>' +
-      '<rect x="10.1" y="14.6" width="3.8" height="5.7" stroke="currentColor" stroke-width="1.4"/></svg>';
-    const buildingSVG = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-      '<rect x="5" y="3" width="14" height="18" rx="1" stroke="currentColor" stroke-width="1.7"/>' +
-      '<rect x="7.8" y="6.2" width="2.4" height="2.4" stroke="currentColor" stroke-width="1.2"/>' +
-      '<rect x="13.8" y="6.2" width="2.4" height="2.4" stroke="currentColor" stroke-width="1.2"/>' +
-      '<rect x="7.8" y="10.8" width="2.4" height="2.4" stroke="currentColor" stroke-width="1.2"/>' +
-      '<rect x="13.8" y="10.8" width="2.4" height="2.4" stroke="currentColor" stroke-width="1.2"/>' +
-      '<rect x="10.2" y="15.4" width="3.6" height="5.6" stroke="currentColor" stroke-width="1.2"/></svg>';
+    // Five hand-drawn variants (2 house tones + 3 building heights) in the
+    // warm terracotta/cream palette from the reference art, cycled per marker
+    // so the cluster reads as a varied streetscape rather than one repeated icon.
+    const house1SVG = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">' +
+      '<path d="M2.5 12 12 4 21.5 12 18 12 18 10.6 12 6 6 10.6 6 12Z" fill="#b5652f"/>' +
+      '<rect x="6" y="12" width="12" height="8.3" fill="#f2e4cf" stroke="#c9ab7e" stroke-width="0.6"/>' +
+      '<rect x="10.2" y="16.3" width="3.6" height="4" fill="#6b4a30"/>' +
+      '<rect x="7.6" y="14.2" width="2.2" height="2.2" fill="#fff8ef"/>' +
+      '<rect x="14.2" y="14.2" width="2.2" height="2.2" fill="#fff8ef"/></svg>';
+    const house2SVG = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">' +
+      '<path d="M4 12.5 11.5 5.5 19 12.5 16 12.5 16 11.2 11.5 7.3 7 11.2 7 12.5Z" fill="#8a4326"/>' +
+      '<rect x="7" y="12.5" width="9" height="7.8" fill="#e8d3b3" stroke="#c2a479" stroke-width="0.6"/>' +
+      '<rect x="10.4" y="16.6" width="2.8" height="3.7" fill="#5c3d26"/>' +
+      '<rect x="8.2" y="14.6" width="1.8" height="1.8" fill="#fff8ef"/>' +
+      '<rect x="13.6" y="14.6" width="1.8" height="1.8" fill="#fff8ef"/>' +
+      '<circle cx="19.6" cy="17.2" r="2.2" fill="#5b7a52"/>' +
+      '<rect x="19.1" y="19" width="1" height="1.3" fill="#6b4a30"/></svg>';
+    const buildingLowSVG = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect x="6" y="7.4" width="12" height="13.4" fill="#d9c3a3" stroke="#b89968" stroke-width="0.6"/>' +
+      '<rect x="6" y="6" width="12" height="1.6" fill="#a9895c"/>' +
+      '<rect x="8.2" y="9.4" width="2.2" height="2.2" fill="#fdf6ea"/><rect x="13.6" y="9.4" width="2.2" height="2.2" fill="#fdf6ea"/>' +
+      '<rect x="8.2" y="12.6" width="2.2" height="2.2" fill="#fdf6ea"/><rect x="13.6" y="12.6" width="2.2" height="2.2" fill="#fdf6ea"/>' +
+      '<rect x="8.2" y="15.8" width="2.2" height="2.2" fill="#fdf6ea"/><rect x="13.6" y="15.8" width="2.2" height="2.2" fill="#fdf6ea"/></svg>';
+    const buildingMidSVG = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect x="6.5" y="4.6" width="11" height="16.2" fill="#e3d0b0" stroke="#c2a479" stroke-width="0.6"/>' +
+      '<rect x="6.5" y="3.3" width="11" height="1.4" fill="#a9895c"/>' +
+      '<rect x="8.4" y="6.6" width="2" height="2" fill="#fdf6ea"/><rect x="13.1" y="6.6" width="2" height="2" fill="#fdf6ea"/>' +
+      '<rect x="8.4" y="9.6" width="2" height="2" fill="#fdf6ea"/><rect x="13.1" y="9.6" width="2" height="2" fill="#fdf6ea"/>' +
+      '<rect x="8.4" y="12.6" width="2" height="2" fill="#fdf6ea"/><rect x="13.1" y="12.6" width="2" height="2" fill="#fdf6ea"/>' +
+      '<rect x="8.4" y="15.6" width="2" height="2" fill="#fdf6ea"/><rect x="13.1" y="15.6" width="2" height="2" fill="#fdf6ea"/></svg>';
+    const buildingTallSVG = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect x="9.5" y="1.6" width="3.4" height="2" fill="#8a6a45"/>' +
+      '<rect x="7" y="2.6" width="10" height="18.2" fill="#cdb693" stroke="#a9895c" stroke-width="0.6"/>' +
+      '<rect x="8.7" y="4.8" width="1.9" height="1.9" fill="#fdf6ea"/><rect x="13.1" y="4.8" width="1.9" height="1.9" fill="#fdf6ea"/>' +
+      '<rect x="8.7" y="7.4" width="1.9" height="1.9" fill="#fdf6ea"/><rect x="13.1" y="7.4" width="1.9" height="1.9" fill="#fdf6ea"/>' +
+      '<rect x="8.7" y="10.0" width="1.9" height="1.9" fill="#fdf6ea"/><rect x="13.1" y="10.0" width="1.9" height="1.9" fill="#fdf6ea"/>' +
+      '<rect x="8.7" y="12.6" width="1.9" height="1.9" fill="#fdf6ea"/><rect x="13.1" y="12.6" width="1.9" height="1.9" fill="#fdf6ea"/>' +
+      '<rect x="8.7" y="15.2" width="1.9" height="1.9" fill="#fdf6ea"/><rect x="13.1" y="15.2" width="1.9" height="1.9" fill="#fdf6ea"/></svg>';
+    const houseVariants = [house1SVG, house2SVG];
+    const buildingVariants = [buildingLowSVG, buildingMidSVG, buildingTallSVG];
 
     let activeMarker = null;
     const hideTip = () => {
@@ -283,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
       activeMarker = marker;
     };
 
-    mapLocations.forEach(([city, type, x, y]) => {
+    mapLocations.forEach(([city, type, x, y], i) => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'map-home-marker';
@@ -291,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.setAttribute('aria-label', city);
       btn.style.setProperty('--x', x + '%');
       btn.style.setProperty('--y', y + '%');
-      btn.innerHTML = type === 'building' ? buildingSVG : houseSVG;
+      btn.innerHTML = type === 'building' ? buildingVariants[i % buildingVariants.length] : houseVariants[i % houseVariants.length];
       btn.addEventListener('mouseenter', () => showTip(city, btn));
       btn.addEventListener('mouseleave', hideTip);
       btn.addEventListener('focus', () => showTip(city, btn));
