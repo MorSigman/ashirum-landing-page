@@ -207,6 +207,51 @@ document.addEventListener('DOMContentLoaded', () => {
     v.parentElement.appendChild(fs);
   });
 
+  // ---- Video carousel: prev/next arrows scroll the row. Position is judged
+  //      from real screen coordinates (not scrollLeft, whose sign flips
+  //      between browsers in RTL), so it stays correct after a manual swipe. ----
+  (function buildVideoCarousel() {
+    const track = document.getElementById('video-track');
+    const prevBtn = document.querySelector('.vid-nav--prev');
+    const nextBtn = document.querySelector('.vid-nav--next');
+    if (!track || !prevBtn || !nextBtn) return;
+    const slots = Array.from(track.children);
+
+    const currentIndex = () => {
+      const trackMid = track.getBoundingClientRect().left + track.clientWidth / 2;
+      let best = 0, bestDist = Infinity;
+      slots.forEach((s, i) => {
+        const r = s.getBoundingClientRect();
+        const dist = Math.abs(r.left + r.width / 2 - trackMid);
+        if (dist < bestDist) { bestDist = dist; best = i; }
+      });
+      return best;
+    };
+    // Edge state is judged by whether the first/last card's own box is fully
+    // inside the track's box — robust regardless of which scrollLeft sign
+    // convention the browser uses for RTL overflow.
+    const updateNavState = () => {
+      const trackRect = track.getBoundingClientRect();
+      const firstRect = slots[0].getBoundingClientRect();
+      const lastRect = slots[slots.length - 1].getBoundingClientRect();
+      prevBtn.disabled = firstRect.right <= trackRect.right + 1 && firstRect.left >= trackRect.left - 1;
+      nextBtn.disabled = lastRect.left >= trackRect.left - 1 && lastRect.right <= trackRect.right + 1;
+    };
+    const goTo = (i) => {
+      const clamped = Math.max(0, Math.min(slots.length - 1, i));
+      slots[clamped].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    };
+    prevBtn.addEventListener('click', () => goTo(currentIndex() - 1));
+    nextBtn.addEventListener('click', () => goTo(currentIndex() + 1));
+    let scrollTimer;
+    track.addEventListener('scroll', () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(updateNavState, 120);
+    });
+    slots[0].scrollIntoView({ inline: 'start', block: 'nearest' });
+    updateNavState();
+  })();
+
   // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
 
