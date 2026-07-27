@@ -1299,11 +1299,6 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
   pointer-events: auto;
   transition: background 0.15s ease;
 }
-.map-region-zone:hover,
-.map-region-zone:focus-visible,
-.map-region-zone.is-active {
-  background: rgba(138, 98, 61, 0.16);
-}
 .map-region-zone:focus-visible {
   outline: 2px solid var(--map-icon-accent);
   outline-offset: 2px;
