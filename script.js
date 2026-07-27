@@ -266,21 +266,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // [city, type, x%, y%] — one marker per city, placed by real lon/lat
     // (calibrated against Jerusalem + Eilat on the accurate outline map).
-    // Small deterministic separation applied on top of the real-coordinate
-    // base positions so every marker stays independently hoverable — the
-    // raw geographic points overlap completely in the dense Tel Aviv metro.
+    // Hotspot positions hand-placed to sit on the pre-rendered building
+    // clusters in israel-map.png (the artwork already draws the buildings —
+    // these are invisible-by-default hit-targets, see .map-home-marker svg).
     const mapLocations = [
-      ['תל אביב', 'building', 33.52, 28.94],
-      ['רמת גן', 'building', 37.94, 30.53],
-      ['הרצליה', 'house', 38.94, 26.35],
-      ['פתח תקווה', 'building', 42.21, 30.02],
-      ['בת ים', 'house', 27.52, 31.34],
-      ['חולון', 'house', 31.54, 32.87],
-      ['ראשון לציון', 'house', 35.64, 34.16],
-      ['רחובות', 'house', 36.4, 38.4],
-      ['אשדוד', 'building', 22.3, 38.6],
-      ['אשקלון', 'house', 16.0, 42.5],
-      ['בית שמש', 'building', 50.6, 40.2]
+      ['הרצליה', 'house', 24, 11],
+      ['תל אביב', 'building', 17, 24],
+      ['רמת גן', 'building', 29, 27],
+      ['פתח תקווה', 'house', 46, 33],
+      ['בת ים', 'house', 16, 38],
+      ['חולון', 'house', 20, 43],
+      ['ראשון לציון', 'house', 25, 48],
+      ['בית שמש', 'building', 46, 47],
+      ['רחובות', 'house', 30, 56],
+      ['אשדוד', 'building', 30, 64],
+      ['אשקלון', 'house', 33, 69]
     ];
 
     // Five hand-drawn variants (2 pitched-roof houses + 3 building heights),
