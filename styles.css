@@ -1253,13 +1253,13 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 .apartments-intro-text .apartments-text:last-child { margin-bottom: 0; }
 .coverage-wrap {
   position: relative;
-  flex: 0 0 600px;
-  max-width: 600px;
+  flex: 0 0 460px;
+  max-width: 460px;
   margin: 0;
 }
 @media (max-width: 860px) {
   .apartments-intro { flex-direction: column; gap: 28px; }
-  .coverage-wrap { flex: none; max-width: 460px; width: 100%; margin: 0 auto; }
+  .coverage-wrap { flex: none; max-width: 400px; width: 100%; margin: 0 auto; }
   .apartments-intro-text .apartments-text { text-align: center; }
 }
 .coverage-img {
