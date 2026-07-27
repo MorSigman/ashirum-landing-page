@@ -264,41 +264,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const tip = document.getElementById('map-tooltip');
     if (!wrap || !layer || !tip) return;
 
-    // [city, type, x%, y%] — 46 markers.
+    // [city, type, x%, y%] — one marker per city, placed by real lon/lat
+    // (calibrated against Jerusalem + Eilat on the accurate outline map).
+    // Small deterministic separation applied on top of the real-coordinate
+    // base positions so every marker stays independently hoverable — the
+    // raw geographic points overlap completely in the dense Tel Aviv metro.
     const mapLocations = [
-      ['תל אביב', 'building', 21.5, 17.8], ['תל אביב', 'house', 24.5, 17.5],
-      ['תל אביב', 'building', 27.0, 18.2], ['תל אביב', 'house', 20.8, 20.5],
-      ['תל אביב', 'building', 24.0, 20.0], ['תל אביב', 'house', 27.2, 20.8],
-      ['תל אביב', 'building', 21.5, 22.3], ['תל אביב', 'house', 24.5, 22.6],
-      ['תל אביב', 'building', 27.0, 22.0],
-
-      ['רמת גן', 'building', 31.0, 18.0], ['רמת גן', 'house', 34.8, 17.8],
-      ['רמת גן', 'building', 30.5, 20.3], ['רמת גן', 'house', 34.5, 20.5],
-      ['רמת גן', 'building', 32.0, 22.2], ['רמת גן', 'house', 35.0, 22.4],
-
-      ['הרצליה', 'building', 26.0, 10.0], ['הרצליה', 'house', 24.0, 8.2],
-      ['הרצליה', 'building', 28.0, 8.2], ['הרצליה', 'house', 24.0, 11.8],
-      ['הרצליה', 'building', 28.0, 11.8],
-
-      ['פתח תקווה', 'building', 43.0, 18.0], ['פתח תקווה', 'house', 41.0, 16.2],
-      ['פתח תקווה', 'building', 45.0, 16.2], ['פתח תקווה', 'house', 41.0, 19.8],
-      ['פתח תקווה', 'building', 45.0, 19.8],
-
-      ['בת ים', 'building', 25.4, 30.5], ['בת ים', 'house', 28.6, 30.7],
-      ['בת ים', 'building', 25.4, 33.5], ['בת ים', 'house', 28.6, 33.6],
-
-      ['בית שמש', 'building', 56.4, 45.5], ['בית שמש', 'house', 59.6, 45.7],
-      ['בית שמש', 'building', 56.4, 48.5], ['בית שמש', 'house', 59.6, 48.6],
-
-      ['אשקלון', 'building', 28.4, 54.5], ['אשקלון', 'house', 31.6, 54.7],
-      ['אשקלון', 'building', 28.4, 57.5], ['אשקלון', 'house', 31.6, 57.6],
-
-      ['אשדוד', 'building', 31.0, 47.0], ['אשדוד', 'house', 34.2, 47.2],
-      ['אשדוד', 'building', 32.6, 49.8],
-
-      ['חולון', 'house', 31.7, 32.0], ['חולון', 'building', 34.3, 34.0],
-      ['ראשון לציון', 'house', 30.7, 39.0], ['ראשון לציון', 'building', 33.3, 41.0],
-      ['רחובות', 'house', 43.7, 42.0], ['רחובות', 'building', 46.3, 44.0]
+      ['תל אביב', 'building', 33.52, 28.94],
+      ['רמת גן', 'building', 37.94, 30.53],
+      ['הרצליה', 'house', 38.94, 26.35],
+      ['פתח תקווה', 'building', 42.21, 30.02],
+      ['בת ים', 'house', 27.52, 31.34],
+      ['חולון', 'house', 31.54, 32.87],
+      ['ראשון לציון', 'house', 35.64, 34.16],
+      ['רחובות', 'house', 36.4, 38.4],
+      ['אשדוד', 'building', 22.3, 38.6],
+      ['אשקלון', 'house', 16.0, 42.5],
+      ['בית שמש', 'building', 50.6, 40.2]
     ];
 
     // Five hand-drawn variants (2 pitched-roof houses + 3 building heights),

@@ -1263,12 +1263,13 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 }
 .coverage-wrap {
   position: relative;
-  max-width: 640px;
+  max-width: 380px;
   width: 100%;
   margin: 28px auto 0;
+  filter: drop-shadow(0 18px 30px rgba(60, 40, 25, 0.16));
 }
 @media (max-width: 860px) {
-  .coverage-wrap { max-width: 420px; }
+  .coverage-wrap { max-width: 280px; }
 }
 .coverage-img {
   width: 100%;
@@ -1293,8 +1294,8 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
   left: var(--x);
   top: var(--y);
   transform: translate(-50%, -100%);
-  width: 26px;
-  height: 37px;
+  width: 20px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1303,21 +1304,16 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
   border: none;
   cursor: pointer;
   pointer-events: auto;
-  filter: drop-shadow(0 3px 6px var(--map-icon-shadow));
+  filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 2px #fff) drop-shadow(0 2px 4px var(--map-icon-shadow));
   transition: transform 0.15s ease, filter 0.15s ease;
 }
-.map-home-marker svg { width: 100%; height: 100%; display: block; overflow: visible; opacity: 0; transition: opacity 0.15s ease; }
+.map-home-marker svg { width: 100%; height: 100%; display: block; overflow: visible; }
 .map-home-marker:hover,
 .map-home-marker:focus-visible,
 .map-home-marker.is-active {
   transform: translate(-50%, -100%) scale(1.2);
   filter: drop-shadow(0 3px 6px var(--map-icon-shadow)) drop-shadow(0 0 5px var(--map-icon-accent));
   z-index: 5;
-}
-.map-home-marker:hover svg,
-.map-home-marker:focus-visible svg,
-.map-home-marker.is-active svg {
-  opacity: 1;
 }
 .map-home-marker:focus-visible {
   outline: 2px solid var(--map-icon-accent);
