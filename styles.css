@@ -1298,13 +1298,18 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
   filter: drop-shadow(0 3px 6px var(--map-icon-shadow));
   transition: transform 0.15s ease, filter 0.15s ease;
 }
-.map-home-marker svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.map-home-marker svg { width: 100%; height: 100%; display: block; overflow: visible; opacity: 0; transition: opacity 0.15s ease; }
 .map-home-marker:hover,
 .map-home-marker:focus-visible,
 .map-home-marker.is-active {
   transform: translate(-50%, -100%) scale(1.2);
   filter: drop-shadow(0 3px 6px var(--map-icon-shadow)) drop-shadow(0 0 5px var(--map-icon-accent));
   z-index: 5;
+}
+.map-home-marker:hover svg,
+.map-home-marker:focus-visible svg,
+.map-home-marker.is-active svg {
+  opacity: 1;
 }
 .map-home-marker:focus-visible {
   outline: 2px solid var(--map-icon-accent);
