@@ -337,11 +337,10 @@ body.nav-locked { overflow: hidden; }
   object-fit: cover;
   display: block;
 }
-/* The hero video is portrait; force a landscape frame (a touch taller than the
-   old image) and cap it to the viewport so it never pushes the hero off-screen. */
+/* Square hero video, capped to the viewport so it never pushes the hero off-screen. */
 .hero-media video {
   height: auto;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   max-height: 60vh;
 }
 .hero-badge {
