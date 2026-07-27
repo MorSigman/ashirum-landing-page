@@ -255,103 +255,61 @@ document.addEventListener('DOMContentLoaded', () => {
   // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // ===== Nationwide coverage map: interactive home/building markers =====
-  // Positions are hand-placed percentages (--x/--y) tuned against the actual
-  // israel-map.png artwork, so they sit visually on the areas they name.
+  // ===== Nationwide coverage map: hover-by-region =====
+  // Each city is a whole area of the map (an ellipse), not a single icon —
+  // hovering anywhere inside it shows the city name. Ellipses were measured
+  // directly off a hand-annotated reference (circles drawn over israel-map.png).
   (function buildCoverageIcons() {
     const wrap = document.getElementById('coverage-wrap');
     const layer = document.getElementById('map-icons-layer');
     const tip = document.getElementById('map-tooltip');
     if (!wrap || !layer || !tip) return;
 
-    // [city, type, x%, y%] — one marker per city, placed by real lon/lat
-    // (calibrated against Jerusalem + Eilat on the accurate outline map).
-    // Hotspot positions hand-placed to sit on the pre-rendered building
-    // clusters in israel-map.png (the artwork already draws the buildings —
-    // these are invisible-by-default hit-targets, see .map-home-marker svg).
-    const mapLocations = [
-      ['הרצליה', 'house', 24, 11],
-      ['תל אביב', 'building', 17, 24],
-      ['רמת גן', 'building', 29, 27],
-      ['פתח תקווה', 'house', 46, 33],
-      ['בת ים', 'house', 16, 38],
-      ['חולון', 'house', 20, 43],
-      ['ראשון לציון', 'house', 25, 48],
-      ['בית שמש', 'building', 46, 47],
-      ['רחובות', 'house', 30, 56],
-      ['אשדוד', 'building', 30, 64],
-      ['אשקלון', 'house', 33, 69]
+    // [city, cx%, cy%, rx%, ry%, zIndex] — where regions overlap, the smaller
+    // one needs the higher zIndex or it gets swallowed by its bigger neighbour.
+    const mapRegions = [
+      ['חיפה', 12, 21, 7, 8, 4],
+      ['הרצליה', 23, 25, 9, 6.5, 2],
+      ['תל אביב', 22, 37, 6.5, 6.5, 6],
+      ['רמת גן', 32, 33, 5.5, 5.5, 9],
+      ['פתח תקווה', 34, 24, 6, 6, 7],
+      ['ירושלים', 51, 33, 7, 6.5, 5],
+      ['חולון', 40, 42, 4, 4, 11],
+      ['בית שמש', 50, 45, 8, 7, 3],
+      ['בת ים', 28, 46, 7, 4, 10],
+      ['אשדוד', 28, 55, 7, 5, 8],
+      ['אשקלון', 34, 65, 9, 9, 1]
     ];
 
-    // Five hand-drawn variants (2 pitched-roof houses + 3 building heights),
-    // each a true isometric box — two shaded wall faces plus a top/roof face —
-    // in the warm terracotta/cream palette from the reference art, cycled per
-    // marker so the cluster reads as a varied 3D streetscape, not a flat icon.
-    const house1SVG = '<svg viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">' +
-      '<polygon points="50,138 28,127 28,101 50,112" fill="#ecd9ba"/>' +
-      '<polygon points="50,138 72,127 72,101 50,112" fill="#d2b98f"/>' +
-      '<polygon points="50,112 28,101 50,75" fill="#c17a3f"/>' +
-      '<polygon points="50,112 72,101 50,75" fill="#9c5827"/>' +
-      '<rect x="34" y="115" width="6" height="6" fill="#fdf6ea"/>' +
-      '<rect x="58" y="115" width="6" height="6" fill="#fdf6ea"/></svg>';
-    const house2SVG = '<svg viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">' +
-      '<polygon points="50,138 28,127 28,97 50,108" fill="#e3cda3"/>' +
-      '<polygon points="50,138 72,127 72,97 50,108" fill="#c7a878"/>' +
-      '<polygon points="50,108 28,97 50,69" fill="#a85c2c"/>' +
-      '<polygon points="50,108 72,97 50,69" fill="#8a481d"/>' +
-      '<rect x="34" y="112" width="6" height="6" fill="#fdf6ea"/>' +
-      '<rect x="58" y="112" width="6" height="6" fill="#fdf6ea"/>' +
-      '<circle cx="84" cy="124" r="7" fill="#5b7a52"/>' +
-      '<rect x="82" y="131" width="3" height="6" fill="#6b4a30"/></svg>';
-    const buildingLowSVG = '<svg viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">' +
-      '<polygon points="50,138 30,128 30,73 50,83" fill="#d9c3a3"/>' +
-      '<polygon points="50,138 70,128 70,73 50,83" fill="#b89968"/>' +
-      '<polygon points="50,83 30,73 50,63 70,73" fill="#e8d9c0"/>' +
-      '<rect x="37" y="95" width="6" height="6" fill="#fdf6ea"/><rect x="37" y="110" width="6" height="6" fill="#fdf6ea"/>' +
-      '<rect x="57" y="95" width="6" height="6" fill="#fdf6ea"/><rect x="57" y="110" width="6" height="6" fill="#fdf6ea"/></svg>';
-    const buildingMidSVG = '<svg viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">' +
-      '<polygon points="50,138 30,128 30,48 50,58" fill="#e3d0b0"/>' +
-      '<polygon points="50,138 70,128 70,48 50,58" fill="#c2a479"/>' +
-      '<polygon points="50,58 30,48 50,38 70,48" fill="#f0e2c8"/>' +
-      '<rect x="37" y="70" width="6" height="6" fill="#fdf6ea"/><rect x="37" y="85" width="6" height="6" fill="#fdf6ea"/><rect x="37" y="100" width="6" height="6" fill="#fdf6ea"/>' +
-      '<rect x="57" y="70" width="6" height="6" fill="#fdf6ea"/><rect x="57" y="85" width="6" height="6" fill="#fdf6ea"/><rect x="57" y="100" width="6" height="6" fill="#fdf6ea"/></svg>';
-    const buildingTallSVG = '<svg viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">' +
-      '<polygon points="50,138 32,129 32,24 50,33" fill="#cdb693"/>' +
-      '<polygon points="50,138 68,129 68,24 50,33" fill="#a9895c"/>' +
-      '<polygon points="50,33 32,24 50,15 68,24" fill="#ddc9a3"/>' +
-      '<rect x="44" y="6" width="12" height="9" fill="#8a6a45"/>' +
-      '<rect x="39" y="45" width="6" height="6" fill="#fdf6ea"/><rect x="39" y="60" width="6" height="6" fill="#fdf6ea"/><rect x="39" y="75" width="6" height="6" fill="#fdf6ea"/><rect x="39" y="95" width="6" height="6" fill="#fdf6ea"/>' +
-      '<rect x="55" y="45" width="6" height="6" fill="#fdf6ea"/><rect x="55" y="60" width="6" height="6" fill="#fdf6ea"/><rect x="55" y="75" width="6" height="6" fill="#fdf6ea"/><rect x="55" y="95" width="6" height="6" fill="#fdf6ea"/></svg>';
-    const houseVariants = [house1SVG, house2SVG];
-    const buildingVariants = [buildingLowSVG, buildingMidSVG, buildingTallSVG];
-
-    let activeMarker = null;
+    let activeZone = null;
     const hideTip = () => {
       tip.classList.remove('show');
-      if (activeMarker) activeMarker.classList.remove('is-active');
-      activeMarker = null;
+      if (activeZone) activeZone.classList.remove('is-active');
+      activeZone = null;
     };
-    const showTip = (city, marker) => {
+    const showTip = (city, zone) => {
       const wrapRect = wrap.getBoundingClientRect();
-      const markerRect = marker.getBoundingClientRect();
+      const zoneRect = zone.getBoundingClientRect();
       tip.textContent = city;
-      tip.style.left = (markerRect.left - wrapRect.left + markerRect.width / 2) + 'px';
-      tip.style.top = (markerRect.top - wrapRect.top) + 'px';
+      tip.style.left = (zoneRect.left - wrapRect.left + zoneRect.width / 2) + 'px';
+      tip.style.top = (zoneRect.top - wrapRect.top + zoneRect.height / 2) + 'px';
       tip.classList.add('show');
-      if (activeMarker && activeMarker !== marker) activeMarker.classList.remove('is-active');
-      marker.classList.add('is-active');
-      activeMarker = marker;
+      if (activeZone && activeZone !== zone) activeZone.classList.remove('is-active');
+      zone.classList.add('is-active');
+      activeZone = zone;
     };
 
-    mapLocations.forEach(([city, type, x, y], i) => {
+    mapRegions.forEach(([city, cx, cy, rx, ry, z]) => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'map-home-marker';
+      btn.className = 'map-region-zone';
       btn.dataset.city = city;
       btn.setAttribute('aria-label', city);
-      btn.style.setProperty('--x', x + '%');
-      btn.style.setProperty('--y', y + '%');
-      btn.innerHTML = type === 'building' ? buildingVariants[i % buildingVariants.length] : houseVariants[i % houseVariants.length];
+      btn.style.left = cx + '%';
+      btn.style.top = cy + '%';
+      btn.style.width = (rx * 2) + '%';
+      btn.style.height = (ry * 2) + '%';
+      btn.style.zIndex = String(z);
       btn.addEventListener('mouseenter', () => showTip(city, btn));
       btn.addEventListener('mouseleave', hideTip);
       btn.addEventListener('focus', () => showTip(city, btn));
