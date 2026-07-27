@@ -1239,7 +1239,7 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 
 /* ===== Apartments coverage map ===== */
 .apartments-intro {
-  margin: 8px 0 0;
+  margin: 56px 0 0;
 }
 .apartments-intro-text {
   max-width: 760px;
