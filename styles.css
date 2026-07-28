@@ -243,15 +243,16 @@ select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
 .nav-overlay.open { opacity: 1; pointer-events: auto; }
 body.nav-locked { overflow: hidden; }
 
-/* Hero — text stays in its container position (right); a large video block
-   sits on the left with a white strip above and below and fills nearly the
-   full column width, up close to the text. */
+/* Hero — a single, centered video presentation (no side text). Beige
+   background + subtle dotted texture kept; generous white space around the
+   video; the full video is always shown (object-fit: contain, never cropped
+   or stretched). */
 .hero {
   position: relative;
   background:
     radial-gradient(ellipse 60% 55% at 82% 20%, rgba(169, 122, 74, 0.14), transparent 70%),
     linear-gradient(180deg, var(--color-bg-alt) 0%, #ffffff 65%);
-  padding: 40px 0;
+  padding: clamp(40px, 6vw, 80px) 0;
   overflow: hidden;
 }
 .hero::before {
@@ -268,13 +269,12 @@ body.nav-locked { overflow: hidden; }
 .hero-inner {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 56px;
-  align-items: stretch;
-  min-height: min(80vh, 680px);
+  display: flex;
+  justify-content: center;
 }
-.hero-content { align-self: center; }
+/* Hero now presents only the centered video; the copy that used to sit
+   beside it is hidden here (kept in the DOM). */
+.hero-content { display: none; }
 .eyebrow {
   display: inline-block;
   color: var(--color-primary);
@@ -316,19 +316,18 @@ body.nav-locked { overflow: hidden; }
 .trust-item svg { width: 20px; height: 20px; color: var(--color-primary); flex-shrink: 0; }
 .hero-media {
   position: relative;
-  align-self: stretch;
-  min-height: 360px;
+  width: 100%;
+  max-width: 960px;   /* large centered presentation (~65–70% of a wide page) */
+  margin: 0 auto;
 }
 .hero-media img,
 .hero-media video {
-  position: absolute;
-  inset: 0;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;            /* keep the video's original aspect ratio */
+  object-fit: contain;     /* always show the whole video — never crop or stretch */
   display: block;
-  border-radius: 16px;
-  box-shadow: 0 24px 50px -24px rgba(60, 40, 25, 0.35);
+  border-radius: 16px;                                   /* rounded corners preserved */
+  box-shadow: 0 24px 50px -24px rgba(60, 40, 25, 0.35);  /* soft shadow preserved */
 }
 .hero-badge {
   position: absolute;
@@ -964,10 +963,7 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 /* Responsive */
 @media (max-width: 960px) {
   .hero-inner, .solution-inner, .contact-inner { grid-template-columns: 1fr; }
-  .solution-image, .hero-media { order: -1; }
-  .hero-inner { min-height: 0; gap: 28px; }
-  .hero-content { align-self: auto; }
-  .hero-media { min-height: 300px; }
+  .solution-image { order: -1; }
   .pain-grid, .features-grid { grid-template-columns: repeat(2, 1fr); }
   .services-grid, .process-grid, .testimonials-grid { grid-template-columns: 1fr; }
   .footer-inner { grid-template-columns: 1fr; }
