@@ -243,13 +243,14 @@ select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
 .nav-overlay.open { opacity: 1; pointer-events: auto; }
 body.nav-locked { overflow: hidden; }
 
-/* Hero */
+/* Hero — full-bleed split: a text panel beside an edge-to-edge video that
+   melts softly into the page (feathered inner edge), inspired by a screen-
+   filling hero but kept airy and warm rather than a hard rectangular split. */
 .hero {
   position: relative;
   background:
     radial-gradient(ellipse 60% 55% at 82% 20%, rgba(169, 122, 74, 0.14), transparent 70%),
     linear-gradient(180deg, var(--color-bg-alt) 0%, #ffffff 65%);
-  padding: 92px 0 64px;
   overflow: hidden;
 }
 .hero::before {
@@ -261,14 +262,20 @@ body.nav-locked { overflow: hidden; }
   -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0.5), transparent 75%);
   mask-image: linear-gradient(180deg, rgba(0,0,0,0.5), transparent 75%);
   pointer-events: none;
+  z-index: 0;
 }
 .hero-inner {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 64px;
-  align-items: center;
+  grid-template-columns: 1.02fr 0.98fr;
+  align-items: stretch;
+  min-height: min(86vh, 780px);
+}
+.hero-content {
+  align-self: center;
+  max-width: 640px;
+  padding: 96px clamp(20px, 5vw, 72px) 72px;
 }
 .eyebrow {
   display: inline-block;
@@ -309,39 +316,23 @@ body.nav-locked { overflow: hidden; }
 .hero-trust { display: flex; gap: 28px; flex-wrap: wrap; padding-top: 24px; border-top: 1px solid var(--color-border); }
 .trust-item { display: flex; align-items: center; gap: 8px; color: var(--color-text); font-size: 14px; font-weight: 500; }
 .trust-item svg { width: 20px; height: 20px; color: var(--color-primary); flex-shrink: 0; }
-.hero-media { position: relative; padding: 14px; }
-.hero-media::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 26px;
-  border: 1px solid rgba(169, 122, 74, 0.35);
-}
-.hero-media::after {
-  content: "";
-  position: absolute;
-  top: -30px;
-  left: -30px;
-  width: 140px;
-  height: 140px;
-  background: radial-gradient(circle, rgba(169, 122, 74, 0.25), transparent 70%);
-  border-radius: 50%;
-  z-index: -1;
+.hero-media {
+  position: relative;
+  align-self: stretch;
+  min-height: 340px;
 }
 .hero-media img,
 .hero-media video {
-  border-radius: 20px;
-  box-shadow: 0 30px 60px -20px rgba(10, 13, 34, 0.3);
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-}
-/* Square hero video, capped to the viewport so it never pushes the hero off-screen. */
-.hero-media video {
-  height: auto;
-  aspect-ratio: 1 / 1;
-  max-height: 60vh;
+  /* Feather the inner edge (toward the text) so the footage dissolves into
+     the warm page background instead of ending on a hard vertical line. */
+  -webkit-mask-image: linear-gradient(to right, #000 0%, #000 80%, transparent 100%);
+  mask-image: linear-gradient(to right, #000 0%, #000 80%, transparent 100%);
 }
 .hero-badge {
   position: absolute;
@@ -978,6 +969,15 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 @media (max-width: 960px) {
   .hero-inner, .solution-inner, .contact-inner { grid-template-columns: 1fr; }
   .solution-image, .hero-media { order: -1; }
+  .hero-inner { min-height: 0; }
+  .hero-content { align-self: auto; max-width: none; padding: 44px 22px 52px; }
+  .hero-media { min-height: 46vh; }
+  /* stacked: video on top, feather its bottom edge into the text below */
+  .hero-media img,
+  .hero-media video {
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 80%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 80%, transparent 100%);
+  }
   .pain-grid, .features-grid { grid-template-columns: repeat(2, 1fr); }
   .services-grid, .process-grid, .testimonials-grid { grid-template-columns: 1fr; }
   .footer-inner { grid-template-columns: 1fr; }
