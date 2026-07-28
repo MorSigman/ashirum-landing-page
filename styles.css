@@ -981,8 +981,8 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
   /* Stacked mobile hero: make the video a large, tall portrait card above the
      text (text itself is left untouched). */
   .hero-media video {
-    aspect-ratio: 2 / 3;
-    max-height: 90vh;
+    aspect-ratio: 1 / 2;
+    max-height: 94vh;
   }
   .pain-grid, .features-grid { grid-template-columns: repeat(2, 1fr); }
   .services-grid, .process-grid, .testimonials-grid { grid-template-columns: 1fr; }
