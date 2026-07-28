@@ -609,7 +609,7 @@ body.nav-locked { overflow: hidden; }
   display: flex;
   gap: 16px;
   width: max-content;
-  animation: marquee-scroll 28s linear infinite;
+  animation: marquee-scroll 44s linear infinite;
 }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 .logo-pill {
@@ -985,6 +985,7 @@ html.a11y-dark {
   --color-accent: #d4a45f;
 }
 html.a11y-dark body { background: var(--color-bg); color: var(--color-text); }
+html.a11y-dark .about { background: var(--color-bg-alt); }
 html.a11y-dark .hero {
   background:
     radial-gradient(ellipse 60% 55% at 82% 20%, rgba(212, 164, 95, 0.10), transparent 70%),
