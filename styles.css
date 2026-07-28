@@ -243,14 +243,15 @@ select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
 .nav-overlay.open { opacity: 1; pointer-events: auto; }
 body.nav-locked { overflow: hidden; }
 
-/* Hero — full-bleed split: a text panel beside an edge-to-edge video that
-   melts softly into the page (feathered inner edge), inspired by a screen-
-   filling hero but kept airy and warm rather than a hard rectangular split. */
+/* Hero — text stays in its container position (right); a large video block
+   sits on the left with a white strip above and below and fills nearly the
+   full column width, up close to the text. */
 .hero {
   position: relative;
   background:
     radial-gradient(ellipse 60% 55% at 82% 20%, rgba(169, 122, 74, 0.14), transparent 70%),
     linear-gradient(180deg, var(--color-bg-alt) 0%, #ffffff 65%);
+  padding: 40px 0;
   overflow: hidden;
 }
 .hero::before {
@@ -268,15 +269,12 @@ body.nav-locked { overflow: hidden; }
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1.02fr 0.98fr;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 56px;
   align-items: stretch;
-  min-height: min(86vh, 780px);
+  min-height: min(80vh, 680px);
 }
-.hero-content {
-  align-self: center;
-  max-width: 640px;
-  padding: 96px clamp(20px, 5vw, 72px) 72px;
-}
+.hero-content { align-self: center; }
 .eyebrow {
   display: inline-block;
   color: var(--color-primary);
@@ -319,7 +317,7 @@ body.nav-locked { overflow: hidden; }
 .hero-media {
   position: relative;
   align-self: stretch;
-  min-height: 340px;
+  min-height: 360px;
 }
 .hero-media img,
 .hero-media video {
@@ -329,10 +327,8 @@ body.nav-locked { overflow: hidden; }
   height: 100%;
   object-fit: cover;
   display: block;
-  /* Feather the inner edge (toward the text) so the footage dissolves into
-     the warm page background instead of ending on a hard vertical line. */
-  -webkit-mask-image: linear-gradient(to right, #000 0%, #000 80%, transparent 100%);
-  mask-image: linear-gradient(to right, #000 0%, #000 80%, transparent 100%);
+  border-radius: 16px;
+  box-shadow: 0 24px 50px -24px rgba(60, 40, 25, 0.35);
 }
 .hero-badge {
   position: absolute;
@@ -969,15 +965,9 @@ html.a11y-align body p, html.a11y-align body li { text-align: right !important; 
 @media (max-width: 960px) {
   .hero-inner, .solution-inner, .contact-inner { grid-template-columns: 1fr; }
   .solution-image, .hero-media { order: -1; }
-  .hero-inner { min-height: 0; }
-  .hero-content { align-self: auto; max-width: none; padding: 44px 22px 52px; }
-  .hero-media { min-height: 46vh; }
-  /* stacked: video on top, feather its bottom edge into the text below */
-  .hero-media img,
-  .hero-media video {
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 80%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 0%, #000 80%, transparent 100%);
-  }
+  .hero-inner { min-height: 0; gap: 28px; }
+  .hero-content { align-self: auto; }
+  .hero-media { min-height: 300px; }
   .pain-grid, .features-grid { grid-template-columns: repeat(2, 1fr); }
   .services-grid, .process-grid, .testimonials-grid { grid-template-columns: 1fr; }
   .footer-inner { grid-template-columns: 1fr; }
