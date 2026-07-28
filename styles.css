@@ -337,11 +337,11 @@ body.nav-locked { overflow: hidden; }
   object-fit: cover;
   display: block;
 }
-/* Square hero video, capped to the viewport so it never pushes the hero off-screen. */
+/* Tall portrait hero video, capped to the viewport so it never pushes the hero off-screen. */
 .hero-media video {
   height: auto;
-  aspect-ratio: 1 / 1;
-  max-height: 60vh;
+  aspect-ratio: 3 / 4;
+  max-height: 80vh;
 }
 .hero-badge {
   position: absolute;
