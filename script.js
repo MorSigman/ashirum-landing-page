@@ -248,7 +248,11 @@ document.addEventListener('DOMContentLoaded', () => {
       clearTimeout(scrollTimer);
       scrollTimer = setTimeout(updateNavState, 120);
     });
-    slots[0].scrollIntoView({ inline: 'start', block: 'nearest' });
+    // Reset the carousel to its first card WITHOUT scrolling the page: using
+    // scrollIntoView() here would pull the whole page down to the carousel on
+    // load, so the apartments page would open in the middle instead of at its
+    // "הדירות שלנו" title. Scroll only the track's own horizontal position.
+    track.scrollTo({ left: 0 });
     updateNavState();
   })();
 
