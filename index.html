@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
 <a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
@@ -29,7 +29,7 @@
       </div>
     </div>
     <a href="#top" class="logo">
-      <img src="assets/logo.png" alt="אסירון">
+      <img src="assets/logo-light.png?v=1" alt="אסירון">
     </a>
   </div>
 </header>
@@ -39,7 +39,7 @@
   <div class="nav-top">
     <button class="nav-close" id="nav-close" aria-label="סגירת תפריט">✕</button>
     <a href="#top" class="nav-logo">
-      <img src="assets/logo.png" alt="אסירון">
+      <img src="assets/logo-light.png?v=1" alt="אסירון">
     </a>
   </div>
   <div class="nav-links">
@@ -88,7 +88,7 @@
       </div>
     </div>
     <div class="hero-media">
-      <video src="assets/videos/hero-video.mp4?v=1" poster="assets/videos/hero-video-poster.jpg?v=1" autoplay muted loop playsinline aria-label="סיור בדירה מנוהלת של אסירון — צוות אסירון מסביר לעובדים על נהלי המגורים"></video>
+      <video src="assets/videos/hero-video.mp4?v=3" poster="assets/videos/hero-video-poster.jpg?v=3" autoplay muted loop playsinline aria-label="סרטון תדמית של אסירון — קליטת עובדים בדירה מנוהלת, הדרכת נהלים וסיור בדירות מרוהטות"></video>
     </div>
   </div>
 </section>
@@ -173,7 +173,7 @@
         <span class="stat-label">נכסים מנוהלים</span>
       </div>
       <div class="stat-item">
-        <span class="stat-number" data-target="900" data-prefix="מעל">0</span>
+        <span class="stat-number" data-target="720" data-prefix="מעל">0</span>
         <span class="stat-label">עובדים מאוכלסים</span>
       </div>
       <div class="stat-item">
@@ -471,6 +471,10 @@
     <button id="a11y-close" class="a11y-close" aria-label="סגירת תפריט נגישות">✕</button>
   </div>
   <div class="a11y-grid">
+    <button class="a11y-tile" data-a11y="dark" aria-pressed="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+      <span>מצב לילה</span>
+    </button>
     <button class="a11y-tile" data-a11y="contrast" aria-pressed="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 000 18z" fill="currentColor" stroke="none"/></svg>
       <span>ניגודיות גבוהה</span>
@@ -515,6 +519,6 @@
   <button id="a11y-reset" class="a11y-reset-all">איפוס כל ההגדרות</button>
 </div>
 
-<script src="script.js?v=2"></script>
+<script src="script.js?v=5"></script>
 </body>
 </html>
