@@ -1437,3 +1437,95 @@ html.a11y-dark .a11y-tile.active svg { color: #17110c; }
   border-top-color: var(--map-icon-light);
 }
 .map-tooltip.show { opacity: 1; }
+
+/* ===== Home page hero: full-bleed video with the logo/header overlaid on top
+   (Rivram-style). Video bleeds to the top-left of the page, behind a transparent
+   header; the copy sits on the right. Header turns solid once you scroll. ===== */
+body.page-home .site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: transparent;
+  border-bottom: none;
+  box-shadow: none;
+  transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+body.page-home .site-header::before {   /* legibility scrim behind the transparent logo */
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(18,12,8,0.55), rgba(18,12,8,0));
+  pointer-events: none;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+body.page-home .site-header.scrolled {
+  position: fixed;
+  background: var(--color-dark);
+  border-bottom: 1px solid rgba(199, 154, 99, 0.38);
+  box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.65);
+}
+body.page-home .site-header.scrolled::before { opacity: 0; }
+
+body.page-home .hero {
+  padding: 0;
+  min-height: 100vh;
+  background: none;
+  overflow: hidden;
+}
+body.page-home .hero::before { display: none; }
+body.page-home .hero-inner {
+  position: static;
+  display: block;
+  max-width: none;
+  min-height: 100vh;
+  max-height: none;
+  padding: 0;
+}
+body.page-home .hero-media {
+  position: absolute;
+  top: 0; bottom: 0; left: 0;   /* physical left, full height, bleeds to the edge */
+  width: 58%;
+  min-height: 0;
+  margin: 0;
+  z-index: 0;
+}
+body.page-home .hero-media video {
+  border-radius: 0;
+  box-shadow: none;
+  aspect-ratio: auto;
+  max-height: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+body.page-home .hero-content {
+  position: relative;
+  z-index: 2;
+  margin-left: 58%;             /* clears the video, copy on the physical right */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 132px clamp(24px, 4vw, 64px) 56px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 960px) {
+  /* Mobile: video full-width at the very top (logo overlaid on it), copy below */
+  body.page-home .hero { min-height: 0; }
+  body.page-home .hero-inner { display: flex; flex-direction: column; min-height: 0; }
+  body.page-home .hero-media {
+    position: relative;
+    top: auto; bottom: auto; left: auto;
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    aspect-ratio: 9 / 16;
+    order: -1;
+  }
+  body.page-home .hero-content {
+    margin-left: 0;
+    min-height: 0;
+    text-align: center;
+    align-items: center;
+    padding: 30px 22px 8px;
+  }
+}

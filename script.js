@@ -28,6 +28,17 @@ document.addEventListener('DOMContentLoaded', () => {
     link.addEventListener('click', closeNav);
   });
 
+  // Home hero: the header overlays the video transparently, then turns solid
+  // once the visitor scrolls past the top (keeps the logo/menu always legible).
+  if (document.body.classList.contains('page-home')) {
+    const header = document.querySelector('.site-header');
+    if (header) {
+      const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+  }
+
   // FAQ accordion
   document.querySelectorAll('.faq-item').forEach(item => {
     const question = item.querySelector('.faq-question');
@@ -366,8 +377,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const period = Math.round((sundayNoon.getTime() - anchor) / WEEK);
     const half = (max - min) / 2;
     const mid = min + half;
+    // Phase offset so the current week starts on the requested value (18 for 10–25).
+    const PHASE = 14;
+    const ph = period + PHASE;
     // two low-frequency waves → smooth, small weekly changes within [-1, 1]
-    const wave = 0.7 * Math.sin(period * 0.6) + 0.3 * Math.sin(period * 1.3 + 1);
+    const wave = 0.7 * Math.sin(ph * 0.6) + 0.3 * Math.sin(ph * 1.3 + 1);
     const v = Math.round(mid + half * wave);
     return Math.max(min, Math.min(max, v));
   };
