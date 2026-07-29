@@ -3,6 +3,23 @@ if ('scrollRestoration' in history) {
 }
 window.scrollTo(0, 0);
 
+// A RELOAD of the home page must open at the top — the browser would otherwise
+// re-jump to a leftover section anchor in the URL (e.g. #apartments, left by the
+// "חזרה לדף הבית" link). A genuine click to #apartments still scrolls there.
+(function () {
+  const nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+  const isReload = nav ? nav.type === 'reload'
+    : (performance.navigation && performance.navigation.type === 1);
+  if (document.body && document.body.classList.contains('page-home') && isReload && location.hash) {
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+    const toTop = () => window.scrollTo(0, 0);
+    toTop();
+    window.addEventListener('load', toTop);
+    setTimeout(toTop, 0);
+    setTimeout(toTop, 80);
+  }
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
   // Mobile nav toggle
   const navToggle = document.getElementById('nav-toggle');

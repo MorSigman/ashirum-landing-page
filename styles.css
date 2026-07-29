@@ -11,6 +11,11 @@
   --color-bg: #ffffff;
   --color-bg-alt: #f2f3f3;
   --color-border: #e5e2dd;
+  /* Alternating section shades (warm neutrals). No two adjacent sections share
+     one. Flipped for night mode in the html.a11y-dark block. */
+  --sec-white: #ffffff;
+  --sec-cream: #faf7f2;
+  --sec-beige: #f4efe8;
   --radius: 14px;
   --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
   --container: 1160px;
@@ -72,6 +77,15 @@ select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
 }
 
 .section { padding: 80px 0; }
+/* Alternating section shades so adjacent blocks never share a background.
+   (about/pain/services/contact set their own shade near their own rules;
+   vision/stats stay --color-dark.) */
+.solution { background: var(--sec-cream); }
+.process { background: var(--sec-beige); }
+.apartments { background: var(--sec-white); }   /* דירות = לבן לבקשת הלקוחה */
+.clients-strip { background: var(--sec-cream); }
+.testimonials { background: var(--sec-beige); }
+.faq { background: var(--sec-cream); }
 .section-eyebrow {
   display: block;
   font-family: 'Dancing Script', cursive;
@@ -126,6 +140,31 @@ select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
 .btn-outline { border-color: var(--color-primary); color: var(--color-primary-dark); background: transparent; }
 .btn-outline:hover { background: var(--color-primary-light); transform: translateY(-2px); }
 .btn-lg { padding: 16px 32px; font-size: 17px; }
+
+/* Hero heading accent + hero CTA buttons */
+.hero-accent { color: var(--color-primary); }
+/* "לפגישת ייעוץ" — same solid brand brown as the "במקום אחד" accent */
+.btn-consult {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: transparent;
+  gap: 8px;
+  box-shadow: 0 12px 26px -12px rgba(143, 98, 52, 0.6);
+}
+.btn-consult:hover { background: var(--color-primary-dark); transform: translateY(-2px); }
+.btn-consult .btn-arrow { width: 18px; height: 18px; flex-shrink: 0; }
+.btn-whatsapp { gap: 10px; }
+.btn-wa-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  flex-shrink: 0;
+}
+.btn-wa-icon svg { width: 15px; height: 15px; }
 
 /* Header */
 .site-header {
@@ -363,7 +402,7 @@ body.nav-locked { overflow: hidden; }
 }
 
 /* About */
-.about { background: #f4f2f0; padding: 100px 0 110px; }
+.about { background: var(--sec-cream); padding: 100px 0 110px; }
 .about-inner { max-width: 860px; margin: 0 auto; text-align: center; }
 .about-title {
   font-size: clamp(34px, 6vw, 60px);
@@ -414,7 +453,7 @@ body.nav-locked { overflow: hidden; }
 .apartments-text { max-width: 720px; margin: -16px auto 40px; text-align: center; color: var(--color-muted); font-size: 17px; line-height: 1.8; }
 
 /* Pain points */
-.pain { background: var(--color-bg-alt); }
+.pain { background: var(--sec-beige); }
 .pain-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -534,7 +573,7 @@ body.nav-locked { overflow: hidden; }
 .feature-card p { margin: 0; font-size: 14px; color: var(--color-muted); }
 
 /* Services */
-.services { background: var(--color-bg-alt); }
+.services { background: var(--sec-cream); }
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -761,7 +800,7 @@ body.nav-locked { overflow: hidden; }
 .faq-answer p { margin: 0 0 20px; color: var(--color-muted); line-height: 1.7; }
 
 /* Contact */
-.contact { background: var(--color-bg-alt); }
+.contact { background: var(--sec-beige); }
 .contact-inner {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
@@ -953,7 +992,38 @@ body.nav-locked { overflow: hidden; }
 
 /* Accessibility effects */
 html.a11y-contrast { filter: contrast(1.3) saturate(1.15); }
-html.a11y-bigtext { font-size: 120%; }
+html.a11y-bigtext { font-size: 122%; }
+/* Elements with an explicit px font-size don't inherit the 122% bump, so scale
+   them here too — including the footer, legal text and every small label. */
+html.a11y-bigtext .footer-top-inner,
+html.a11y-bigtext .footer-info,
+html.a11y-bigtext .footer-quick-links { font-size: 16px !important; }
+html.a11y-bigtext .footer-bottom p { font-size: 16px !important; }
+html.a11y-bigtext .eyebrow,
+html.a11y-bigtext .section-eyebrow,
+html.a11y-bigtext .stat-label,
+html.a11y-bigtext .trust-item span,
+html.a11y-bigtext .team-role { font-size: 16px !important; }
+html.a11y-bigtext .team-card p,
+html.a11y-bigtext .service-card p,
+html.a11y-bigtext .feature-card p,
+html.a11y-bigtext .pain-card p,
+html.a11y-bigtext .clients-note,
+html.a11y-bigtext .vid-location { font-size: 16px !important; }
+html.a11y-bigtext .hero-sub { font-size: 21px !important; }
+html.a11y-bigtext .about-text,
+html.a11y-bigtext .vision-text,
+html.a11y-bigtext .team-intro,
+html.a11y-bigtext .apartments-text,
+html.a11y-bigtext .legal-content p,
+html.a11y-bigtext .legal-content li { font-size: 20px !important; }
+html.a11y-bigtext .btn { font-size: 18px !important; }
+html.a11y-bigtext .btn-lg { font-size: 19px !important; }
+html.a11y-bigtext .nav-links a { font-size: 20px !important; }
+html.a11y-bigtext .faq-question { font-size: 19px !important; }
+html.a11y-bigtext .service-card h3,
+html.a11y-bigtext .team-card h3,
+html.a11y-bigtext .feature-card h3 { font-size: 19px !important; }
 html.a11y-links a { text-decoration: underline !important; text-decoration-thickness: 2px !important; }
 html.a11y-spacing body { letter-spacing: 0.05em; word-spacing: 0.15em; }
 html.a11y-hide-images img, html.a11y-hide-images svg:not(.icon-inline) { visibility: hidden !important; }
@@ -983,20 +1053,26 @@ html.a11y-dark {
   --color-primary-dark: #f0e7da;   /* headings / former dark text -> light */
   --color-primary: #d4a45f;        /* brighter gold for contrast on dark */
   --color-accent: #d4a45f;
+  /* Alternating section shades, flipped to warm-dark tones for night mode */
+  --sec-white: #14100c;
+  --sec-cream: #191410;
+  --sec-beige: #211a14;
 }
 html.a11y-dark body { background: var(--color-bg); color: var(--color-text); }
-html.a11y-dark .about { background: var(--color-bg-alt); }
 html.a11y-dark .hero {
   background:
     radial-gradient(ellipse 60% 55% at 82% 20%, rgba(212, 164, 95, 0.10), transparent 70%),
     linear-gradient(180deg, #1e1712 0%, #14100c 65%);
 }
+html.a11y-dark body.page-home .hero { background: #14100c; }
 /* Headings that used --color-dark need to become light */
 html.a11y-dark .hero h1,
 html.a11y-dark .feature-card h3,
 html.a11y-dark .service-card h3,
 html.a11y-dark .process-step h3,
 html.a11y-dark .team-card h3,
+html.a11y-dark .faq-question,
+html.a11y-dark .service-card h3,
 html.a11y-dark .comparison-table td { color: var(--color-text); }
 /* Card / panel surfaces -> warm dark */
 html.a11y-dark .hero-badge,
@@ -1028,6 +1104,7 @@ html.a11y-dark .btn-primary:hover { background: var(--color-accent); box-shadow:
 html.a11y-dark .map-tooltip { background: #2a2019; color: #f0e7da; border-color: rgba(212, 164, 95, 0.4); }
 html.a11y-dark .map-tooltip::after { border-top-color: #2a2019; }
 html.a11y-dark .vid-nav:disabled:hover { background: #211a14; }
+html.a11y-dark .form-note-success { color: #4ade80; }
 html.a11y-dark ::placeholder { color: #9d907e; }
 /* Accessibility panel itself in night mode */
 html.a11y-dark .a11y-panel { background: #1e1712; border-color: var(--color-border); }
@@ -1100,8 +1177,20 @@ html.a11y-dark .a11y-tile.active svg { color: #17110c; }
   .header-contact-icons { gap: 6px; }
   .header-contact-icons a { width: 34px; height: 34px; }
   .nav-links a { font-size: 18px; }
-  .footer-top-inner { font-size: 12px; gap: 6px 14px; }
-  .footer-info, .footer-quick-links { gap: 6px; }
+  /* Footer stacks on mobile: the quick-links sit below the contact details,
+     everything centred — no sideways scrolling. */
+  .footer-top-inner {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    overflow-x: visible;
+    white-space: normal;
+    font-size: 13px;
+    gap: 12px;
+    text-align: center;
+  }
+  .footer-info, .footer-quick-links { flex-wrap: wrap; justify-content: center; gap: 6px 10px; }
   .footer-top-inner .icon-inline { width: 15px; height: 15px; }
 }
 
@@ -1452,10 +1541,67 @@ body.page-home .site-header {
 body.page-home .site-header::before {   /* legibility scrim behind the transparent logo */
   content: "";
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(18,12,8,0.55), rgba(18,12,8,0));
+  background: linear-gradient(180deg, rgba(15,10,6,0.62), rgba(15,10,6,0.12) 70%, rgba(15,10,6,0));
   pointer-events: none;
   z-index: -1;
   transition: opacity 0.3s ease;
+}
+/* Premium dark-glass controls while the header is transparent over the video */
+body.page-home .site-header:not(.scrolled) .header-contact-icons a {
+  background: rgba(24, 17, 11, 0.55);
+  color: var(--color-accent);
+  border: 1px solid rgba(212, 164, 95, 0.6);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+body.page-home .site-header:not(.scrolled) .header-contact-icons a:hover {
+  background: var(--color-accent);
+  color: #17110c;
+  border-color: var(--color-accent);
+}
+body.page-home .site-header:not(.scrolled) .nav-toggle span {
+  background: var(--color-accent);
+}
+/* Header controls grouped inside one translucent glass capsule (reference look):
+   round gold buttons + a filled round hamburger. */
+body.page-home .header-actions {
+  gap: 9px;
+  padding: 8px 11px;
+  border-radius: 999px;
+  background: rgba(20, 14, 9, 0.34);
+  border: 1px solid rgba(212, 164, 95, 0.42);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+body.page-home .header-contact-icons { gap: 9px; }
+body.page-home .header-contact-icons a {
+  width: 42px;
+  height: 42px;
+  background: rgba(30, 21, 14, 0.5);
+  border: 1px solid rgba(212, 164, 95, 0.5);
+  color: var(--color-accent);
+}
+/* Hamburger becomes a matching round button, filled a touch more so it reads as
+   the primary control (like the reference). */
+body.page-home .nav-toggle {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
+  padding: 0;
+  gap: 4px;
+  border-radius: 50%;
+  background: rgba(120, 82, 42, 0.6);
+  border: 1px solid rgba(212, 164, 95, 0.6);
+}
+body.page-home .nav-toggle span {
+  width: 17px;
+  background: var(--color-accent);
+}
+/* Keep the capsule readable once the header turns solid on scroll */
+body.page-home .site-header.scrolled .header-actions {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(212, 164, 95, 0.4);
 }
 body.page-home .site-header.scrolled {
   position: fixed;
@@ -1468,7 +1614,7 @@ body.page-home .site-header.scrolled::before { opacity: 0; }
 body.page-home .hero {
   padding: 0;
   min-height: 100vh;
-  background: none;
+  background: #FAF8F3;   /* clean warm-ivory panel the copy sits on */
   overflow: hidden;
 }
 body.page-home .hero::before { display: none; }
@@ -1483,10 +1629,17 @@ body.page-home .hero-inner {
 body.page-home .hero-media {
   position: absolute;
   top: 0; bottom: 0; left: 0;   /* physical left, full height, bleeds to the edge */
-  width: 58%;
+  width: 60%;
   min-height: 0;
   margin: 0;
   z-index: 0;
+  /* Almost the old rectangular video, just tilted slightly. The element itself is
+     clipped a hair WIDER than the video and painted black→brown (logo-emblem
+     tones) — that sliver shows as a thin dark line along the diagonal edge. */
+  clip-path: polygon(0 0, 97.35% 0, 89.35% 100%, 0 100%);
+  background: linear-gradient(180deg, #a58a63 0%, #7c6544 100%);   /* dark-beige line */
+  /* Soft shadow OUTSIDE the edge only, cast onto the ivory panel. */
+  filter: drop-shadow(5px 0 20px rgba(50, 34, 20, 0.22));
 }
 body.page-home .hero-media video {
   border-radius: 0;
@@ -1496,11 +1649,13 @@ body.page-home .hero-media video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Video sits just inside, leaving the dark line exposed on the diagonal edge. */
+  clip-path: polygon(0 0, 97% 0, 89% 100%, 0 100%);
 }
 body.page-home .hero-content {
   position: relative;
   z-index: 2;
-  margin-left: 58%;             /* clears the video, copy on the physical right */
+  margin-left: 58%;             /* ~42% content panel; clears the dissolve */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -1520,7 +1675,11 @@ body.page-home .hero-content {
     margin-inline: calc(50% - 50vw);
     aspect-ratio: 9 / 16;
     order: -1;
+    clip-path: none;   /* full rectangle when stacked on mobile */
+    filter: none;
+    background: none;
   }
+  body.page-home .hero-media video { clip-path: none; }
   body.page-home .hero-content {
     margin-left: 0;
     min-height: 0;
