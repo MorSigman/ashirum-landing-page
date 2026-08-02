@@ -352,6 +352,7 @@ body.nav-locked { overflow: hidden; }
   color: var(--color-dark);
 }
 .hero-sub { font-size: 18px; line-height: 1.7; color: var(--color-muted); margin: 0 0 32px; max-width: 540px; }
+.hero-sub-strong { display: inline-block; margin-top: 10px; font-weight: 600; color: var(--color-primary-dark); }
 .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; }
 .hero-trust { display: flex; gap: 28px; flex-wrap: wrap; padding-top: 24px; border-top: 1px solid var(--color-border); }
 .trust-item { display: flex; align-items: center; gap: 8px; color: var(--color-text); font-size: 14px; font-weight: 500; }
@@ -439,12 +440,21 @@ body.nav-locked { overflow: hidden; }
   color: #fff;
   margin: 0 0 22px;
 }
+.vision-eyebrow-he {
+  display: block;
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
 .vision-text {
   font-size: clamp(17px, 1.8vw, 22px);
   line-height: 1.85;
   color: rgba(255, 255, 255, 0.85);
-  margin: 0;
+  margin: 0 0 18px;
 }
+.vision-text:last-child { margin-bottom: 0; }
 .about-link:hover .about-arrow { transform: translateX(-4px); }
 .about-media { margin: 0 auto 32px; max-width: 640px; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
 .about-media img { width: 100%; display: block; }
@@ -916,13 +926,16 @@ body.nav-locked { overflow: hidden; }
   bottom: 86px;
   right: 24px;
   width: 300px;
-  max-height: calc(100vh - 110px);
+  /* Reserve space for the fixed header (top) + the float button (bottom) so the
+     panel NEVER slides under the header — its title/close stay visible at any
+     screen height; it scrolls internally when the toggles don't all fit. */
+  max-height: calc(100vh - 200px);
   overflow-y: auto;
   background: #fff;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   box-shadow: 0 20px 45px -15px rgba(10, 13, 34, 0.35);
-  z-index: 91;
+  z-index: 120;
   display: none;
   flex-direction: column;
 }
@@ -937,6 +950,9 @@ body.nav-locked { overflow: hidden; }
   font-size: 15px;
   padding: 14px 18px;
   border-radius: var(--radius) var(--radius) 0 0;
+  position: sticky;   /* title + close stay visible while the toggles scroll */
+  top: 0;
+  z-index: 1;
 }
 .a11y-close {
   background: rgba(255, 255, 255, 0.12);
@@ -1122,7 +1138,7 @@ html.a11y-dark .a11y-tile.active svg { color: #17110c; }
     max-height: calc(100vh - 100px - 44px);
   }
 }
-@media (min-width: 961px) and (max-height: 820px) {
+@media (min-width: 961px) and (max-height: 900px) {
   .eyebrow { margin-bottom: 8px; }
   .hero-brand { margin-bottom: 6px; padding-bottom: 10px; font-size: clamp(18px, 1.9vw, 22px); }
   .hero h1 { font-size: clamp(26px, 3.4vw, 42px); margin-bottom: 14px; }
@@ -1685,7 +1701,9 @@ body.page-home .hero-actions .btn-lg {
     top: auto; bottom: auto; left: auto;
     width: 100vw;
     margin-inline: calc(50% - 50vw);
-    aspect-ratio: 9 / 16;
+    /* Shorter on mobile so the heading AND the paragraph below it stay on-screen */
+    aspect-ratio: 1 / 1;
+    max-height: 40vh;
     order: -1;
     clip-path: none;   /* full rectangle when stacked on mobile */
     filter: none;
@@ -1697,6 +1715,9 @@ body.page-home .hero-actions .btn-lg {
     min-height: 0;
     text-align: center;
     align-items: center;
-    padding: 30px 22px 8px;
+    padding: 22px 22px 8px;
   }
+  /* More compact heading on mobile so the longer copy below it stays visible */
+  body.page-home .hero h1 { font-size: clamp(23px, 6.6vw, 30px); line-height: 1.2; margin-bottom: 14px; }
+  body.page-home .hero-sub { font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
 }
