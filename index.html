@@ -12,10 +12,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=35">
+<link rel="stylesheet" href="styles.css?v=41">
 </head>
 <body class="page-home">
-<a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
+<a href="#main" class="skip-link">דלג לתוכן המרכזי</a>
 <div id="top"></div>
 
 <!-- Header -->
@@ -63,7 +63,7 @@
 <div class="nav-overlay" id="nav-overlay"></div>
 
 <!-- Hero -->
-<main id="main-content">
+<main id="main" tabindex="-1">
 <section class="hero">
   <div class="container hero-inner">
     <div class="hero-content">
@@ -148,26 +148,23 @@
 
 <!-- Solution -->
 <section class="section solution" id="solution">
-  <div class="container solution-inner">
-    <div class="solution-image">
-      <img src="assets/solution-briefing.png" alt="נציג אסירון מדריך עובדים בדירה מנוהלת ומאובזרת">
-    </div>
-    <div class="solution-content">
-      <span class="section-eyebrow">Our Solution</span>
-      <h2 class="section-title">הפתרון של אסירון</h2>
-      <p class="solution-subtitle">גורם אחד. סטנדרט אחד. אחריות מלאה.</p>
-      <p>אסירון מרכזת תחת קורת גג אחת את כל התחומים הנדרשים לניהול מערך מגורים מקצועי. אנחנו בונים עבור כל לקוח מודל המותאם למספר העובדים, לאזורי הפעילות, ללוחות הזמנים ולצרכים התפעוליים שלו. לאחר ההקמה, המערך עובר לניהול שוטף ומבוקר על ידי הצוות שלנו. כך אתם מקבלים לא רק מקום לינה, אלא מערכת מגורים שלמה שעובדת עבורכם בכל יום.</p>
-      <ul class="check-list">
-        <li>תכנון מערך המגורים בהתאם לצורכי הארגון</li>
-        <li>איתור, בדיקה והתאמה של נכסים</li>
-        <li>ריהוט, אבזור וחיבור מלא לתשתיות</li>
-        <li>הכנת הנכס וקליטת העובדים</li>
-        <li>תחזוקה, תיקונים וטיפול בתקלות</li>
-        <li>ניהול ספקים, חשבונות ותשלומים</li>
-        <li>בקרה תקופתית ותיעוד שוטף</li>
-        <li>כתובת מקצועית אחת לאורך כל ההתקשרות</li>
-      </ul>
-    </div>
+  <div class="container solution-intro">
+    <span class="section-eyebrow">Our Solution</span>
+    <h2 class="section-title">הפתרון של אסירון</h2>
+    <p class="solution-subtitle">גורם אחד. סטנדרט אחד. אחריות מלאה.</p>
+    <p class="solution-lead">אסירון מרכזת תחת קורת גג אחת את כל התחומים הנדרשים לניהול מערך מגורים <span class="nowrap">מקצועי – מודל</span> מותאם לכל לקוח לפי מספר העובדים, אזורי הפעילות ולוחות הזמנים. לאחר ההקמה המערך עובר לניהול שוטף ומבוקר של הצוות שלנו, כך שאתם מקבלים מערכת מגורים שלמה שעובדת עבורכם בכל יום.</p>
+  </div>
+  <div class="container">
+    <ul class="check-list solution-checks">
+      <li>תכנון מערך המגורים בהתאם לצורכי הארגון</li>
+      <li>איתור, בדיקה והתאמה של נכסים</li>
+      <li>ריהוט, אבזור וחיבור מלא לתשתיות</li>
+      <li>הכנת הנכס וקליטת העובדים</li>
+      <li>תחזוקה, תיקונים וטיפול בתקלות</li>
+      <li>ניהול ספקים, חשבונות ותשלומים</li>
+      <li>בקרה תקופתית ותיעוד שוטף</li>
+      <li>כתובת מקצועית אחת לאורך כל ההתקשרות</li>
+    </ul>
   </div>
 </section>
 
@@ -201,7 +198,7 @@
 <section class="section services" id="services">
   <div class="container">
     <span class="section-eyebrow">Our Services</span>
-    <h2 class="section-title">ניהול מקצה לקצה</h2>
+    <h2 class="section-title">השירותים שלנו</h2>
     <p class="section-subtitle">מעטפת ניהול מלאה, שנבנתה סביב הפעילות שלכם</p>
     <div class="services-grid">
       <div class="service-card">
@@ -265,54 +262,54 @@
   <div class="marquee">
     <div class="marquee-track gallery-track">
       <div class="gallery-tile"><img src="assets/gallery-01.jpg?v=6" alt="מטבח מאובזר בדירה מנוהלת ברמת גן" loading="lazy"></div>
-      <div class="gallery-tile"><img src="assets/gallery-02.jpg?v=6" alt="מטבח מאובזר בדירה מנוהלת בהרצליה" loading="lazy"></div>
-      <div class="gallery-tile"><img src="assets/gallery-03.jpg?v=6" alt="פינת אוכל מרווחת בדירה מנוהלת ברמת גן" loading="lazy"></div>
-      <div class="gallery-tile"><img src="assets/gallery-04.jpg?v=6" alt="פינת אוכל עם יציאה לחצר בדירה ברמת גן" loading="lazy"></div>
-      <div class="gallery-tile"><img src="assets/gallery-05.jpg?v=6" alt="חלל אוכל מרווח בדירה מנוהלת בבית שמש" loading="lazy"></div>
       <div class="gallery-tile"><img src="assets/gallery-06.jpg?v=6" alt="חדר שינה מרוהט בדירה מנוהלת בהרצליה" loading="lazy"></div>
+      <div class="gallery-tile"><img src="assets/gallery-03.jpg?v=6" alt="פינת אוכל מרווחת בדירה מנוהלת ברמת גן" loading="lazy"></div>
+      <div class="gallery-tile"><img src="assets/gallery-02.jpg?v=6" alt="מטבח מאובזר בדירה מנוהלת בהרצליה" loading="lazy"></div>
       <div class="gallery-tile"><img src="assets/gallery-07.jpg?v=6" alt="חדר שינה מרוהט בדירה מנוהלת בבת ים" loading="lazy"></div>
       <div class="gallery-tile"><img src="assets/gallery-08.jpg?v=6" alt="חדר רחצה נקי ומאובזר בדירה בבית שמש" loading="lazy"></div>
-      <div class="gallery-tile"><img src="assets/gallery-09.jpg?v=6" alt="חדר רחצה נקי ומאובזר בדירה ברמת גן" loading="lazy"></div>
-      <div class="gallery-tile"><img src="assets/gallery-10.jpg?v=6" alt="חדר שינה בדירה מנוהלת" loading="lazy"></div>
-      <div class="gallery-tile"><img src="assets/gallery-11.jpg?v=6" alt="חדר שינה מרוהט בדירה מנוהלת" loading="lazy"></div>
-      <div class="gallery-tile"><img src="assets/gallery-12.jpg?v=6" alt="מטבח ופינת אוכל מרווחים בדירה מנוהלת" loading="lazy"></div>
-      <div class="gallery-tile"><img src="assets/gallery-13.jpg?v=6" alt="פינת אוכל מרווחת בדירה מנוהלת" loading="lazy"></div>
       <div class="gallery-tile"><img src="assets/gallery-14.jpg?v=6" alt="כיור מטבח מאובזר בדירה מנוהלת" loading="lazy"></div>
-      <div class="gallery-tile"><img src="assets/gallery-15.jpg?v=6" alt="חדר שינה מרוהט בדירה מנוהלת" loading="lazy"></div>
-      <div class="gallery-tile"><img src="assets/gallery-16.jpg?v=6" alt="חדר שינה עם גישה לחדר רחצה בדירה מנוהלת" loading="lazy"></div>
+      <div class="gallery-tile"><img src="assets/gallery-10.jpg?v=6" alt="חדר שינה בדירה מנוהלת" loading="lazy"></div>
+      <div class="gallery-tile"><img src="assets/gallery-04.jpg?v=6" alt="פינת אוכל עם יציאה לחצר בדירה ברמת גן" loading="lazy"></div>
       <div class="gallery-tile"><img src="assets/gallery-17.jpg?v=6" alt="משטח מטבח בדירה מנוהלת" loading="lazy"></div>
-      <div class="gallery-tile"><img src="assets/gallery-18.jpg?v=6" alt="מטבח מאובזר בדירה מנוהלת" loading="lazy"></div>
-      <div class="gallery-tile"><img src="assets/gallery-19.jpg?v=6" alt="מטבח מאובזר בדירה מנוהלת" loading="lazy"></div>
-      <div class="gallery-tile"><img src="assets/gallery-20.jpg?v=6" alt="פינת אוכל ומטבח בדירה מנוהלת ומאובזרת" loading="lazy"></div>
-      <div class="gallery-tile"><img src="assets/gallery-21.jpg?v=6" alt="חדר שינה מרוהט בדירה מנוהלת ומאובזרת" loading="lazy"></div>
-      <div class="gallery-tile"><img src="assets/gallery-22.jpg?v=6" alt="מטבח מאובזר ומצויד בדירה מנוהלת" loading="lazy"></div>
+      <div class="gallery-tile"><img src="assets/gallery-11.jpg?v=6" alt="חדר שינה מרוהט בדירה מנוהלת" loading="lazy"></div>
       <div class="gallery-tile"><img src="assets/gallery-23.jpg?v=6" alt="ערכת קליטה לעובדים בכניסה לדירה מנוהלת של אסירון" loading="lazy"></div>
+      <div class="gallery-tile"><img src="assets/gallery-18.jpg?v=6" alt="מטבח מאובזר בדירה מנוהלת" loading="lazy"></div>
+      <div class="gallery-tile"><img src="assets/gallery-15.jpg?v=6" alt="חדר שינה מרוהט בדירה מנוהלת" loading="lazy"></div>
+      <div class="gallery-tile"><img src="assets/gallery-05.jpg?v=6" alt="חלל אוכל מרווח בדירה מנוהלת בבית שמש" loading="lazy"></div>
+      <div class="gallery-tile"><img src="assets/gallery-19.jpg?v=6" alt="מטבח מאובזר בדירה מנוהלת" loading="lazy"></div>
+      <div class="gallery-tile"><img src="assets/gallery-16.jpg?v=6" alt="חדר שינה עם גישה לחדר רחצה בדירה מנוהלת" loading="lazy"></div>
+      <div class="gallery-tile"><img src="assets/gallery-09.jpg?v=6" alt="חדר רחצה נקי ומאובזר בדירה ברמת גן" loading="lazy"></div>
+      <div class="gallery-tile"><img src="assets/gallery-22.jpg?v=6" alt="מטבח מאובזר ומצויד בדירה מנוהלת" loading="lazy"></div>
+      <div class="gallery-tile"><img src="assets/gallery-21.jpg?v=6" alt="חדר שינה מרוהט בדירה מנוהלת ומאובזרת" loading="lazy"></div>
+      <div class="gallery-tile"><img src="assets/gallery-13.jpg?v=6" alt="פינת אוכל מרווחת בדירה מנוהלת" loading="lazy"></div>
+      <div class="gallery-tile"><img src="assets/gallery-12.jpg?v=6" alt="מטבח ופינת אוכל מרווחים בדירה מנוהלת" loading="lazy"></div>
       <div class="gallery-tile"><img src="assets/gallery-24.jpg?v=6" alt="צוות אסירון מדריך עובדים על נהלי המגורים בדירה" loading="lazy"></div>
+      <div class="gallery-tile"><img src="assets/gallery-20.jpg?v=6" alt="פינת אוכל ומטבח בדירה מנוהלת ומאובזרת" loading="lazy"></div>
       <div class="gallery-tile"><img src="assets/gallery-25.jpg?v=6" alt="צוות אסירון מקבל את פני העובדים בכניסה לדירה מנוהלת" loading="lazy"></div>
       <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-01.jpg?v=6" alt="" loading="lazy"></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-02.jpg?v=6" alt="" loading="lazy"></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-03.jpg?v=6" alt="" loading="lazy"></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-04.jpg?v=6" alt="" loading="lazy"></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-05.jpg?v=6" alt="" loading="lazy"></div>
       <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-06.jpg?v=6" alt="" loading="lazy"></div>
+      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-03.jpg?v=6" alt="" loading="lazy"></div>
+      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-02.jpg?v=6" alt="" loading="lazy"></div>
       <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-07.jpg?v=6" alt="" loading="lazy"></div>
       <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-08.jpg?v=6" alt="" loading="lazy"></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-09.jpg?v=6" alt="" loading="lazy"></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-10.jpg?v=6" alt="" loading="lazy"></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-11.jpg?v=6" alt="" loading="lazy"></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-12.jpg?v=6" alt="" loading="lazy"></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-13.jpg?v=6" alt="" loading="lazy"></div>
       <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-14.jpg?v=6" alt="" loading="lazy"></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-15.jpg?v=6" alt="" loading="lazy"></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-16.jpg?v=6" alt="" loading="lazy"></div>
+      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-10.jpg?v=6" alt="" loading="lazy"></div>
+      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-04.jpg?v=6" alt="" loading="lazy"></div>
       <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-17.jpg?v=6" alt="" loading="lazy"></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-18.jpg?v=6" alt="" loading="lazy"></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-19.jpg?v=6" alt="" loading="lazy"></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-20.jpg?v=6" alt="" loading="lazy"></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-21.jpg?v=6" alt="" loading="lazy"></div>
-      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-22.jpg?v=6" alt="" loading="lazy"></div>
+      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-11.jpg?v=6" alt="" loading="lazy"></div>
       <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-23.jpg?v=6" alt="" loading="lazy"></div>
+      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-18.jpg?v=6" alt="" loading="lazy"></div>
+      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-15.jpg?v=6" alt="" loading="lazy"></div>
+      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-05.jpg?v=6" alt="" loading="lazy"></div>
+      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-19.jpg?v=6" alt="" loading="lazy"></div>
+      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-16.jpg?v=6" alt="" loading="lazy"></div>
+      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-09.jpg?v=6" alt="" loading="lazy"></div>
+      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-22.jpg?v=6" alt="" loading="lazy"></div>
+      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-21.jpg?v=6" alt="" loading="lazy"></div>
+      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-13.jpg?v=6" alt="" loading="lazy"></div>
+      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-12.jpg?v=6" alt="" loading="lazy"></div>
       <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-24.jpg?v=6" alt="" loading="lazy"></div>
+      <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-20.jpg?v=6" alt="" loading="lazy"></div>
       <div class="gallery-tile" aria-hidden="true"><img src="assets/gallery-25.jpg?v=6" alt="" loading="lazy"></div>
     </div>
   </div>
@@ -327,34 +324,42 @@
 <section class="section clients-strip" id="clients">
   <div class="container">
     <span class="section-eyebrow">Our Clients</span>
-    <h2 class="section-title">הלקוחות שלנו</h2>
+    <h2 class="section-title">בין לקוחותינו</h2>
   </div>
   <div class="marquee">
     <div class="marquee-track">
-      <div class="logo-item"><img src="assets/clients/client-kbr.png?v=4" alt="KBR Ground Services" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/clients/client-mig.png?v=4" alt="MIG" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/clients/client-argaman.png?v=4" alt="ארגמן איטום" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/clients/client-campdavid.png?v=4" alt="Camp David" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/clients/client-dafnas.png?v=4" alt="Dafna's Bakery &amp; Cafe" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/clients/client-tzamigei.png?v=4" alt="צמיגי בר רחובות" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/clients/client-kbr.png?v=4" alt="KBR Ground Services" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/clients/client-mig.png?v=4" alt="MIG" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/clients/client-argaman.png?v=4" alt="ארגמן איטום" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/clients/client-campdavid.png?v=4" alt="Camp David" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/clients/client-dafnas.png?v=4" alt="Dafna's Bakery &amp; Cafe" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/clients/client-tzamigei.png?v=4" alt="צמיגי בר רחובות" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-kbr.png?v=4" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-mig.png?v=4" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-argaman.png?v=4" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-campdavid.png?v=4" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-dafnas.png?v=4" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-tzamigei.png?v=4" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-kbr.png?v=4" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-mig.png?v=4" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-argaman.png?v=4" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-campdavid.png?v=4" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-dafnas.png?v=4" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-tzamigei.png?v=4" alt="" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/clients/client-kbr.png?v=5" alt="KBR Ground Services" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/clients/client-mig.png?v=5" alt="MIG" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/clients/client-argaman.png?v=5" alt="ארגמן איטום" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/clients/client-campdavid.png?v=5" alt="Camp David" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/clients/client-dafnas.png?v=5" alt="Dafna's Bakery &amp; Cafe" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/clients/client-tzamigei.png?v=5" alt="צמיגי בר רחובות" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/clients/client-asor.png?v=5" alt="עשור ניהול כוח אדם" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/clients/client-rubicon.png?v=5" alt="Rubicon LTD" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/clients/client-kbr.png?v=5" alt="KBR Ground Services" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/clients/client-mig.png?v=5" alt="MIG" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/clients/client-argaman.png?v=5" alt="ארגמן איטום" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/clients/client-campdavid.png?v=5" alt="Camp David" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/clients/client-dafnas.png?v=5" alt="Dafna's Bakery &amp; Cafe" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/clients/client-tzamigei.png?v=5" alt="צמיגי בר רחובות" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/clients/client-asor.png?v=5" alt="עשור ניהול כוח אדם" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/clients/client-rubicon.png?v=5" alt="Rubicon LTD" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-kbr.png?v=5" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-mig.png?v=5" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-argaman.png?v=5" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-campdavid.png?v=5" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-dafnas.png?v=5" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-tzamigei.png?v=5" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-asor.png?v=5" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-rubicon.png?v=5" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-kbr.png?v=5" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-mig.png?v=5" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-argaman.png?v=5" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-campdavid.png?v=5" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-dafnas.png?v=5" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-tzamigei.png?v=5" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-asor.png?v=5" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/clients/client-rubicon.png?v=5" alt="" loading="lazy"></div>
     </div>
   </div>
 </section>
@@ -435,12 +440,16 @@
     </div>
     <form class="contact-form" id="contact-form">
       <div class="form-row">
-        <input type="text" name="name" placeholder="שם מלא" aria-label="שם מלא" autocomplete="name" required>
-        <input type="tel" name="phone" placeholder="טלפון" aria-label="טלפון" autocomplete="tel" inputmode="tel" required>
+        <label class="sr-only" for="cf-name">שם מלא</label>
+        <input type="text" id="cf-name" name="name" placeholder="שם מלא" autocomplete="name" required>
+        <label class="sr-only" for="cf-phone">טלפון</label>
+        <input type="tel" id="cf-phone" name="phone" placeholder="טלפון" autocomplete="tel" inputmode="tel" required>
       </div>
       <div class="form-row">
-        <input type="text" name="company" placeholder="שם החברה" aria-label="שם החברה" autocomplete="organization">
-        <select name="sector" aria-label="תחום פעילות">
+        <label class="sr-only" for="cf-company">שם החברה</label>
+        <input type="text" id="cf-company" name="company" placeholder="שם החברה" autocomplete="organization">
+        <label class="sr-only" for="cf-sector">תחום פעילות</label>
+        <select id="cf-sector" name="sector">
           <option value="">תחום פעילות</option>
           <option value="hr">חברת כוח אדם</option>
           <option value="construction">חברת בנייה</option>
@@ -448,10 +457,13 @@
         </select>
       </div>
       <div class="form-row">
-        <input type="number" name="employees" placeholder="מספר עובדים משוער" aria-label="מספר עובדים משוער" inputmode="numeric" min="0">
-        <input type="text" name="location" placeholder="אזור בארץ" aria-label="אזור בארץ" autocomplete="address-level2">
+        <label class="sr-only" for="cf-employees">מספר עובדים משוער</label>
+        <input type="number" id="cf-employees" name="employees" placeholder="מספר עובדים משוער" inputmode="numeric" min="0">
+        <label class="sr-only" for="cf-location">אזור בארץ</label>
+        <input type="text" id="cf-location" name="location" placeholder="אזור בארץ" autocomplete="address-level2">
       </div>
-      <textarea name="message" placeholder="פרטים נוספים (אופציונלי)" aria-label="פרטים נוספים" rows="3"></textarea>
+      <label class="sr-only" for="cf-message">פרטים נוספים (אופציונלי)</label>
+      <textarea id="cf-message" name="message" placeholder="פרטים נוספים (אופציונלי)" rows="3"></textarea>
       <button type="submit" class="btn btn-primary btn-lg">לתיאום פגישת אפיון</button>
       <div class="form-note" id="form-note" role="status" aria-live="polite"></div>
     </form>
@@ -481,6 +493,7 @@
     <p>© <span id="year"></span> אסירון. כל הזכויות שמורות. פתרון הדיור המקצועי לעובדים זרים בישראל.</p>
   </div>
 </footer>
+<aside class="floating-ui" aria-label="פנייה מהירה והגדרות נגישות">
 
 <a href="https://wa.me/972509772272" target="_blank" rel="noopener" class="whatsapp-float" aria-label="שיחה ב-WhatsApp">
   <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M21 12a9 9 0 10-4.2 7.6L21 21l-1.1-4.1A9 9 0 0021 12z"/></svg>
@@ -543,6 +556,7 @@
   <button id="a11y-reset" class="a11y-reset-all">איפוס כל ההגדרות</button>
 </div>
 
-<script src="script.js?v=11"></script>
+</aside>
+<script src="script.js?v=12"></script>
 </body>
 </html>

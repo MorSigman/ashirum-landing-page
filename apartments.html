@@ -12,10 +12,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=35">
+<link rel="stylesheet" href="styles.css?v=41">
 </head>
 <body>
-<a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
+<a href="#main" class="skip-link">דלג לתוכן המרכזי</a>
 <div id="top"></div>
 
 <!-- Header -->
@@ -62,7 +62,7 @@
 </nav>
 <div class="nav-overlay" id="nav-overlay"></div>
 
-<main id="main-content">
+<main id="main" tabindex="-1">
 <section class="section apartments" id="apartments">
   <div class="container">
     <a href="index.html#apartments" class="legal-back">&#8594; חזרה לדף הבית</a>
@@ -139,7 +139,7 @@
     <div class="coverage-wrap" id="coverage-wrap">
       <img src="assets/israel-map.png?v=7" class="coverage-img" alt="מפת ישראל תלת-ממדית המחולקת לאזורים המציגה את פריסת הדירות של אסירון">
       <div class="map-icons-layer" id="map-icons-layer"></div>
-      <div class="map-tooltip" id="map-tooltip" role="tooltip"></div>
+      <div class="map-tooltip" id="map-tooltip" aria-hidden="true"></div>
     </div>
   </div>
 </section>
@@ -167,6 +167,7 @@
     <p>© <span id="year"></span> אסירון. כל הזכויות שמורות. פתרון הדיור המקצועי לעובדים זרים בישראל.</p>
   </div>
 </footer>
+<aside class="floating-ui" aria-label="פנייה מהירה והגדרות נגישות">
 
 <a href="https://wa.me/972509772272" target="_blank" rel="noopener" class="whatsapp-float" aria-label="שיחה ב-WhatsApp">
   <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M21 12a9 9 0 10-4.2 7.6L21 21l-1.1-4.1A9 9 0 0021 12z"/></svg>
@@ -229,6 +230,7 @@
   <button id="a11y-reset" class="a11y-reset-all">איפוס כל ההגדרות</button>
 </div>
 
-<script src="script.js?v=11"></script>
+</aside>
+<script src="script.js?v=12"></script>
 </body>
 </html>

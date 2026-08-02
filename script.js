@@ -31,18 +31,36 @@ document.addEventListener('DOMContentLoaded', () => {
     mainNav.classList.add('open');
     navOverlay.classList.add('open');
     document.body.classList.add('nav-locked');
+    navToggle.setAttribute('aria-expanded', 'true');
+    mainNav.removeAttribute('inert');
+    mainNav.removeAttribute('aria-hidden');
+    navClose.focus();
   };
-  const closeNav = () => {
+  const closeNav = (returnFocus) => {
     mainNav.classList.remove('open');
     navOverlay.classList.remove('open');
     document.body.classList.remove('nav-locked');
+    navToggle.setAttribute('aria-expanded', 'false');
+    mainNav.setAttribute('inert', '');           // keep the off-screen drawer out of the tab order
+    mainNav.setAttribute('aria-hidden', 'true');  // and out of the screen-reader tree
+    if (returnFocus) navToggle.focus();
   };
 
+  // Wire up ARIA + initial closed state (drawer is off-screen by default)
+  navToggle.setAttribute('aria-expanded', 'false');
+  navToggle.setAttribute('aria-controls', 'main-nav');
+  mainNav.setAttribute('inert', '');
+  mainNav.setAttribute('aria-hidden', 'true');
+
   navToggle.addEventListener('click', openNav);
-  navClose.addEventListener('click', closeNav);
-  navOverlay.addEventListener('click', closeNav);
+  navClose.addEventListener('click', () => closeNav(true));
+  navOverlay.addEventListener('click', () => closeNav(true));
   mainNav.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', closeNav);
+    link.addEventListener('click', () => closeNav(false));
+  });
+  // Escape closes the open drawer and returns focus to the toggle
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mainNav.classList.contains('open')) closeNav(true);
   });
 
   // Home hero: the header overlays the video transparently, then turns solid
@@ -499,8 +517,24 @@ document.addEventListener('DOMContentLoaded', () => {
     applyState(key, key === 'motion' ? (saved || prefersReduced) : saved);
   });
 
-  a11yToggle.addEventListener('click', () => a11yPanel.classList.toggle('open'));
-  a11yClose.addEventListener('click', () => a11yPanel.classList.remove('open'));
+  // ARIA state for the accessibility panel (the panel itself is display:none when
+  // closed, so it stays out of the tab order & SR tree automatically).
+  a11yToggle.setAttribute('aria-expanded', 'false');
+  a11yToggle.setAttribute('aria-controls', 'a11y-panel');
+  const openA11y = () => {
+    a11yPanel.classList.add('open');
+    a11yToggle.setAttribute('aria-expanded', 'true');
+    a11yClose.focus();
+  };
+  const closeA11y = (returnFocus) => {
+    a11yPanel.classList.remove('open');
+    a11yToggle.setAttribute('aria-expanded', 'false');
+    if (returnFocus) a11yToggle.focus();
+  };
+  a11yToggle.addEventListener('click', () => {
+    a11yPanel.classList.contains('open') ? closeA11y(true) : openA11y();
+  });
+  a11yClose.addEventListener('click', () => closeA11y(true));
   a11yTiles.forEach((tile) => {
     tile.addEventListener('click', () => {
       const key = tile.dataset.a11y;
@@ -512,8 +546,11 @@ document.addEventListener('DOMContentLoaded', () => {
     Object.keys(a11yClassMap).forEach((key) => applyState(key, false));
   });
   document.addEventListener('click', (e) => {
-    if (!a11yPanel.contains(e.target) && !a11yToggle.contains(e.target)) {
-      a11yPanel.classList.remove('open');
+    if (a11yPanel.classList.contains('open') && !a11yPanel.contains(e.target) && !a11yToggle.contains(e.target)) {
+      closeA11y(false);
     }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && a11yPanel.classList.contains('open')) closeA11y(true);
   });
 });

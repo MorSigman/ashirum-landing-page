@@ -12,10 +12,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=35">
+<link rel="stylesheet" href="styles.css?v=41">
 </head>
 <body>
-<a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
+<a href="#main" class="skip-link">דלג לתוכן המרכזי</a>
 <div id="top"></div>
 
 <!-- Header -->
@@ -63,13 +63,14 @@
 <div class="nav-overlay" id="nav-overlay"></div>
 
 <!-- Team -->
-<main id="main-content">
+<main id="main" tabindex="-1">
 <section class="section team" id="team">
   <div class="container">
     <a href="index.html" class="legal-back">&#8594; חזרה לדף הבית</a>
     <span class="section-eyebrow">Our Team</span>
     <h1 class="section-title">הצוות שלנו</h1>
     <p class="team-intro">מאחורי פעילות החברה עומד צוות מקצועי ומנוסה, המשלב ניהול, תפעול, פיננסים, משפטים, שירות וניהול נכסים. כל אחד מחברי הצוות אחראי על תחום מרכזי בפעילות החברה ופועל להענקת שירות יעיל, מסודר ואמין.</p>
+    <h2 class="sr-only">חברי הצוות</h2>
     <div class="team-grid">
       <div class="team-card">
         <div class="team-avatar">נ</div>
@@ -84,16 +85,16 @@
         <p>אחראי על איתור, בחינה וניהול הנכסים של החברה, התאמתם לצורכי הלקוחות והדיירים, תחזוקה שוטפת ובקרה על איכות המגורים.</p>
       </div>
       <div class="team-card">
-        <div class="team-avatar">ר</div>
-        <h3>רום</h3>
-        <span class="team-role">סמנכ״ל כספים</span>
-        <p>אחראי על הניהול הפיננסי של החברה, תכנון תקציבים, ניהול תזרים המזומנים, בקרה כלכלית וליווי ההחלטות העסקיות.</p>
-      </div>
-      <div class="team-card">
         <div class="team-avatar">י</div>
         <h3>יהודה</h3>
         <span class="team-role">מנהל תפעול</span>
         <p>מנהל את הפעילות התפעולית השוטפת, מתאם בין המחלקות ומוודא שכל משימה ותהליך מתבצעים ביעילות, בזמן ובסטנדרט גבוה.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">ר</div>
+        <h3>רום</h3>
+        <span class="team-role">סמנכ״ל כספים</span>
+        <p>אחראי על הניהול הפיננסי של החברה, תכנון תקציבים, ניהול תזרים המזומנים, בקרה כלכלית וליווי ההחלטות העסקיות.</p>
       </div>
       <div class="team-card">
         <div class="team-avatar">י</div>
@@ -147,6 +148,7 @@
     <p>© <span id="year"></span> אסירון. כל הזכויות שמורות. פתרון הדיור המקצועי לעובדים זרים בישראל.</p>
   </div>
 </footer>
+<aside class="floating-ui" aria-label="פנייה מהירה והגדרות נגישות">
 
 <a href="https://wa.me/972509772272" target="_blank" rel="noopener" class="whatsapp-float" aria-label="שיחה ב-WhatsApp">
   <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M21 12a9 9 0 10-4.2 7.6L21 21l-1.1-4.1A9 9 0 0021 12z"/></svg>
@@ -209,6 +211,7 @@
   <button id="a11y-reset" class="a11y-reset-all">איפוס כל ההגדרות</button>
 </div>
 
-<script src="script.js?v=11"></script>
+</aside>
+<script src="script.js?v=12"></script>
 </body>
 </html>
