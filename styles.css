@@ -98,20 +98,25 @@ select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
 /* On the dark-background sections the brand brown is too dark for the decorative
    eyebrow; use the lighter accent so it keeps 3:1+ contrast (WCAG AA). */
 .vision .section-eyebrow, .stats .section-eyebrow { color: var(--color-accent); }
+/* ===== Uniform heading system across sections =====
+   eyebrow  → brown, English (.section-eyebrow)
+   title    → black, large, bold
+   subtitle → black, smaller, bold
+   (--color-text is near-black in light mode and flips to light in night mode) */
 .section-title {
   font-family: 'Heebo', 'Segoe UI', Arial, sans-serif;
-  font-size: clamp(24px, 3vw, 34px);
+  font-size: clamp(26px, 3.2vw, 38px);
   font-weight: 800;
   margin: 0 0 32px;
-  color: var(--color-primary-dark);
+  color: var(--color-text);
   text-align: center;
 }
 /* Secondary heading under a section title */
 .section-subtitle {
   text-align: center;
   font-size: clamp(17px, 1.9vw, 22px);
-  font-weight: 600;
-  color: var(--color-primary-dark);
+  font-weight: 700;
+  color: var(--color-text);
   max-width: 760px;
   margin: -22px auto 42px;
   line-height: 1.55;
@@ -120,7 +125,7 @@ select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
   text-align: right;
   font-size: clamp(17px, 1.8vw, 21px);
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-text);
   margin: -22px 0 18px;
 }
 .services-note {
@@ -422,11 +427,11 @@ body.nav-locked { overflow: hidden; }
 .about { background: var(--sec-cream); padding: 100px 0 110px; }
 .about-inner { max-width: 860px; margin: 0 auto; text-align: center; }
 .about-title {
-  font-size: clamp(34px, 6vw, 60px);
+  font-size: clamp(26px, 3.2vw, 38px);
   font-weight: 800;
-  color: var(--color-primary-dark);
+  color: var(--color-text);
   margin: 0 0 26px;
-  line-height: 1.1;
+  line-height: 1.15;
 }
 .about-text {
   font-size: clamp(17px, 1.6vw, 21px);
@@ -451,7 +456,7 @@ body.nav-locked { overflow: hidden; }
 .vision { background: var(--color-dark); padding: 90px 0; }
 .vision-inner { max-width: 780px; margin: 0 auto; text-align: center; }
 .vision-title {
-  font-size: clamp(28px, 4.5vw, 42px);
+  font-size: clamp(26px, 3.2vw, 38px);
   font-weight: 800;
   color: #fff;
   margin: 0 0 22px;
