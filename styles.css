@@ -542,27 +542,24 @@ body.nav-locked { overflow: hidden; }
   margin: 10px 0 0;
   padding: 0;   /* single column → each point on its own line, tidy and readable */
 }
-/* Solution: the 8 points sit in a symmetric grid of uniform chips below the
-   text — even rows, aligned checkmarks, nothing ragged. */
+/* Solution: the 8 points sit below the text as a clean, symmetric two-column
+   list — each point centred (checkmark + text), no boxes. */
 .solution-checks {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-  max-width: 840px;
-  margin: 40px auto 0;
+  gap: 6px 48px;
+  max-width: 820px;
+  margin: 34px auto 0;
 }
 ul.solution-checks li {
   position: static;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 15px 20px;
-  background: #fff;
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
+  justify-content: center;
+  gap: 10px;
+  padding: 9px 0;
+  text-align: center;
   color: var(--color-text);
-  font-weight: 500;
-  line-height: 1.4;
 }
 ul.solution-checks li::before {
   content: "✔";
@@ -573,7 +570,6 @@ ul.solution-checks li::before {
   font-weight: 700;
   flex-shrink: 0;
 }
-html.a11y-dark ul.solution-checks li { background: #211a14; }
 @media (max-width: 600px) { .solution-checks { grid-template-columns: 1fr; } }
 .check-list li {
   position: relative;
@@ -605,7 +601,7 @@ html.a11y-dark ul.solution-checks li { background: #211a14; }
   font-family: 'Heebo', 'Segoe UI', Arial, sans-serif;
   font-size: clamp(52px, 7vw, 80px);
   font-weight: 800;
-  color: var(--color-primary);
+  color: var(--color-accent);   /* gold — brand brown was too dark on the dark stats bg (WCAG contrast) */
   line-height: 1;
 }
 .stat-prefix {
@@ -953,7 +949,7 @@ html.a11y-dark .logo-item img { filter: brightness(1.75) saturate(1.1); }
 .footer-info, .footer-quick-links { display: flex; align-items: center; gap: 10px; flex-wrap: nowrap; flex-shrink: 0; }
 .footer-info a, .footer-quick-links a { color: #cbd5e1; text-decoration: none; }
 .footer-info a:hover, .footer-quick-links a:hover { color: #fff; }
-.footer-divider { opacity: 0.35; }
+.footer-divider { color: #8f9499; }   /* mid-grey separator that still meets 4.5:1 on the dark footer */
 .footer-inner {
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr;
