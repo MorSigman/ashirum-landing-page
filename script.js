@@ -555,19 +555,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// Owner popup — מוצג 5 שניות אחרי הכניסה, פעם אחת לכל ביקור (session)
+// Owner popup — מוצג 5 שניות אחרי הכניסה, חוזר בכל רענון
 (() => {
   const popup = document.getElementById('owner-popup');
   if (!popup) return;
   const closeBtn = document.getElementById('owner-popup-close');
-  const KEY = 'asironOwnerPopupClosed';
-  let dismissed = false;
-  try { dismissed = sessionStorage.getItem(KEY) === '1'; } catch (e) {}
-  if (dismissed) return;
+  const ctaBtn = document.getElementById('owner-popup-cta');
   const hide = () => {
     const hadFocus = popup.contains(document.activeElement);
     popup.hidden = true;
-    try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
     if (hadFocus) {
       const main = document.getElementById('main');
       if (main) main.focus();
@@ -575,6 +571,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   setTimeout(() => { popup.hidden = false; }, 5000);
   closeBtn.addEventListener('click', hide);
+  ctaBtn.addEventListener('click', () => { popup.hidden = true; });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !popup.hidden) hide();
   });

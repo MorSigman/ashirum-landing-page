@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=53">
+<link rel="stylesheet" href="styles.css?v=55">
 </head>
 <body class="page-home">
 <a href="#main" class="skip-link">דלג לתוכן המרכזי</a>
@@ -91,7 +91,7 @@
       </div>
     </div>
     <div class="hero-media">
-      <video src="assets/videos/hero-video.mp4?v=6" poster="assets/videos/hero-video-poster.jpg?v=6" autoplay muted loop playsinline aria-label="סרטון תדמית של אסירון — קליטת עובדים בדירה מנוהלת, הדרכת נהלים וסיור בדירות מרוהטות"></video>
+      <video src="assets/videos/hero-video.mp4?v=7" poster="assets/videos/hero-video-poster.jpg?v=6" autoplay muted loop playsinline aria-label="סרטון תדמית של אסירון — קליטת עובדים בדירה מנוהלת, הדרכת נהלים וסיור בדירות מרוהטות"></video>
     </div>
   </div>
 </section>
@@ -570,12 +570,14 @@
 </aside>
 
 <div class="owner-popup" id="owner-popup" role="dialog" aria-label="הצעה לבעלי דירות" hidden>
-  <button type="button" class="owner-popup-close" id="owner-popup-close" aria-label="סגירת ההודעה">✕</button>
+  <button type="button" class="owner-popup-close" id="owner-popup-close" aria-label="סגירת פופאפ">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
   <p class="owner-popup-title">יש לכם דירה להשכרה?</p>
   <p class="owner-popup-text">אסירון מחפשת דירות נוספות לניהול ולשכירות ארוכת טווח. השאירו פרטים ונחזור אליכם בהקדם.</p>
-  <a class="owner-popup-btn" href="https://asirom-5f7ee.web.app/offer-apartment" target="_blank" rel="noopener">להשארת פרטים<span class="sr-only"> (נפתח בכרטיסייה חדשה)</span></a>
+  <a class="owner-popup-btn" href="https://asirom-5f7ee.web.app/offer-apartment" target="_blank" rel="noopener" id="owner-popup-cta">להשארת פרטים<span class="sr-only"> (נפתח בכרטיסייה חדשה)</span></a>
 </div>
 
-<script src="script.js?v=13"></script>
+<script src="script.js?v=16"></script>
 </body>
 </html>
