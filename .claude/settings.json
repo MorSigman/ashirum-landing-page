@@ -7,7 +7,8 @@
       "Bash(sed -i 's|hero-video\\\\.mp4?v=6|hero-video.mp4?v=7|' index.html)",
       "Bash(node -e ' *)",
       "Bash(node -e \"const fs=require\\('fs'\\);const x=fs.readFileSync\\('sitemap.xml','utf8'\\);const m=x.match\\(/<loc>/g\\);console.log\\('loc entries:',m.length\\);if\\(!x.startsWith\\('<?xml'\\)\\)throw 1;console.log\\('ok'\\)\")",
-      "Bash(node final-a11y-audit.js)"
+      "Bash(node final-a11y-audit.js)",
+      "Bash(node mobile-a11y-audit.js)"
     ]
   }
 }

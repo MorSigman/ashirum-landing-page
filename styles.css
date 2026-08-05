@@ -694,6 +694,13 @@ ul.solution-table li::before {
 /* Comparison */
 .comparison { background: var(--color-bg-alt); }
 .table-wrap { overflow-x: auto; }
+/* Touch/keyboard reach: bigger tap area for the small footer links without any
+   visual shift (padding is cancelled by negative margins). */
+.footer-info a,
+.footer-quick-links a {
+  padding: 8px 4px;
+  margin: -8px -4px;
+}
 .comparison-table {
   width: 100%;
   border-collapse: collapse;
