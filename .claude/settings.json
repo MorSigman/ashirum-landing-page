@@ -6,7 +6,8 @@
       "Bash(cp /c/Users/mormo/AppData/Local/Temp/claude/c--Users-mormo------------------------------ashirum-landing-page/bed3818e-3799-4000-bcf3-b16140e3cd7b/scratchpad/hero-video-hq.mp4 assets/videos/hero-video.mp4)",
       "Bash(sed -i 's|hero-video\\\\.mp4?v=6|hero-video.mp4?v=7|' index.html)",
       "Bash(node -e ' *)",
-      "Bash(node -e \"const fs=require\\('fs'\\);const x=fs.readFileSync\\('sitemap.xml','utf8'\\);const m=x.match\\(/<loc>/g\\);console.log\\('loc entries:',m.length\\);if\\(!x.startsWith\\('<?xml'\\)\\)throw 1;console.log\\('ok'\\)\")"
+      "Bash(node -e \"const fs=require\\('fs'\\);const x=fs.readFileSync\\('sitemap.xml','utf8'\\);const m=x.match\\(/<loc>/g\\);console.log\\('loc entries:',m.length\\);if\\(!x.startsWith\\('<?xml'\\)\\)throw 1;console.log\\('ok'\\)\")",
+      "Bash(node final-a11y-audit.js)"
     ]
   }
 }

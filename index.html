@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=55">
+<link rel="stylesheet" href="styles.css?v=56">
 </head>
 <body class="page-home">
 <a href="#main" class="skip-link">דלג לתוכן המרכזי</a>
@@ -92,7 +92,7 @@
       </div>
     </div>
     <div class="hero-media">
-      <video src="assets/videos/hero-video.mp4?v=7" poster="assets/videos/hero-video-poster.jpg?v=6" autoplay muted loop playsinline aria-label="סרטון תדמית של אסירון — קליטת עובדים בדירה מנוהלת, הדרכת נהלים וסיור בדירות מרוהטות"></video>
+      <video src="assets/videos/hero-video.mp4?v=7" poster="assets/videos/hero-video-poster.jpg?v=6" autoplay muted loop playsinline aria-hidden="true" tabindex="-1"></video>
     </div>
   </div>
 </section>
@@ -453,9 +453,9 @@
     <form class="contact-form" id="contact-form">
       <div class="form-row">
         <label class="sr-only" for="cf-name">שם מלא</label>
-        <input type="text" id="cf-name" name="name" placeholder="שם מלא" autocomplete="name" required>
+        <input type="text" id="cf-name" name="name" placeholder="שם מלא" autocomplete="name" required aria-required="true">
         <label class="sr-only" for="cf-phone">טלפון</label>
-        <input type="tel" id="cf-phone" name="phone" placeholder="טלפון" autocomplete="tel" inputmode="tel" required>
+        <input type="tel" id="cf-phone" name="phone" placeholder="טלפון" autocomplete="tel" inputmode="tel" required aria-required="true">
       </div>
       <div class="form-row">
         <label class="sr-only" for="cf-company">שם החברה</label>
@@ -579,6 +579,6 @@
   <a class="owner-popup-btn" href="https://asirom-5f7ee.web.app/offer-apartment" target="_blank" rel="noopener" id="owner-popup-cta">להשארת פרטים<span class="sr-only"> (נפתח בכרטיסייה חדשה)</span></a>
 </div>
 
-<script src="script.js?v=16"></script>
+<script src="script.js?v=17"></script>
 </body>
 </html>

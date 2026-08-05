@@ -440,6 +440,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const animateCount = (el) => {
     const target = statTarget(el);
+    // WCAG 2.2.2 / 2.3.3 — no counting animation when the user asked for reduced
+    // motion (OS preference or the a11y-panel "stop animations" toggle).
+    const noMotion = document.documentElement.classList.contains('a11y-no-motion') ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (noMotion) {
+      el.innerHTML = formatStat(el, target);
+      return;
+    }
     const duration = 1200; // fixed duration → every counter finishes together
     const start = performance.now();
     const step = (now) => {

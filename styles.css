@@ -1879,4 +1879,6 @@ body.page-home .hero-actions .btn-lg {
 @media (max-width: 640px) {
   .owner-popup { left: 14px; right: 14px; width: auto; max-width: 340px; bottom: 90px; padding: 16px 16px 14px; }
   .owner-popup-title { font-size: 15px; }
+  .owner-popup-close { width: 38px; height: 38px; top: 6px; left: 6px; }
+  .owner-popup-close svg { width: 17px; height: 17px; }
 }
