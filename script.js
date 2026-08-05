@@ -554,3 +554,28 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape' && a11yPanel.classList.contains('open')) closeA11y(true);
   });
 });
+
+// Owner popup — מוצג 5 שניות אחרי הכניסה, פעם אחת לכל ביקור (session)
+(() => {
+  const popup = document.getElementById('owner-popup');
+  if (!popup) return;
+  const closeBtn = document.getElementById('owner-popup-close');
+  const KEY = 'asironOwnerPopupClosed';
+  let dismissed = false;
+  try { dismissed = sessionStorage.getItem(KEY) === '1'; } catch (e) {}
+  if (dismissed) return;
+  const hide = () => {
+    const hadFocus = popup.contains(document.activeElement);
+    popup.hidden = true;
+    try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+    if (hadFocus) {
+      const main = document.getElementById('main');
+      if (main) main.focus();
+    }
+  };
+  setTimeout(() => { popup.hidden = false; }, 5000);
+  closeBtn.addEventListener('click', hide);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !popup.hidden) hide();
+  });
+})();

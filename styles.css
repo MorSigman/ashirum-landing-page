@@ -1810,3 +1810,69 @@ body.page-home .hero-actions .btn-lg {
   body.page-home .hero h1 { font-size: clamp(23px, 6.6vw, 30px); line-height: 1.2; margin-bottom: 14px; }
   body.page-home .hero-sub { font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
 }
+
+/* Owner popup — הצעה לבעלי דירות */
+.owner-popup {
+  position: fixed;
+  bottom: 96px;
+  left: 24px;
+  width: 320px;
+  max-width: calc(100vw - 48px);
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 45px -15px rgba(10, 13, 34, 0.35);
+  padding: 20px 18px 18px;
+  z-index: 110;
+  animation: owner-popup-in 0.4s ease;
+}
+.owner-popup[hidden] { display: none; }
+@keyframes owner-popup-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .owner-popup { animation: none; }
+}
+.owner-popup-close {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.owner-popup-close:hover { background: #f1ede7; }
+.owner-popup-title {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+.owner-popup-text {
+  margin: 0 0 14px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+.owner-popup-btn {
+  display: block;
+  text-align: center;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 11px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+}
+.owner-popup-btn:hover { background: var(--color-primary-dark); }
+@media (max-width: 640px) {
+  .owner-popup { left: 16px; right: 16px; width: auto; bottom: 92px; }
+}
