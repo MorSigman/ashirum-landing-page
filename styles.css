@@ -1741,7 +1741,9 @@ body.page-home .hero-inner {
 body.page-home .hero-media {
   position: absolute;
   top: 0; bottom: 0; left: 0;   /* physical left, full height, bleeds to the edge */
-  width: 60%;
+  /* 50% (was 60%): narrower panel ⇒ the 1216px-wide source is no longer stretched
+     past its native resolution on typical screens — visibly sharper video. */
+  width: 50%;
   min-height: 0;
   margin: 0;
   z-index: 0;
@@ -1764,10 +1766,13 @@ body.page-home .hero-media video {
   /* Video sits just inside, leaving the dark line exposed on the diagonal edge. */
   clip-path: polygon(0 0, 97% 0, 89% 100%, 0 100%);
 }
+/* Text scaled up a touch to fill the wider (52%) copy panel */
+body.page-home .hero h1 { font-size: clamp(34px, 3.4vw, 58px); }
+body.page-home .hero-sub { font-size: clamp(17px, 1.05vw, 20px); max-width: 620px; }
 body.page-home .hero-content {
   position: relative;
   z-index: 2;
-  margin-left: 58%;             /* ~42% content panel; clears the dissolve */
+  margin-left: 48%;             /* ~52% content panel; clears the dissolve */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
