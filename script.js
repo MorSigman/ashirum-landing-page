@@ -563,6 +563,44 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// YouTube hero embed — פעיל רק כאשר data-youtube-id מולא ב-index.html.
+// כל עוד הוא ריק, קובץ הווידאו המקומי ממשיך לפעול כרגיל.
+(() => {
+  const media = document.querySelector('.hero-media[data-youtube-id]');
+  if (!media) return;
+  const id = (media.dataset.youtubeId || '').trim();
+  if (!id) return; // placeholder — no video ID configured yet
+  const nativeVideo = media.querySelector('video');
+  const iframe = document.createElement('iframe');
+  // youtube-nocookie: privacy-enhanced official embed. Autoplay muted loop,
+  // no controls — behaves like the decorative background video it replaces.
+  // No quality-limiting parameters: the player serves the best quality it
+  // decides for the device/connection, up to the source resolution.
+  iframe.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) +
+    '?autoplay=1&mute=1&controls=0&loop=1&playlist=' + encodeURIComponent(id) +
+    '&playsinline=1&rel=0&modestbranding=1&enablejsapi=1';
+  iframe.title = 'סרטון תדמית של אסירון';
+  iframe.setAttribute('aria-hidden', 'true');
+  iframe.setAttribute('tabindex', '-1');
+  iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
+  iframe.setAttribute('loading', 'lazy');
+  iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+  if (nativeVideo) { nativeVideo.pause(); nativeVideo.remove(); }
+  media.appendChild(iframe);
+  // "עצירת אנימציות" עוצרת גם את נגן היוטיוב (WCAG 2.2.2)
+  const ytCommand = (func) => {
+    try {
+      iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: '' }), '*');
+    } catch (e) {}
+  };
+  const syncYt = () => {
+    const noMotion = document.documentElement.classList.contains('a11y-no-motion');
+    ytCommand(noMotion ? 'pauseVideo' : 'playVideo');
+  };
+  new MutationObserver(syncYt).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  iframe.addEventListener('load', () => setTimeout(syncYt, 1200));
+})();
+
 // Owner popup — מוצג 5 שניות אחרי הכניסה, חוזר בכל רענון
 (() => {
   const popup = document.getElementById('owner-popup');

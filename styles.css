@@ -1766,6 +1766,21 @@ body.page-home .hero-media video {
   /* Video sits just inside, leaving the dark line exposed on the diagonal edge. */
   clip-path: polygon(0 0, 97% 0, 89% 100%, 0 100%);
 }
+/* YouTube hero variant (active only when data-youtube-id is set).
+   The uploaded video is the 16:9 4K master with black pillars baked in — the
+   real portrait content is the middle 1216/3840 ≈ 31.7% of the frame. The
+   iframe is therefore oversized to 316% and centered, so the black pillars
+   fall outside the panel and the portrait content exactly "covers" it.
+   The .hero-media container's own clip-path shapes the diagonal edge. */
+body.page-home .hero-media iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 316%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
 /* Text scaled up a touch to fill the wider (52%) copy panel */
 body.page-home .hero h1 { font-size: clamp(34px, 3.4vw, 58px); }
 body.page-home .hero-sub { font-size: clamp(17px, 1.05vw, 20px); max-width: 620px; }
