@@ -1796,6 +1796,19 @@ body.page-home .hero-media video.hero-video-master {
   object-fit: fill;
   clip-path: none;
 }
+/* Empty media slot while no hero video is set: a quiet brand panel with the
+   emblem, keeping the diagonal composition intact until a new video arrives. */
+.hero-media-placeholder {
+  position: absolute;
+  inset: 0;
+  background:
+    url("assets/logo-light.png?v=1") center / min(46%, 340px) no-repeat,
+    linear-gradient(160deg, #3a2a1c 0%, #61452c 55%, #8f6234 100%);
+  clip-path: polygon(0 0, 97% 0, 89% 100%, 0 100%);
+}
+@media (max-width: 960px) {
+  .hero-media-placeholder { clip-path: none; }
+}
 /* Text scaled up a touch to fill the wider (52%) copy panel */
 body.page-home .hero h1 { font-size: clamp(34px, 3.4vw, 58px); }
 body.page-home .hero-sub { font-size: clamp(17px, 1.05vw, 20px); max-width: 620px; }
