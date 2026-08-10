@@ -1781,6 +1781,21 @@ body.page-home .hero-media iframe {
   aspect-ratio: 16 / 9;
   border: 0;
 }
+/* Hero master video — the original 4K file served byte-exact from GitHub
+   Releases. It is the 16:9 master with black pillars baked in, so it gets the
+   same 316% zoom as the YouTube variant: only the middle portrait content
+   covers the panel and the pillars fall outside the clipped area. */
+body.page-home .hero-media video.hero-video-master {
+  inset: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 316%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: fill;
+  clip-path: none;
+}
 /* Text scaled up a touch to fill the wider (52%) copy panel */
 body.page-home .hero h1 { font-size: clamp(34px, 3.4vw, 58px); }
 body.page-home .hero-sub { font-size: clamp(17px, 1.05vw, 20px); max-width: 620px; }
