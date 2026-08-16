@@ -751,21 +751,46 @@ ul.solution-table li::before {
   font-size: 15px;
   white-space: nowrap;
 }
-/* Client logos: uniform-height, brand-toned monochrome PNGs */
+/* Client logos: one identical frame per mark, same size for every logo, and the
+   logo centered in it both ways. The PNGs in assets/images/logos/normalized/ are
+   already trimmed of empty space and balanced to the same optical weight, so the
+   frame only has to hold them - no per-logo sizing anywhere. */
 .logo-item {
-  flex: 0 0 auto;
-  height: 54px;
-  display: inline-flex;
+  flex: 0 0 180px;
+  width: 180px;
+  height: 100px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 18px;
+  padding: 0;
 }
 .logo-item img {
-  height: 100%;
+  /* exactly half of the 320x128 normalized canvas -> one shared scale for all
+     logos, and full sharpness on 2x screens */
+  max-width: 160px;
+  max-height: 64px;
   width: auto;
+  height: auto;
+  object-fit: contain;
   display: block;
   opacity: 0.82;
   transition: opacity 0.2s ease;
+}
+/* One uniform gap for the whole strip - no per-logo margin or padding. The loop
+   shifts by half the track plus half a gap so the seam stays jump-free. */
+.clients-strip .marquee-track {
+  --logo-gap: 48px;
+  gap: var(--logo-gap);
+  animation-name: marquee-logos-scroll;
+}
+@keyframes marquee-logos-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(50% + var(--logo-gap) / 2)); }
+}
+@media (max-width: 700px) {
+  .logo-item { flex-basis: 140px; width: 140px; height: 80px; }
+  .logo-item img { max-width: 120px; max-height: 48px; }   /* same 0.375 scale for all */
+  .clients-strip .marquee-track { --logo-gap: 32px; }
 }
 .marquee:hover .logo-item img { opacity: 1; }
 /* Night mode: lift the brown logos toward gold so they read on the dark strip */
