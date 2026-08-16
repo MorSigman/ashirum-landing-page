@@ -759,22 +759,24 @@ ul.solution-table li::before {
    logo centered in it both ways. The PNGs in assets/images/logos/normalized/ are
    already trimmed of empty space and balanced to the same optical weight, so the
    frame only has to hold them - no per-logo sizing anywhere. */
+/* Each slot hugs its own logo, so the gap is measured ink-edge to ink-edge and
+   is genuinely identical between every pair - a fixed-width frame would have left
+   a narrow logo floating in empty space and looked unevenly spaced. The files are
+   trimmed tight to the artwork and each <img> carries its own width/height, all
+   balanced to the same visual weight when the set was generated. */
 .logo-item {
-  flex: 0 0 180px;
-  width: 180px;
+  flex: 0 0 auto;
   height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
 }
+/* No width/height here on purpose: each <img> carries its own balanced size as
+   HTML attributes, and an author rule would override them. */
 .logo-item img {
-  /* The normalized canvas is 300x140 for every file, so one shared scale
-     (58/140) applies to all of them - the frame never resizes a logo on its own. */
-  max-width: 135px;
-  max-height: 58px;
-  width: auto;
-  height: auto;
+  max-width: none;
+  max-height: none;
   object-fit: contain;
   display: block;
   opacity: 0.82;
@@ -783,7 +785,7 @@ ul.solution-table li::before {
 /* One uniform gap for the whole strip - no per-logo margin or padding. The loop
    shifts by half the track plus half a gap so the seam stays jump-free. */
 .clients-strip .marquee-track {
-  --logo-gap: 48px;
+  --logo-gap: 88px;
   gap: var(--logo-gap);
   animation-name: marquee-logos-scroll;
 }
@@ -794,9 +796,8 @@ ul.solution-table li::before {
 /* Mobile keeps the same one-row horizontal flow - same frame, same single scale,
    same uniform gap - just a smaller slot. Never a grid, never mixed sizes. */
 @media (max-width: 700px) {
-  .logo-item { flex-basis: 140px; width: 140px; height: 72px; }
-  .logo-item img { max-width: 105px; max-height: 45px; }
-  .clients-strip .marquee-track { --logo-gap: 32px; }
+  .logo-item { height: 72px; }
+  .clients-strip .marquee-track { --logo-gap: 52px; }
 }
 .marquee:hover .logo-item img { opacity: 1; }
 /* Night mode: lift the brown logos toward gold so they read on the dark strip */
