@@ -390,7 +390,10 @@ body.nav-locked { overflow: hidden; }
   position: relative;
   align-self: stretch;
   min-height: 360px;
+  overflow: hidden;
 }
+/* Poster and video are the same element and share one fit rule, so the still
+   frame and the first frame of playback land on exactly the same pixels. */
 .hero-media img,
 .hero-media video {
   position: absolute;
@@ -398,6 +401,7 @@ body.nav-locked { overflow: hidden; }
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
   display: block;
   border-radius: 16px;
   box-shadow: 0 24px 50px -24px rgba(60, 40, 25, 0.35);
@@ -1787,7 +1791,11 @@ body.page-home .hero-media video {
   max-height: none;
   width: 100%;
   height: 100%;
+  /* The hero file is square (1216x1216) and every scene inside it is already
+     framed for this panel, so "cover" only trims a few percent off the sides on
+     desktop and off the top/bottom on mobile — never letterboxes, never stretches. */
   object-fit: cover;
+  object-position: center center;
   /* Video sits just inside, leaving the dark line exposed on the diagonal edge. */
   clip-path: polygon(0 0, 97% 0, 89% 100%, 0 100%);
 }
