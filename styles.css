@@ -1755,112 +1755,53 @@ body.page-home .site-header.scrolled {
 }
 body.page-home .site-header.scrolled::before { opacity: 0; }
 
+/* The hero video is a contained rectangular card, NOT a full-bleed panel: the
+   square (1216x1216) file is capped at 560px CSS, so even on 2x-DPI screens it
+   is drawn at or below its native pixels — this is what keeps it sharp. The
+   copy column sits beside it in the base two-column grid. */
 body.page-home .hero {
-  padding: 0;
-  min-height: 100vh;
-  background: #FAF8F3;   /* clean warm-ivory panel the copy sits on */
-  overflow: hidden;
+  /* Top padding clears the fixed transparent header */
+  padding: clamp(104px, 13vh, 148px) 0 clamp(40px, 6vh, 64px);
+  min-height: 0;
 }
-body.page-home .hero::before { display: none; }
 body.page-home .hero-inner {
-  position: static;
-  display: block;
-  max-width: none;
-  min-height: 100vh;
-  max-height: none;
-  padding: 0;
+  align-items: center;
+  gap: clamp(36px, 4.5vw, 72px);
+  min-height: min(72vh, 640px);
 }
 body.page-home .hero-media {
-  position: absolute;
-  top: 0; bottom: 0; left: 0;   /* physical left, full height, bleeds to the edge */
-  /* 50% (was 60%): narrower panel ⇒ the 1216px-wide source is no longer stretched
-     past its native resolution on typical screens — visibly sharper video. */
-  width: 50%;
-  min-height: 0;
-  margin: 0;
-  z-index: 0;
-  /* Almost the old rectangular video, just tilted slightly. The element itself is
-     clipped a hair WIDER than the video and painted black→brown (logo-emblem
-     tones) — that sliver shows as a thin dark line along the diagonal edge. */
-  clip-path: polygon(0 0, 97.35% 0, 89.35% 100%, 0 100%);
-  background: linear-gradient(180deg, #a58a63 0%, #7c6544 100%);   /* dark-beige line */
-  /* Soft shadow OUTSIDE the edge only, cast onto the ivory panel. */
-  filter: drop-shadow(5px 0 20px rgba(50, 34, 20, 0.22));
-}
-body.page-home .hero-media video {
-  border-radius: 0;
-  box-shadow: none;
-  aspect-ratio: auto;
-  max-height: none;
+  align-self: center;
   width: 100%;
-  height: 100%;
-  /* The hero file is square (1216x1216) and every scene inside it is already
-     framed for this panel, so "cover" only trims a few percent off the sides on
-     desktop and off the top/bottom on mobile — never letterboxes, never stretches. */
-  object-fit: cover;
-  object-position: center center;
-  /* Video sits just inside, leaving the dark line exposed on the diagonal edge. */
-  clip-path: polygon(0 0, 97% 0, 89% 100%, 0 100%);
+  max-width: 560px;
+  aspect-ratio: 1 / 1;
+  min-height: 0;
+  margin-inline: auto;
+  overflow: visible;   /* the card's soft shadow lives outside the box */
 }
-/* YouTube hero variant (active only when data-youtube-id is set).
-   The uploaded video is the 16:9 4K master with black pillars baked in — the
-   real portrait content is the middle 1216/3840 ≈ 31.7% of the frame. The
-   iframe is therefore oversized to 316% and centered, so the black pillars
-   fall outside the panel and the portrait content exactly "covers" it.
-   The .hero-media container's own clip-path shapes the diagonal edge. */
+/* YouTube hero variant (active only when data-youtube-id is set): plain cover
+   inside the same card. */
 body.page-home .hero-media iframe {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 316%;
-  aspect-ratio: 16 / 9;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   border: 0;
+  border-radius: 16px;
 }
-/* Hero master video — the original 4K file served byte-exact from GitHub
-   Releases. It is the 16:9 master with black pillars baked in, so it gets the
-   same 316% zoom as the YouTube variant: only the middle portrait content
-   covers the panel and the pillars fall outside the clipped area. */
-body.page-home .hero-media video.hero-video-master {
-  inset: auto;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 316%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  object-fit: fill;
-  clip-path: none;
-}
-/* Empty media slot while no hero video is set: a quiet brand panel with the
-   emblem, keeping the diagonal composition intact until a new video arrives. */
+/* Empty media slot while no hero video is set: a quiet brand panel card. */
 .hero-media-placeholder {
   position: absolute;
   inset: 0;
   background:
     url("assets/logo-light.png?v=1") center / min(46%, 340px) no-repeat,
     linear-gradient(160deg, #3a2a1c 0%, #61452c 55%, #8f6234 100%);
-  clip-path: polygon(0 0, 97% 0, 89% 100%, 0 100%);
+  border-radius: 16px;
 }
-@media (max-width: 960px) {
-  .hero-media-placeholder { clip-path: none; }
-}
-/* Text scaled up a touch to fill the wider (52%) copy panel */
-body.page-home .hero h1 { font-size: clamp(34px, 3.4vw, 58px); }
-body.page-home .hero-sub { font-size: clamp(17px, 1.05vw, 20px); max-width: 620px; }
-body.page-home .hero-content {
-  position: relative;
-  z-index: 2;
-  margin-left: 48%;             /* ~52% content panel; clears the dissolve */
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  /* Top padding shrinks on short screens so all the copy shows at 100% zoom */
-  padding: clamp(96px, 12vh, 132px) clamp(22px, 3.4vw, 56px) clamp(32px, 5vh, 56px);
-  box-sizing: border-box;
-}
-/* Keep the two CTAs on ONE row (side by side, never stacked) inside the panel */
+/* Slightly smaller cap than the base h1 so each phrase holds one line beside
+   the video card and the heading breaks only at its own <br> points. */
+body.page-home .hero h1 { font-size: clamp(30px, 3.2vw, 44px); }
+body.page-home .hero-sub { max-width: 560px; }
+/* Keep the two CTAs on ONE row (side by side, never stacked) */
 body.page-home .hero-actions {
   flex-wrap: nowrap;
   gap: 12px;
@@ -1873,29 +1814,24 @@ body.page-home .hero-actions .btn-lg {
 }
 
 @media (max-width: 960px) {
-  /* Mobile: video full-width at the very top (logo overlaid on it), copy below */
-  body.page-home .hero { min-height: 0; }
-  body.page-home .hero-inner { display: flex; flex-direction: column; min-height: 0; }
+  /* Mobile: the video card first, copy centered below it */
+  body.page-home .hero { padding: 88px 0 8px; }
+  body.page-home .hero-inner { display: flex; flex-direction: column; min-height: 0; gap: 22px; }
   body.page-home .hero-media {
-    position: relative;
-    top: auto; bottom: auto; left: auto;
-    width: 100vw;
-    margin-inline: calc(50% - 50vw);
-    /* Shorter on mobile so the heading AND the paragraph below it stay on-screen */
-    aspect-ratio: 1 / 1;
-    max-height: 40vh;
     order: -1;
-    clip-path: none;   /* full rectangle when stacked on mobile */
-    filter: none;
-    background: none;
+    width: 100%;
+    max-width: 480px;
+    /* Shorter than a full square so the heading AND the paragraph below it
+       stay on-screen; cover trims a little off the top/bottom, never stretches */
+    aspect-ratio: 1 / 1;
+    max-height: 42vh;
   }
-  body.page-home .hero-media video { clip-path: none; }
   body.page-home .hero-content {
-    margin-left: 0;
     min-height: 0;
     text-align: center;
     align-items: center;
-    padding: 22px 22px 8px;
+    display: flex;
+    flex-direction: column;
   }
   /* More compact heading on mobile so the longer copy below it stays visible */
   body.page-home .hero h1 { font-size: clamp(23px, 6.6vw, 30px); line-height: 1.2; margin-bottom: 14px; }
